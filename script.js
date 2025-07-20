@@ -108,6 +108,7 @@
 
         let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         let currentOscillators = [];
+        let DIFFICULTY = 'hard';
 
         function ChangeIroha(inputID,outputID){
             morse_name = []; //初期化
@@ -128,7 +129,7 @@
         function playMorse(id){
             // const morse = document.getElementById(id).value;
             let morse =[];
-            if(id == 'NAME'){morse = morse_name.join('');}
+            if(id == 'NAME'){morse = morse_name.join('　');}
             else{morse = document.getElementById(id).value;}
         
             // 前回の音を止める
@@ -150,8 +151,10 @@
                 } else if(char === "－" || char === "-"){
                     ring(audioCtx, time, dot * 3);
                     time += dot * 3 + dot; // 「－」 + 「空白」 ((3点 + 1点
-                } else if(char === "　"){
+                } else if(char === "　" && DIFFICULTY === 'hard'){
                     time += dot * 2; // 文字と文字の間 3点(上の空白分 + 2点)
+                } else if(char === "　" && DIFFICULTY === 'easy'){
+                    time += dot * 5; // 文字と文字の間 6点(上の空白分 + 5点)
                 } else if(char === "？"){ //  ?の処理どうしよう
                     time += dot * 7;
                 }
@@ -193,6 +196,11 @@
 
         function ChangeSpeed(ratio){
             speed = 1.0 / ratio;
+        }
+
+        function ChangeDiff(diff){
+            if(diff === 'easy'){DIFFICULTY = 'easy';}
+            else if(diff === 'hard'){DIFFICULTY = 'hard';}
         }
 
     function appendText(char,id) {
