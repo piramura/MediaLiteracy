@@ -101,6 +101,10 @@
                 ["\n","・－・－・・"] //改行 －98
         ];
 
+        const ques = [
+            ["電気通信大学ミュージアムのマスコットキャラクターと言えば？", "まーるす"]
+        ];
+
         let getname;
         let iroha_name = [];
         let morse_name = [];
@@ -109,6 +113,9 @@
         let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         let currentOscillators = [];
         let DIFFICULTY = 'hard';
+        let question;
+        let correctanswer;
+        let i = 0;
 
         function ChangeIroha(inputID,outputID){
             morse_name = []; //初期化
@@ -124,6 +131,22 @@
             }
             let morse = morse_name.join('　');
             document.getElementById(outputID).value = morse;
+            return morse;
+        }
+
+        function DirectChangeIroha(IROHA){
+             morse_name = []; //初期化
+             IROHA = IROHA.split("");
+              for(let char of IROHA){
+                const found = iroha.find(data => data[0] === char); //探索
+                if(found){
+                    morse_name.push(found[1]);
+                }else{ //未定義の文字があった場合
+                    morse_name.push("？")
+                }
+            }
+            let morse = morse_name.join('　');
+            return morse;
         }
 
         function playMorse(id){
@@ -192,7 +215,24 @@
             window.alert(result);
             if(morseInput === morse_name.join('')){window.alert("正解！！");}
             else{window.alert("不正解...");}
+            return result;
         }
+
+        function DirectChangeMorse(morse){
+            const getMorse = morse.split("　");
+            let result = "";
+            for(let code of getMorse){
+                const found = iroha.find(data => data[1] === code);
+                if(found){
+                    result += found[0];
+                }else{
+                    result += "？";
+                }
+            }
+            return result;
+        }
+
+
 
         function ChangeSpeed(ratio){
             speed = 1.0 / ratio;
@@ -201,6 +241,22 @@
         function ChangeDiff(diff){
             if(diff === 'easy'){DIFFICULTY = 'easy';}
             else if(diff === 'hard'){DIFFICULTY = 'hard';}
+        }
+
+        function AskQuestion(id){
+            question = ques[i][0];
+            correctanswer = ques[i][1];
+            correctanswer = DirectChangeIroha(correctanswer);
+            document.getElementById(id).textContent = question;
+        }
+
+        function CheckAnswer(id){
+            answer = document.getElementById(id).value;
+            if(answer === correctanswer){
+                window.alert("正解！！\n答え: " + DirectChangeMorse(correctanswer) +"\n" + "モールス: " + correctanswer);
+            }else{window.alert("不正解...\n答え: " + DirectChangeMorse(correctanswer) +"\n"
+                + "\nあなたの入力: " +  DirectChangeMorse(answer) + "\n正解のモールス信号: " + correctanswer
+                 + "\nあなたの入力したモールス信号" + answer);}
         }
 
     function appendText(char,id) {

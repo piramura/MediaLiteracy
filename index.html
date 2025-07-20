@@ -52,7 +52,7 @@
              margin: 0 auto;
             ">
             <iframe 
-             src="江戸の社会と数学8.pdf#toolbar=0&navpanes=0&scrollbar=0"    
+             src="morsecode.pdf#toolbar=0&navpanes=0&scrollbar=0"    
              style="border: none;
               width: 100%;
               height: 100%;
@@ -60,5 +60,27 @@
             </iframe>
         </div>
         </div>
+        <br>
+        <button onclick="AskQuestion('question')">クイズを始める</button>
+        <br>
+        <span id = "question">クイズやっていかない？</span>
+        <br>
+        <br>
+              <label>モールス入力:<br> <textarea id="answerInput" rows="3" cols="70" readonly></textarea></label>
+
+          <!-- 入力用ボタン -->
+
+  <button onclick="appendText('・','answerInput')">・</button>
+  <button onclick="appendText('－','answerInput')">－</button><br>
+  <button onclick="appendText('　','answerInput')">全角空白</button>
+
+  <br><br>
+
+  <!-- 削除用ボタン -->
+  <button onclick="deleteLast('answerInput')">1文字削除</button>
+  <button onclick="clearText('answerInput')">全部削除</button>
+  <input type="button" value="再生" onclick="playMorse('answerInput');">
+        <input type = "button" value = "答えを確定！" onclick="CheckAnswer('answerInput');">
+        </p>
 </body>
 </html>
