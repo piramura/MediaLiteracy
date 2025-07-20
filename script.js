@@ -109,9 +109,9 @@
         let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         let currentOscillators = [];
 
-        function ChangeIroha(){
+        function ChangeIroha(inputID,outputID){
             morse_name = []; //初期化
-            getname = document.getElementById("input").value;        
+            getname = document.getElementById(inputID).value;        
             iroha_name = getname.split("");
             for(let char of iroha_name){
                 const found = iroha.find(data => data[0] === char); //探索
@@ -122,12 +122,15 @@
                 }
             }
             let morse = morse_name.join('　');
-            document.getElementById("output").value = morse;
+            document.getElementById(outputID).value = morse;
         }
 
-        function playMorse(){
-            const morse = document.getElementById('output').value;
-
+        function playMorse(id){
+            // const morse = document.getElementById(id).value;
+            let morse =[];
+            if(id == 'NAME'){morse = morse_name.join('');}
+            else{morse = document.getElementById(id).value;}
+        
             // 前回の音を止める
             currentOscillators.forEach(osc => {
                 try { osc.stop(); } catch (e) {}
@@ -171,9 +174,9 @@
             currentOscillators.push(oscillator); //現在のものを記録
         }
 
-        function ChangeMorse(){
-            const morseInput = document.getElementById('morseInput').value;
-            const getMorse = morse = morseInput.split("　");
+        function ChangeMorse(inputID){
+            const morseInput = document.getElementById(inputID).value;
+            const getMorse = morseInput.split("　");
             let result = "";
             for(let code of getMorse){
                 const found = iroha.find(data => data[1] === code);
@@ -184,8 +187,25 @@
                 }
             }
             window.alert(result);
+            if(morseInput === morse_name.join('')){window.alert("正解！！");}
+            else{window.alert("不正解...");}
         }
 
         function ChangeSpeed(ratio){
             speed = 1.0 / ratio;
         }
+
+    function appendText(char,id) {
+      const textbox = document.getElementById(id);
+      textbox.value += char;
+    }
+
+    function deleteLast(id) {
+      const textbox = document.getElementById(id);
+      // 最後の1文字を削除（UTF-16コード単位に対応）
+      textbox.value = textbox.value.slice(0, -1);
+    }
+
+    function clearText(id) {
+      const textbox = document.getElementById(id)
+    }

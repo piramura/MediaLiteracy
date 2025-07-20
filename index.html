@@ -12,18 +12,32 @@
   <!-- ここにUI要素を追加していく -->
    <p>
         <label>入力: <input type = "text" id = "input" size = "40"></label>
-        <input type = "button" value = "決定" onclick="ChangeIroha();">
+        <input type = "button" value = "決定" onclick="ChangeIroha('input','output');">
         </p>
-        <label>出力:<br><textarea id="output" rows="3" cols="70" readonly></textarea></label>
+        <!-- <label>出力:<br><textarea id="output" rows="3" cols="70" readonly></textarea></label> -->
         <br>
-        <input type="button" value="再生" onclick="playMorse();">
+        <input type="button" value="再生" onclick="playMorse('NAME');">
         <input type="button" value="1倍速" onclick="ChangeSpeed(1);">
         <input type="button" value="0.75倍速" onclick="ChangeSpeed(0.75);">
         <input type="button" value="0.5倍速" onclick="ChangeSpeed(0.5);">
         <p>
-        <label>モールス入力: <textarea id="morseInput" rows="3" cols="70"></textarea></label>
+        <label>モールス入力:<br> <textarea id="morseInput" rows="3" cols="70" readonly></textarea></label>
+
+          <!-- 入力用ボタン -->
+           <br>
+  <button onclick="appendText('・','morseInput')">・</button>
+  <button onclick="appendText('－','morseInput')">－</button><br>
+  <button onclick="appendText('　','morseInput')">全角空白</button>
+
+  <br><br>
+
+  <!-- 削除用ボタン -->
+  <button onclick="deleteLast('morseInput')">1文字削除</button>
+  <button onclick="clearText('morseInput')">全部削除</button>
+  <br> <input type="button" value="再生" onclick="playMorse('morseInput');">
+
         <br>
-        <input type = "button" value = "変換" onclick="ChangeMorse();">
+        <input type = "button" value = "変換" onclick="ChangeMorse('morseInput');">
         </p>
 
         <div style="padding: 20px;">
