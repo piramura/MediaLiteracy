@@ -1,298 +1,90 @@
-/* style.css */
-/* style.css に追加 */ 
+/* 既存の .iphone-se を中央寄せ・可変サイズに */
 body {
   display: flex;
-  justify-content: center; /* 横中央寄せ */
-  align-items: start;      /* 上寄せ */
-  padding: 20px;           /* 画面端から余白を開ける */
-}
-
-.iphone-se {
-  max-width: 320px;    /* 最大幅を iPhone SE 幅に固定 */
-  width: 100%;         /* それ以下なら画面幅いっぱいに */
-  height: auto;        /* 横幅に合わせて縦も自動調整 */
-  box-shadow: 0 0 10px rgba(0,0,0,0.1); /* 見栄え用 */
-}
-
-/* Artboard container */
-.iphone-se {
-  position: relative;
-  width: 320px;
-  height: 568px;
-  background: #FFFFFF;
-}
-
-/* Rectangle 1 */
-.iphone-se .rectangle1 {
-  position: absolute;
-  width: 320px;
-  height: 518px;
-  left: 0;
-  top: 0;
-  background: #FDFFDE;
-}
-
-/* Rectangle 3 */
-.iphone-se .rectangle3 {
-  position: absolute;
-  width: 170px;
-  height: 155px;
-  left: 150px;
-  top: 352px;
-  background: url('マールス.png');
-}
-
-/* Rectangle 7 */
-.iphone-se .rectangle7 {
-  position: absolute;
-  width: 320px;
-  height: 50px;
-  left: 0;
-  top: 518px;
-  background: #74A7E9;
-}
-
-/* モールス信号体験アプリ (Main title) */
-.iphone-se .morse-app-title {
-  position: absolute;
-  width: 264px;
-  height: 33px;
-  left: 28px;
-  top: 157px;
-  font-family: 'Noto Sans', sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 24px;
-  line-height: 33px;
-  display: flex;
-  align-items: center;
-  color: #005BBB;
-}
-
-/* -初めてのモールス信号- (Subtitle) */
-.iphone-se .morse-first {
-  position: absolute;
-  width: 171px;
-  height: 22px;
-  left: 74px;
-  top: 201px;
-  font-family: 'Noto Sans', sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 22px;
-  display: flex;
-  align-items: center;
-  color: #005BBB;
-}
-
-/* ・ーー⚡️・ー・ (Signal sample) */
-.iphone-se .morse-sample {
-  position: absolute;
-  width: 112px;
-  height: 22px;
-  left: 104px;
-  top: 245px;
-  font-family: 'Noto Sans', sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 22px;
-  display: flex;
-  align-items: center;
-  color: #005BBB;
-}
-
-/* Frame 12 (Button container) */
-.iphone-se .frame12 {
-  display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
+  align-items: flex-start;
+  padding: 20px;
+  background: #f5f7fa;
+}
+
+.iphone-se {
+  max-width: 320px;
+  width: 100%;
+  min-width: 260px;
+  height: auto;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border-radius: 20px;
+  background: #fff;
+  position: relative;
+  padding: 16px 8px 24px 8px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  padding: 10px;
-  gap: 10px;
-  position: absolute;
-  width: 109px;
-  height: 50px;
-  left: 105px;
-  top: 278px;
+}
+
+/* タイトル・サブタイトル・サンプルを縦並びに */
+.morse-app-title, .morse-first, .morse-sample {
+  position: static;
+  margin: 12px 0 0 0;
+  text-align: center;
+  color: #005BBB;
+  font-family: 'Noto Sans', sans-serif;
+  font-weight: 700;
+}
+
+.morse-app-title { font-size: 1.5em; }
+.morse-first, .morse-sample { font-size: 1em; }
+
+/* ボタン */
+.frame12 {
+  margin: 18px auto;
+  padding: 10px 24px;
   background: #E7A437;
   border-radius: 30px;
+  border: none;
+  color: #fff;
+  font-size: 1.2em;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-/* Start (Button text) */
-.iphone-se .frame12 .start-text {
-  width: 50px;
-  height: 27px;
-  font-family: 'Noto Sans', sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 27px;
-  display: flex;
-  align-items: center;
-  color: #FFFFFF;
-}
-
-/* ー・ (Signal short) */
-.iphone-se .signal-short {
-  position: absolute;
-  width: 32px;
-  height: 22px;
-  left: 28px;
-  top: 289px;
-  font-family: 'Noto Sans', sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 22px;
-  display: flex;
-  align-items: center;
+/* 信号パターンやフッターも縦並びに */
+.signal-short, .signal-pattern1, .signal-pattern2, .signal-pattern3, .signal-pattern4, .signal-pattern5,
+.header-pattern1, .header-pattern2, .footer {
+  position: static;
+  margin: 6px 0;
+  text-align: center;
   color: rgba(136, 154, 172, 0.5);
-}
-
-/* ー・・ー・ (Signal pattern 1) */
-.iphone-se .signal-pattern1 {
-  position: absolute;
-  width: 80px;
-  height: 22px;
-  left: 7px;
-  top: 122px;
+  font-size: 1em;
   font-family: 'Noto Sans', sans-serif;
-  font-style: normal;
   font-weight: 700;
-  font-size: 16px;
-  line-height: 22px;
-  display: flex;
-  align-items: center;
-  color: rgba(136, 154, 172, 0.5);
 }
 
-/* ー・・ー・ (Signal pattern 2) */
-.iphone-se .signal-pattern2 {
-  position: absolute;
-  width: 80px;
-  height: 22px;
-  left: 87px;
-  top: 352px;
-  font-family: 'Noto Sans', sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 22px;
-  display: flex;
-  align-items: center;
-  color: rgba(136, 154, 172, 0.5);
-}
-
-/* ー・・ー・ (Signal pattern 3) */
-.iphone-se .signal-pattern3 {
-  position: absolute;
-  width: 80px;
-  height: 22px;
-  left: 60px;
-  top: 463px;
-  font-family: 'Noto Sans', sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 22px;
-  display: flex;
-  align-items: center;
-  color: rgba(136, 154, 172, 0.5);
-}
-
-/* コミュニケーションミュージアム (Footer) */
-.iphone-se .footer {
-  position: absolute;
-  width: 239px;
-  height: 22px;
-  left: 50px;
-  top: 537px;
-  font-family: 'Noto Sans', sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 22px;
-  display: flex;
-  align-items: center;
-  color: rgba(0, 0, 0, 0.5);
-}
-
-/* ー・・ー・ (Signal pattern 4) */
-.iphone-se .signal-pattern4 {
-  position: absolute;
-  width: 80px;
-  height: 22px;
-  left: 0;
-  top: 392px;
-  font-family: 'Noto Sans', sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 22px;
-  display: flex;
-  align-items: center;
-  color: rgba(136, 154, 172, 0.5);
-}
-
-/* ー・・ー・ (Signal pattern 5) */
-.iphone-se .signal-pattern5 {
-  position: absolute;
-  width: 80px;
-  height: 22px;
-  left: 254px;
-  top: 237px;
-  font-family: 'Noto Sans', sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 22px;
-  display: flex;
-  align-items: center;
-  color: rgba(136, 154, 172, 0.5);
-}
-
-/* ー・ー・ー・ (Header pattern 1) */
-.iphone-se .header-pattern1 {
-  position: absolute;
-  width: 96px;
-  height: 22px;
-  left: 224px;
-  top: 59px;
-  font-family: 'Noto Sans', sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 22px;
-  display: flex;
-  align-items: center;
-  color: rgba(136, 154, 172, 0.5);
-}
-
-/* ー・ー・ー・ (Header pattern 2) */
-.iphone-se .header-pattern2 {
-  position: absolute;
-  width: 96px;
-  height: 22px;
-  left: 74px;
-  top: 13px;
-  font-family: 'Noto Sans', sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 22px;
-  display: flex;
-  align-items: center;
-  color: rgba(136, 154, 172, 0.5);
-}
-
-/* machine_denken */
-.iphone-se .machine-denken {
-  position: absolute;
+/* 画像や装飾も中央配置 */
+.machine-denken {
   width: 117px;
   height: 104px;
-  left: 28px;
-  top: 35px;
-  background: url('machine_denken.png');
+  margin: 12px auto;
+  background: url('machine_denken.png') center/contain no-repeat;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 400px) {
+  .iphone-se {
+    max-width: 98vw;
+    padding: 8px 2vw;
+  }
+  .frame12 {
+    font-size: 1em;
+    padding: 8px 12px;
+  }
+  .machine-denken {
+    width: 80px;
+    height: 70px;
+  }
 }
