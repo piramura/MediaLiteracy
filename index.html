@@ -6,81 +6,188 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <script src="script.js">
+  <div class="container">
+    <!-- スタート画面 -->
+    <div class="screen active" id="start-screen">
+      <h1>🎵 モールス信号体験アプリ 📡</h1>
+      <div class="welcome-text">
+        モールス信号の世界へようこそ！<br>
+        あなたの名前をモールス信号に変換したり、<br>
+        実際にモールス入力を体験してみましょう。
+      </div>
+      <button class="main-button" onclick="goToStep(1)">はじめる</button>
+    </div>
+
+    <!-- 名前入力画面 -->
+    <div class="screen" id="name-screen">
+      <div class="progress-bar">
+        <div class="progress-fill" style="width: 25%"></div>
+      </div>
+      <div class="step-indicator">
+        <span class="step active">名前入力</span>
+        <span class="step">変換・再生</span>
+        <span class="step">モールス入力</span>
+        <span class="step">完了</span>
+      </div>
+      
+      <h2>あなたのお名前を教えてください</h2>
+      <div style="margin: 30px 0;">
+        <input type="text" id="nameInput" placeholder="お名前をひらがなで入力" maxlength="20">
+      </div>
+      <div class="navigation">
+        <button class="back-button" onclick="goToStep(0)">戻る</button>
+        <button class="main-button" onclick="convertName()">変換する</button>
+      </div>
+    </div>
+
+    <!-- モールス変換・再生画面 -->
+    <div class="screen" id="convert-screen">
+      <div class="progress-bar">
+        <div class="progress-fill" style="width: 50%"></div>
+      </div>
+      <div class="step-indicator">
+        <span class="step">名前入力</span>
+        <span class="step active">変換・再生</span>
+        <span class="step">モールス入力</span>
+        <span class="step">完了</span>
+      </div>
+      
+      <h2>モールス信号に変換しました！</h2>
+      <div style="margin: 20px 0;">
+        <div style="font-size: 1.2em; margin: 10px 0;">
+          <strong id="userName"></strong> さんのお名前は：
+        </div>
+        <textarea id="output" rows="3" readonly style="font-size: 1.5em; text-align: center;"></textarea>
+      </div>
+      
+      <div style="margin: 20px 0;">
+        <button class="main-button" onclick="playMorse('output')">🔊 音で聞いてみる</button>
+      </div>
+      
+      <div class="convert-buttons">
+        <button onclick="ChangeSpeed(1)">1倍速</button>
+        <button onclick="ChangeSpeed(0.75)">0.75倍速</button>
+        <button onclick="ChangeSpeed(0.5)">0.5倍速</button>
+      </div>
+      
+      <div class="navigation">
+        <button class="back-button" onclick="goToStep(1)">戻る</button>
+        <button class="main-button" onclick="goToStep(3)">次へ進む</button>
+      </div>
+    </div>
+
+    <!-- モールス入力体験画面 -->
+    <div class="screen" id="input-screen">
+      <div class="progress-bar">
+        <div class="progress-fill" style="width: 75%"></div>
+      </div>
+      <div class="step-indicator">
+        <span class="step">名前入力</span>
+        <span class="step">変換・再生</span>
+        <span class="step active">モールス入力</span>
+        <span class="step">完了</span>
+      </div>
+      
+      <h2>モールス入力を体験してみよう！</h2>
+      <div style="margin: 20px 0;">
+        <p>今度は自分でモールス信号を入力してみましょう。<br>
+        「・」（短音）と「－」（長音）を組み合わせて文字を作ります。</p>
+      </div>
+      
+      <textarea id="morseInput" rows="3" placeholder="ここにモールス信号が入力されます" readonly style="font-size: 1.3em;"></textarea>
+      
+      <div class="morse-buttons">
+        <button onclick="appendText('・','morseInput')">・（短音）</button>
+        <button onclick="appendText('－','morseInput')">－（長音）</button>
+        <button onclick="appendText('　','morseInput')">文字区切り</button>
+        <button onclick="deleteLast('morseInput')">1文字削除</button>
+        <button onclick="clearText('morseInput')">全削除</button>
+        <button onclick="playMorse('morseInput')">🔊 再生</button>
+        <button onclick="ChangeMorse('morseInput')">日本語に変換</button>
+      </div>
+      
+      <div class="navigation">
+        <button class="back-button" onclick="goToStep(2)">戻る</button>
+        <button class="main-button" onclick="goToStep(4)">完了</button>
+      </div>
+    </div>
+
+    <!-- 完了画面 -->
+    <div class="screen" id="complete-screen">
+      <div class="progress-bar">
+        <div class="progress-fill" style="width: 100%"></div>
+      </div>
+      <div class="step-indicator">
+        <span class="step">名前入力</span>
+        <span class="step">変換・再生</span>
+        <span class="step">モールス入力</span>
+        <span class="step active">完了</span>
+      </div>
+      
+      <h2>🎉 おつかれさまでした！</h2>
+      <div class="welcome-text">
+        モールス信号の体験はいかがでしたか？<br>
+        昔の人たちはこの方法で遠くの人と<br>
+        コミュニケーションを取っていたんですね。
+      </div>
+      
+      <h3>クイズに挑戦してみませんか？</h3>
+      <button onclick="AskQuestion('question')" class="main-button">クイズを始める</button>
+      <span id="question" style="display: block; margin: 20px 0; font-size: 1.1em;">クイズやっていかない？</span>
+      
+      <textarea id="answerInput" rows="3" cols="70" readonly placeholder="クイズの答えをモールス信号で入力してください"></textarea>
+      
+      <div class="answer-buttons">
+        <button onclick="appendText('・','answerInput')">・</button>
+        <button onclick="appendText('－','answerInput')">－</button>
+        <button onclick="appendText('　','answerInput')">全角空白</button>
+        <button onclick="deleteLast('answerInput')">1文字削除</button>
+        <button onclick="clearText('answerInput')">全部削除</button>
+        <button onclick="playMorse('answerInput')">再生</button>
+        <button onclick="CheckAnswer('answerInput')">答えを確定！</button>
+      </div>
+      
+      <div class="navigation">
+        <button class="back-button" onclick="goToStep(3)">戻る</button>
+        <button class="main-button" onclick="goToStep(0)">最初に戻る</button>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+  <script>
+        // 画面遷移機能を追加
+        function goToStep(step) {
+          const screens = document.querySelectorAll('.screen');
+          screens.forEach(screen => screen.classList.remove('active'));
+          
+          const screenIds = ['start-screen', 'name-screen', 'convert-screen', 'input-screen', 'complete-screen'];
+          document.getElementById(screenIds[step]).classList.add('active');
+        }
+
+        // 名前変換機能を追加
+        function convertName() {
+          const nameInput = document.getElementById('nameInput');
+          const name = nameInput.value.trim();
+          
+          if (!name) {
+            alert('お名前を入力してください');
+            return;
+          }
+          
+          document.getElementById('userName').textContent = name;
+          ChangeIroha('nameInput', 'output');
+          goToStep(2);
+        }
+
+        // 初期化
+        document.addEventListener('DOMContentLoaded', function() {
+          // Enter キーでの進行
+          document.getElementById('nameInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+              convertName();
+            }
+          });
+        });
   </script>
-  <h1>モールス信号体験アプリ</h1>
-  <!-- ここにUI要素を追加していく -->
-   <p>
-        <label>入力: <input type = "text" id = "input" size = "40"></label>
-        <input type = "button" value = "決定" onclick="ChangeIroha('input','output');">
-        </p>
-        <!-- <label>出力:<br><textarea id="output" rows="3" cols="70" readonly></textarea></label> -->
-        <br>
-        <input type="button" value="再生" onclick="playMorse('NAME');">
-        <input type="button" value="1倍速" onclick="ChangeSpeed(1);">
-        <input type="button" value="0.75倍速" onclick="ChangeSpeed(0.75);">
-        <input type="button" value="0.5倍速" onclick="ChangeSpeed(0.5);">
-        <input type="button" value="ふつう" onclick="ChangeDiff('hard');">
-        <input type="button" value="かんたん" onclick="ChangeDiff('easy');">
-        <p>
-        <label>モールス入力:<br> <textarea id="morseInput" rows="3" cols="70" readonly></textarea></label>
-
-          <!-- 入力用ボタン -->
-           <br>
-  <button onclick="appendText('・','morseInput')">・</button>
-  <button onclick="appendText('－','morseInput')">－</button><br>
-  <button onclick="appendText('　','morseInput')">全角空白</button>
-
-  <br><br>
-
-  <!-- 削除用ボタン -->
-  <button onclick="deleteLast('morseInput')">1文字削除</button>
-  <button onclick="clearText('morseInput')">全部削除</button>
-  <br> <input type="button" value="再生" onclick="playMorse('morseInput');">
-
-        <br>
-        <input type = "button" value = "変換" onclick="ChangeMorse('morseInput');">
-        </p>
-
-        <div style="padding: 20px;">
-        <h3>モールス信号表</h3>
-            <div style="
-             border: 2px solid #333;
-             width: 90%;
-             height: 500px;
-             overflow: auto;
-             margin: 0 auto;
-            ">
-            <iframe 
-             src="morsecode.pdf#toolbar=0&navpanes=0&scrollbar=0"    
-             style="border: none;
-              width: 100%;
-              height: 100%;
-              ">
-            </iframe>
-        </div>
-        </div>
-        <br>
-        <button onclick="AskQuestion('question')">クイズを始める</button>
-        <br>
-        <span id = "question">クイズやっていかない？</span>
-        <br>
-        <br>
-              <label>モールス入力:<br> <textarea id="answerInput" rows="3" cols="70" readonly></textarea></label>
-
-          <!-- 入力用ボタン -->
-
-  <button onclick="appendText('・','answerInput')">・</button>
-  <button onclick="appendText('－','answerInput')">－</button><br>
-  <button onclick="appendText('　','answerInput')">全角空白</button>
-
-  <br><br>
-
-  <!-- 削除用ボタン -->
-  <button onclick="deleteLast('answerInput')">1文字削除</button>
-  <button onclick="clearText('answerInput')">全部削除</button>
-  <input type="button" value="再生" onclick="playMorse('answerInput');">
-        <input type = "button" value = "答えを確定！" onclick="CheckAnswer('answerInput');">
-        </p>
 </body>
 </html>
