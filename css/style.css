@@ -1,90 +1,181 @@
-/* 既存の .iphone-se を中央寄せ・可変サイズに */
-body {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 20px;
-  background: #f5f7fa;
-}
-
-.iphone-se {
-  max-width: 320px;
-  width: 100%;
-  min-width: 260px;
-  height: auto;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-  border-radius: 20px;
-  background: #fff;
-  position: relative;
-  padding: 16px 8px 24px 8px;
+* {
   box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  margin: 0;
+  padding: 0;
 }
 
-/* タイトル・サブタイトル・サンプルを縦並びに */
-.morse-app-title, .morse-first, .morse-sample {
-  position: static;
-  margin: 12px 0 0 0;
-  text-align: center;
-  color: #005BBB;
-  font-family: 'Noto Sans', sans-serif;
-  font-weight: 700;
-}
-
-.morse-app-title { font-size: 1.5em; }
-.morse-first, .morse-sample { font-size: 1em; }
-
-/* ボタン */
-.frame12 {
-  margin: 18px auto;
-  padding: 10px 24px;
-  background: #E7A437;
-  border-radius: 30px;
-  border: none;
-  color: #fff;
-  font-size: 1.2em;
-  font-weight: 700;
-  cursor: pointer;
+body {
+  font-family: 'Segoe UI', 'Hiragino Sans', Arial, sans-serif;
+  background: #f5f7fa; /* 元の淡い背景色 */
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* 信号パターンやフッターも縦並びに */
-.signal-short, .signal-pattern1, .signal-pattern2, .signal-pattern3, .signal-pattern4, .signal-pattern5,
-.header-pattern1, .header-pattern2, .footer {
-  position: static;
-  margin: 6px 0;
+.container {
+  background: #fff;
+  border-radius: 20px; /* AI版の大きめ角丸 */
+  padding: 40px;       /* AI版の広めpadding */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* 元より少し深めの影 */
+  max-width: 800px;    /* AI版の幅 */
+  width: 90%;
   text-align: center;
-  color: rgba(136, 154, 172, 0.5);
+}
+
+.screen {
+  display: none;
+  animation: fadeIn 0.5s ease-in;
+}
+
+.screen.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+h1 {
+  color: #2a5d84; /* 元の落ち着いた青 */
+  margin-bottom: 30px;
+  font-size: 2.5em; /* AI版の大きめフォント */
+}
+
+h2 {
+  color: #555; /* AI版の薄め色 */
+  margin-bottom: 20px;
+  font-size: 1.8em;
+}
+
+.welcome-text {
+  font-size: 1.2em;
+  color: #666;
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+input[type="text"] {
+  padding: 15px 20px;
+  font-size: 1.2em;
+  border: 1px solid #bbb; /* 元の落ち着いた色 */
+  border-radius: 10px;
+  width: 300px;
+  margin: 10px;
+}
+
+textarea {
+  padding: 15px;
+  font-size: 1.1em;
+  border: 1px solid #bbb;
+  border-radius: 10px;
+  width: 100%;
+  margin: 10px 0;
+  font-family: monospace;
+  resize: vertical;
+}
+
+button {
+  background: #2a5d84; /* 元の濃い青 */
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px; /* AI版の丸ボタン */
+  cursor: pointer;
   font-size: 1em;
-  font-family: 'Noto Sans', sans-serif;
-  font-weight: 700;
+  margin: 5px;
+  transition: all 0.3s;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
-/* 画像や装飾も中央配置 */
-.machine-denken {
-  width: 117px;
-  height: 104px;
-  margin: 12px auto;
-  background: url('machine_denken.png') center/contain no-repeat;
+button:hover {
+  background: #17405c; /* 元のhover色 */
+  transform: translateY(-2px);
 }
 
-/* レスポンシブ対応 */
-@media (max-width: 400px) {
-  .iphone-se {
-    max-width: 98vw;
-    padding: 8px 2vw;
+.main-button {
+  font-size: 1.2em;
+  padding: 15px 30px;
+  margin: 20px 10px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #eee;
+  border-radius: 4px;
+  margin: 20px 0;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #2a5d84; /* 元の青 */
+  width: 25%;
+  transition: width 0.5s ease;
+}
+
+.step-indicator {
+  display: flex;
+  justify-content: space-between;
+  margin: 20px 0;
+  font-size: 0.9em;
+  color: #666;
+}
+
+.step {
+  padding: 5px 10px;
+  border-radius: 15px;
+  background: #f0f0f0;
+}
+
+.step.active {
+  background: #2a5d84;
+  color: white;
+}
+
+.back-button {
+  background: #6c757d;
+}
+
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.convert-buttons, .morse-buttons, .answer-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px 0;
+}
+textarea {
+  font-family: monospace;
+  white-space: pre-wrap;
+}
+
+textarea {
+  font-family: monospace;
+  color: transparent;
+  text-shadow: 0 0 0 #333;
+}
+
+textarea {
+  background: #f9f9f9;
+}
+
+
+@media (max-width: 600px) {
+  .container {
+    padding: 20px;
+    margin: 10px;
   }
-  .frame12 {
-    font-size: 1em;
-    padding: 8px 12px;
-  }
-  .machine-denken {
-    width: 80px;
-    height: 70px;
+  
+  input[type="text"] {
+    width: 100%;
   }
 }
