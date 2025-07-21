@@ -142,6 +142,8 @@
             }
             let morse = morse_name.join('／');
             document.getElementById(outputID).value = morse;
+            const btn = document.getElementById("downloadBtn");
+            btn.style.display = "none";
             return morse;
         }
 
@@ -284,6 +286,8 @@
         //速さ変更
         function ChangeSpeed(ratio){
             speedRatio = 1.0 / ratio;
+            const btn = document.getElementById("downloadBtn");
+            btn.style.display = "none";
         }
 
         //空白の時間変更
