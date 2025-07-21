@@ -4,6 +4,13 @@
   <meta charset="UTF-8">
   <title>モールス信号体験アプリ</title>
   <link rel="stylesheet" href="css/style.css">
+  <!-- 
+  下のscriptはmp3ダウロードのために必須　外部ディレクトリ 
+  [lamejs] https://github.com/zhuker/lamejs
+  ライセンス: MIT License
+  CDN URL: https://cdn.jsdelivr.net/npm/lamejs@1.2.0/lame.min.js
+  -->
+  <script src="https://cdn.jsdelivr.net/npm/lamejs@1.2.0/lame.min.js"></script>
 </head>
 <body>
   <div class="container">
@@ -14,9 +21,13 @@
       <label>出力:<br><textarea id="output" rows="3" cols="70" readonly></textarea></label>
       <div class="convert-buttons">
         <button onclick="playMorse('output')">再生</button>
+         <button onclick="ChangeSpeed(3)">3倍速</button>
+         <button onclick="ChangeSpeed(2)">2倍速</button>
         <button onclick="ChangeSpeed(1)">1倍速</button>
         <button onclick="ChangeSpeed(0.75)">0.75倍速</button>
         <button onclick="ChangeSpeed(0.5)">0.5倍速</button>
+        <button onclick="generateMorseMp3('output')">MP3変換</button>
+        <button id="downloadBtn" style="display:none;">MP3をダウンロード</button>
       </div>
     </section>
 

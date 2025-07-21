@@ -107,15 +107,19 @@
         ];
 
          const selection = [
-            ["いまマールスは何を持っている？", "ばなな",]
+            ["いまマールスは何を持っている？", "ばなな","りんご","いちご"]
         ];
 
         let getname;
         let iroha_name = [];
         let morse_name = [];
         let speedRatio = 1;
-        let SPEED = 0.05; // 
-        let DIFFICULTY = 'hard';
+        let SPEED = 0.15; // モールス信号の速さ(前の3倍遅い)
+        let DIFFICULTY = 'normal'; //文字と文字の間隔 normalがスタンダート
+        let frequency = 880; //モールスの音の高さ
+        let currentMp3Blob = null; // 一番新しいmp3(Binary Large Object)
+        const channels = 1; //チャンネル数
+        let loudness = 1; //音の大きさ
 
         let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         let currentOscillators = [];
@@ -123,6 +127,7 @@
         let correctanswer;
         let questionNumber = 0;
 
+        //入力元と出力先を引数に渡すといろはをモールスに変えて出力する
         function ChangeIroha(inputID,outputID){
             morse_name = []; //初期化
             getname = document.getElementById(inputID).value;        
@@ -140,6 +145,7 @@
             return morse;
         }
 
+        //いろはを直接入れると対応するモールスを返す
         function DirectChangeIroha(IROHA){
              morse_name = []; //初期化
              IROHA = IROHA.split("");
@@ -155,6 +161,7 @@
             return morse;
         }
 
+        // 2文字判定の濁点や半濁点のついた文字を1文字に
         function Conversion(array){
             array = array.split("か゛").join('が');
             array = array.split("き゛").join('ぎ');
@@ -184,13 +191,12 @@
             return array;
         }
 
+        // モールス信号の再生
         function playMorse(id){
             // const morse = document.getElementById(id).value;
             let morse =[];
             if(id == 'NAME'){morse = morse_name.join('／');}
             else{morse = document.getElementById(id).value;}
-
-            morse = morse.split('／').join('／');
         
             // 前回の音を止める
             currentOscillators.forEach(osc => {
@@ -211,7 +217,7 @@
                 } else if(char === "－" || char === "-"){
                     ring(audioCtx, time, dot * 3);
                     time += dot * 3 + dot; // 「－」 + 「空白」 ((3点 + 1点
-                } else if(char === "／" && DIFFICULTY === 'hard'){
+                } else if(char === "／" && DIFFICULTY === 'normal'){
                     time += dot * 2; // 文字と文字の間 3点(上の空白分 + 2点)
                 } else if(char === "／" && DIFFICULTY === 'easy'){
                     time += dot * 5; // 文字と文字の間 6点(上の空白分 + 5点)
@@ -221,13 +227,14 @@
             }
         }
 
+        //ビープ音を鳴らす(聞くとき用)
         function ring(ctx, start, duration){
             const oscillator = ctx.createOscillator();
             const gainNode = ctx.createGain();
             oscillator.type = "sine";
             // 音量の設定
-            oscillator.frequency.setValueAtTime(880, start);
-            gainNode.gain.setValueAtTime(1, start); //音量1でスタート
+            oscillator.frequency.setValueAtTime(frequency, start);
+            gainNode.gain.setValueAtTime(loudness, start); //音量loudnessでスタート
             gainNode.gain.setValueAtTime(0, start + duration); //duration分たったら0にする 
             // 音の設定
             oscillator.connect(gainNode).connect(ctx.destination); //音量調整->スピーカに接続
@@ -237,6 +244,7 @@
             currentOscillators.push(oscillator); //現在のものを記録
         }
 
+        //モールス信号の書かれている場所を指定するといろはに変更
         function ChangeMorse(inputID){
             const morseInput = document.getElementById(inputID).value;
             const getMorse = morseInput.split("／");
@@ -256,6 +264,7 @@
             return result;
         }
 
+        //モールス信号を直接入れると対応するいろはをかえす
         function DirectChangeMorse(morse){
             const getMorse = morse.split("／");
             let result = "";
@@ -272,15 +281,18 @@
 
 
 
+        //速さ変更
         function ChangeSpeed(ratio){
             speedRatio = 1.0 / ratio;
         }
 
+        //空白の時間変更
         function ChangeDiff(diff){
             if(diff === 'easy'){DIFFICULTY = 'easy';}
             else if(diff === 'hard'){DIFFICULTY = 'hard';}
         }
 
+        //クイズの出題
         function AskQuestion(id){
             question = ques[questionNumber][0];
             correctanswer = ques[questionNumber][1];
@@ -288,9 +300,9 @@
             document.getElementById(id).textContent = question;
         }
 
+        //クイズの答え合わせ
         function CheckAnswer(id){
             answer = document.getElementById(id).value;
-            answer = answer.split('／').join('／');
             if(answer === correctanswer){
                 window.alert("正解！！\n答え: " + DirectChangeMorse(correctanswer) +"\n" + "モールス: " + correctanswer);
             }else{window.alert("不正解...\n答え: " + DirectChangeMorse(correctanswer) +"\n"
@@ -298,6 +310,116 @@
                  + "\nあなたの入力したモールス信号: " + answer);}
         }
 
+        // モールス信号をmp3ファイルに変換
+        async function morseToMp3(morseString) {
+            const sampleRate = 44100; //サンプリング周波数
+            let unit = SPEED * speedRatio;
+            let totalDuration = 0;
+
+            for (let char of morseString) {
+                if (char === "・"){totalDuration += unit + unit;}
+                else if (char === "－"){totalDuration += unit * 3 + unit;}
+                else if (char === "／"){totalDuration += unit * 2;}
+            }
+
+
+            const offlineCtx = new OfflineAudioContext(channels, sampleRate * totalDuration, sampleRate);
+            let time = 0;
+
+            for (let char of morseString) {
+                if (char === "・") {
+                    addBeep(offlineCtx, time, unit, frequency);
+                    time += unit + unit;
+                } else if (char === "－") {
+                    addBeep(offlineCtx, time, unit * 3, frequency);
+                    time += unit * 3 + unit;
+                } else if (char === "／") {
+                    time += unit * 2;
+                }
+            }
+
+            const audioBuffer = await offlineCtx.startRendering();
+            return audioBufferToMp3(audioBuffer);
+        }
+
+        // 音をビープ音で鳴らす(録音用)
+        function addBeep(ctx, startTime, duration, frequency) {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.frequency.value = frequency;
+            osc.type = 'sine';
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            gain.gain.setValueAtTime(loudness, startTime);
+            gain.gain.setValueAtTime(0, startTime + duration);
+            osc.start(startTime);
+            osc.stop(startTime + duration);
+        }
+
+        // AudioBuffer → MP3 に変換
+        function audioBufferToMp3(audioBuffer) {
+            const samples = audioBuffer.getChannelData(0);
+            const mp3encoder = new lamejs.Mp3Encoder(channels, audioBuffer.sampleRate, 128);
+            const sampleBlockSize = 1152;
+            const mp3Data = [];
+
+            for (let i = 0; i < samples.length; i += sampleBlockSize) {
+                const sampleChunk = samples.subarray(i, i + sampleBlockSize);
+                const int16Samples = new Int16Array(sampleChunk.length);
+                for (let j = 0; j < sampleChunk.length; j++) {
+                    int16Samples[j] = sampleChunk[j] * 32767;
+                }
+                const mp3buf = mp3encoder.encodeBuffer(int16Samples);
+                if (mp3buf.length > 0) mp3Data.push(mp3buf);
+            }
+
+            const mp3buf = mp3encoder.flush();
+            if (mp3buf.length > 0) mp3Data.push(mp3buf);
+
+            return new Blob(mp3Data, { type: 'audio/mp3' });
+        }
+
+        // ダウンロード処理
+        function downloadBlob(blob, filename) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+
+        async function generateMorseMp3(id) {
+        const morse = document.getElementById(id).value;
+        if (!morse.trim()) {
+            alert("何も入力されていません");
+            return;
+        }
+
+        const blob = await morseToMp3(morse); // 変換
+        currentMp3Blob = blob;
+
+        const btn = document.getElementById("downloadBtn");
+        btn.style.display = "inline-block";
+        btn.onclick = () => downloadBlob(currentMp3Blob, "morse.mp3");
+        }
+
+        //音の流れる速さを返す　〇倍速
+        function getSpeedRatio(){ 
+            return speedRatio;
+        }
+
+        //音の高さを返す　基本880Hz
+        function getFrequency(){
+            return frequency;
+        }
+
+        //音の大きさを返す 0~1
+        function getVelocity(){ 
+            return loudness;
+        }
+                
     function appendText(char,id) {
       const textbox = document.getElementById(id);
       textbox.value += char;
