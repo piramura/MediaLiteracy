@@ -47,31 +47,31 @@
                 ["わ","－・－"], //わ－45
                 ["を","・－－－"], //を－46
                 ["ん","・－・－・"], //ん－47
-                ["が","・－・・＿・・"], //が－48
-                ["ぎ","－・－・・＿・・"], //ぎ－49
-                ["ぐ","・・・－＿・・"], //ぐ－50
-                ["げ","－・－－＿・・"], //げ－51
-                ["ご","－－－－＿・・"], //ご－52
-                ["ざ","－・－・－＿・・"], //ざ－53
-                ["じ","－－・－・＿・・"], //じ－54
-                ["ず","－－－・－＿・・"], //ず－55
-                ["ぜ","・－－－・＿・・"], //ぜ－56
-                ["ぞ","－－－・＿・・"], //ぞ－57
-                ["だ","－・＿・・"], //だ－58
-                ["ぢ","・・－・＿・・"], //ぢ－59
-                ["づ","・－－・＿・・"], //づ－60
-                ["で","・－・－－＿・・"], //で－61
-                ["ど","・・－・・＿・・"], //ど－62
-                ["ば","－・・・＿・・"], //ば－63
-                ["び","－－・・－＿・・"], //び－64
-                ["ぶ","－－・・＿・・"], //ぶ－65
-                ["べ","・＿・・"], //べ－66
-                ["ぼ","－・・＿・・"], //ぼ－67
-                ["ぱ","－・・・＿・・－－・"], //ぱ－68
-                ["ぴ","－－・・－＿・・－－・"], //ぴ－69
-                ["ぷ","－－・・＿・・－－・"], //ぷ－70
-                ["ぺ","・＿・・－－・"], //ぺ－71
-                ["ぽ","－・・＿・・－－・"], //ぽ－72
+                ["が","・－・・　・・"], //が－48
+                ["ぎ","－・－・・　・・"], //ぎ－49
+                ["ぐ","・・・－　・・"], //ぐ－50
+                ["げ","－・－－　・・"], //げ－51
+                ["ご","－－－－　・・"], //ご－52
+                ["ざ","－・－・－　・・"], //ざ－53
+                ["じ","－－・－・　・・"], //じ－54
+                ["ず","－－－・－　・・"], //ず－55
+                ["ぜ","・－－－・　・・"], //ぜ－56
+                ["ぞ","－－－・　・・"], //ぞ－57
+                ["だ","－・　・・"], //だ－58
+                ["ぢ","・・－・　・・"], //ぢ－59
+                ["づ","・－－・　・・"], //づ－60
+                ["で","・－・－－　・・"], //で－61
+                ["ど","・・－・・　・・"], //ど－62
+                ["ば","－・・・　・・"], //ば－63
+                ["び","－－・・－　・・"], //び－64
+                ["ぶ","－－・・　・・"], //ぶ－65
+                ["べ","・　・・"], //べ－66
+                ["ぼ","－・・　・・"], //ぼ－67
+                ["ぱ","－・・・　・・－－・"], //ぱ－68
+                ["ぴ","－－・・－　・・－－・"], //ぴ－69
+                ["ぷ","－－・・　・・－－・"], //ぷ－70
+                ["ぺ","・　・・－－・"], //ぺ－71
+                ["ぽ","－・・　・・－－・"], //ぽ－72
                 ["ー","・－－・－"], //ー －73
                 ["、","・－・－・－"], //、 －74
                 ["(","－・－－・－"], //( －75
@@ -105,11 +105,15 @@
             ["電気通信大学ミュージアムのマスコットキャラクターと言えば？", "まーるす"]
         ];
 
+         const selection = [
+            ["いまマールスは何を持っている？", "ばなな",]
+        ];
+
         let getname;
         let iroha_name = [];
         let morse_name = [];
         let speedRatio = 1;
-        let SPEED = 0.01; // 
+        let SPEED = 0.05; // 
         let DIFFICULTY = 'hard';
 
         let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -130,7 +134,7 @@
                     morse_name.push("？")
                 }
             }
-            let morse = morse_name.join('＿');
+            let morse = morse_name.join('　');
             document.getElementById(outputID).value = morse;
             return morse;
         }
@@ -146,15 +150,26 @@
                     morse_name.push("？")
                 }
             }
-            let morse = morse_name.join('＿');
+            let morse = morse_name.join('　');
             return morse;
+        }
+
+        function Conversion(array,before,after){
+            array.forEach((item, index) => {
+                if(item === before){
+                    array[index] = after;
+                }
+            });
+            return array;
         }
 
         function playMorse(id){
             // const morse = document.getElementById(id).value;
             let morse =[];
-            if(id == 'NAME'){morse = morse_name.join('＿');}
+            if(id == 'NAME'){morse = morse_name.join('　');}
             else{morse = document.getElementById(id).value;}
+
+            morse = morse.split('／').join('　');
         
             // 前回の音を止める
             currentOscillators.forEach(osc => {
@@ -175,9 +190,9 @@
                 } else if(char === "－" || char === "-"){
                     ring(audioCtx, time, dot * 3);
                     time += dot * 3 + dot; // 「－」 + 「空白」 ((3点 + 1点
-                } else if(char === "＿" && DIFFICULTY === 'hard'){
+                } else if(char === "　" && DIFFICULTY === 'hard'){
                     time += dot * 2; // 文字と文字の間 3点(上の空白分 + 2点)
-                } else if(char === "＿" && DIFFICULTY === 'easy'){
+                } else if(char === "　" && DIFFICULTY === 'easy'){
                     time += dot * 5; // 文字と文字の間 6点(上の空白分 + 5点)
                 } else if(char === "？"){ //  ?の処理どうしよう
                     time += dot * 7;
@@ -203,7 +218,7 @@
 
         function ChangeMorse(inputID){
             const morseInput = document.getElementById(inputID).value;
-            const getMorse = morseInput.split("＿");
+            const getMorse = morseInput.split("　");
             let result = "";
             for(let code of getMorse){
                 const found = iroha.find(data => data[1] === code);
@@ -220,7 +235,7 @@
         }
 
         function DirectChangeMorse(morse){
-            const getMorse = morse.split("＿");
+            const getMorse = morse.split("　");
             let result = "";
             for(let code of getMorse){
                 const found = iroha.find(data => data[1] === code);
@@ -253,11 +268,12 @@
 
         function CheckAnswer(id){
             answer = document.getElementById(id).value;
+            answer = answer.split('／').join('　');
             if(answer === correctanswer){
                 window.alert("正解！！\n答え: " + DirectChangeMorse(correctanswer) +"\n" + "モールス: " + correctanswer);
             }else{window.alert("不正解...\n答え: " + DirectChangeMorse(correctanswer) +"\n"
                 + "\nあなたの入力: " +  DirectChangeMorse(answer) + "\n正解のモールス信号: " + correctanswer
-                 + "\nあなたの入力したモールス信号" + answer);}
+                 + "\nあなたの入力したモールス信号: " + answer);}
         }
 
     function appendText(char,id) {
