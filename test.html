@@ -2,15 +2,62 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>モールス信号テストページ</title>
-  <link rel="stylesheet" href="style.css">
+  <title>モールス信号体験アプリ</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <h1>テスト用：モールス信号機能</h1>
-  <input type="text" id="inputText" placeholder="テキスト入力">
-  <button id="toMorseBtn">→ モールス変換</button>
-  <div id="morseResult"></div>
-  <button id="playBtn">再生</button>
+  <div class="container">
+    <h1>モールス信号体験アプリ</h1>
+    <section class="convert-section">
+      <label>入力: <input type="text" id="input" size="40"></label>
+      <button onclick="ChangeIroha('input','output')">決定</button>
+      <label>出力:<br><textarea id="output" rows="3" cols="70" readonly></textarea></label>
+      <div class="convert-buttons">
+        <button onclick="playMorse('output')">再生</button>
+        <button onclick="ChangeSpeed(1)">1倍速</button>
+        <button onclick="ChangeSpeed(0.75)">0.75倍速</button>
+        <button onclick="ChangeSpeed(0.5)">0.5倍速</button>
+      </div>
+    </section>
+
+    <section class="morse-input-section">
+      <label>モールス入力:<br>
+        <textarea id="morseInput" rows="3" cols="70" readonly></textarea>
+      </label>
+      <div class="morse-buttons">
+        <button onclick="appendText('・','morseInput')">・</button>
+        <button onclick="appendText('－','morseInput')">－</button>
+        <button onclick="appendText('＿','morseInput')">全角空白</button>
+        <button onclick="deleteLast('morseInput')">1文字削除</button>
+        <button onclick="clearText('morseInput')">全部削除</button>
+        <button onclick="playMorse('morseInput')">再生</button>
+        <button onclick="ChangeMorse('morseInput')">変換</button>
+      </div>
+    </section>
+
+    <section class="quiz-section">
+      <button onclick="AskQuestion('question')">クイズを始める</button>
+      <span id="question">クイズやっていかない？</span>
+      <label>モールス入力:<br>
+        <textarea id="answerInput" rows="3" cols="70" readonly></textarea>
+      </label>
+      <div class="answer-buttons">
+        <button onclick="appendText('・','answerInput')">・</button>
+        <button onclick="appendText('－','answerInput')">－</button>
+        <button onclick="appendText('＿','answerInput')">全角空白</button>
+        <button onclick="deleteLast('answerInput')">1文字削除</button>
+        <button onclick="clearText('answerInput')">全部削除</button>
+        <button onclick="playMorse('answerInput')">再生</button>
+        <button onclick="CheckAnswer('answerInput')">答えを確定！</button>
+      </div>
+    </section>
+
+    <section class="morse-chart-section">
+      <h3>モールス信号表</h3>
+      <div class="morse-chart">
+        <iframe src="morsecode.pdf#toolbar=0&navpanes=0&scrollbar=0"></iframe>
+      </div>
+    </section>
+  </div>
   <script src="script.js"></script>
 </body>
-</html>
