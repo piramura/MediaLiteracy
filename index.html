@@ -149,19 +149,40 @@
       
       <div class="navigation">
         <button class="back-button" onclick="goToStep(3)">戻る</button>
-        <button class="main-button" onclick="goToStep(0)">最初に戻る</button>
+        <button class="main-button" onclick="goToStep(5)">クイズ</button>
+      </div>
+    </div>
+    <!-- 追加：クイズ画面 -->
+    <div class="screen" id="quiz-screen">
+      <div class="progress-bar">
+        <div class="progress-fill" id="quiz-progress" style="width: 0%"></div>
+      </div>
+      <div class="step-indicator" id="quiz-steps">
+        <!-- Q1, Q2, ... はJSで更新 -->
+      </div>
+      
+      <h2 id="quiz-question">質問がここに表示されます</h2>
+      <div class="options">
+        <button class="option" onclick="selectOption(this)">選択肢1</button>
+        <button class="option" onclick="selectOption(this)">選択肢2</button>
+        <button class="option" onclick="selectOption(this)">選択肢3</button>
+      </div>
+      
+      <div class="navigation">
+        <button class="back-button" onclick="prevQuiz()">戻る</button>
+        <button class="main-button" id="quiz-next-btn" onclick="nextQuiz()" disabled>次へ</button>
       </div>
     </div>
   </div>
+
   <script src="script.js"></script>
   <script>
-        // 画面遷移機能を追加
+        // 画面遷移機能
         function goToStep(step) {
           const screens = document.querySelectorAll('.screen');
-          screens.forEach(screen => screen.classList.remove('active'));
-          
-          const screenIds = ['start-screen', 'name-screen', 'convert-screen', 'input-screen', 'complete-screen'];
-          document.getElementById(screenIds[step]).classList.add('active');
+          screens.forEach(s => s.classList.remove('active'));
+          const ids = ['start-screen','name-screen','convert-screen','input-screen','complete-screen','quiz-screen'];
+          document.getElementById(ids[step]).classList.add('active');
         }
 
         // 名前変換機能を追加
