@@ -4,6 +4,13 @@
   <meta charset="UTF-8">
   <title>モールス信号体験アプリ</title>
   <link rel="stylesheet" href="css/style.css">
+    <!-- 
+  下のscriptはmp3ダウロードのために必須　外部ディレクトリ 
+  [lamejs] https://github.com/zhuker/lamejs
+  ライセンス: MIT License
+  CDN URL: https://cdn.jsdelivr.net/npm/lamejs@1.2.0/lame.min.js
+  -->
+  <script src="https://cdn.jsdelivr.net/npm/lamejs@1.2.0/lame.min.js"></script>
 </head>
 <body>
   <div class="container">
@@ -65,9 +72,14 @@
       </div>
       
       <div class="convert-buttons">
+        <button onclick="playMorse('output')">再生</button>
+         <button onclick="ChangeSpeed(3)">3倍速</button>
+         <button onclick="ChangeSpeed(2)">2倍速</button>
         <button onclick="ChangeSpeed(1)">1倍速</button>
         <button onclick="ChangeSpeed(0.75)">0.75倍速</button>
         <button onclick="ChangeSpeed(0.5)">0.5倍速</button>
+        <button onclick="generateMorseMp3('output')">MP3変換</button>
+        <button id="downloadBtn" style="display:none;">MP3をダウンロード</button>
       </div>
       
       <div class="navigation">
@@ -99,13 +111,22 @@
       <div class="morse-buttons">
         <button onclick="appendText('・','morseInput')">・（短音）</button>
         <button onclick="appendText('－','morseInput')">－（長音）</button>
-        <button onclick="appendText('　','morseInput')">文字区切り</button>
+        <button onclick="appendText('／','morseInput')">文字区切り</button>
         <button onclick="deleteLast('morseInput')">1文字削除</button>
         <button onclick="clearText('morseInput')">全削除</button>
         <button onclick="playMorse('morseInput')">🔊 再生</button>
         <button onclick="ChangeMorse('morseInput')">日本語に変換</button>
       </div>
-      
+      <!-- HINTボタン -->
+      <button id="hintBtn" onclick="showHint()">💡 HINT</button>
+
+      <!-- HINT表示エリア（最初は非表示）-->
+      <div id="hintArea" style="display: none; margin-top: 15px; border: 1px solid #ccc; padding: 10px; border-radius: 8px;">
+        <p><strong>前の画面で変換したモールス信号:</strong></p>
+        <p id="hintMorse" style="font-size: 1.2em; color: #333;"></p>
+        <button onclick="playHintAudio()">🔊 再生</button>
+      </div>
+
       <div class="navigation">
         <button class="back-button" onclick="goToStep(2)">戻る</button>
         <button class="main-button" onclick="goToStep(4)">完了</button>
@@ -140,7 +161,7 @@
       <div class="answer-buttons">
         <button onclick="appendText('・','answerInput')">・</button>
         <button onclick="appendText('－','answerInput')">－</button>
-        <button onclick="appendText('　','answerInput')">全角空白</button>
+        <button onclick="appendText('／','answerInput')">全角空白</button>
         <button onclick="deleteLast('answerInput')">1文字削除</button>
         <button onclick="clearText('answerInput')">全部削除</button>
         <button onclick="playMorse('answerInput')">再生</button>
@@ -209,67 +230,25 @@
             }
           });
         });
-        // クイズ用変数
-    const quizData = [
-      { q: 'モールス信号の「・－」は何を表す？', options: ['A','B','C'], answer: 0 },
-      { q: '「－・・－」は何？', options: ['L','M','N'], answer: 0 },
-      { q: '「・・－－」は何？', options: ['W','X','Y'], answer: 2 }
-    ];
-    let currentQuiz = 0;
-    
-    function startQuiz() {
-      currentQuiz = 0;
-      renderQuiz();
-      goToStep(5);
-    }
-    function renderQuiz() {
-      const data = quizData[currentQuiz];
-      document.getElementById('quiz-question').textContent = data.q;
-      const opts = document.querySelectorAll('#quiz-screen .option');
-      opts.forEach((btn,i) => {
-        btn.textContent = data.options[i];
-        btn.classList.remove('correct','wrong','selected');
-      });
-      // プログレス
-      const pct = (currentQuiz) / (quizData.length) * 100;
-      document.getElementById('quiz-progress').style.width = pct + '%';
-      // ステップ指標更新
-      const stepsEl = document.getElementById('quiz-steps');
-      stepsEl.innerHTML = quizData.map((_,i) =>
-        `<span class="step ${i===currentQuiz?'active':''}">Q${i+1}</span>`
-      ).join('');
-      document.getElementById('quiz-next-btn').disabled = true;
-    }
-    function selectOption(btn) {
-      // 選択
-      document.querySelectorAll('#quiz-screen .option').forEach(b => b.classList.remove('selected'));
-      btn.classList.add('selected');
-      document.getElementById('quiz-next-btn').disabled = false;
-    }
-    function nextQuiz() {
-      const selected = [...document.querySelectorAll('#quiz-screen .option')].find(b=>b.classList.contains('selected'));
-      const idx = [...document.querySelectorAll('#quiz-screen .option')].indexOf(selected);
-      // 正誤表示
-      const correct = quizData[currentQuiz].answer;
-      selected.classList.add(idx===correct?'correct':'wrong');
-      setTimeout(()=>{
-        if (currentQuiz < quizData.length -1) {
-          currentQuiz++;
-          renderQuiz();
-        } else {
-          alert('クイズ終了！');
-          goToStep(0);
+        // HINTボタン押下時の処理
+        function showHint() {
+            if (!morse_name.length) {
+                alert("前の画面でモールス信号を変換してください。");
+                return;
+            }
+            document.getElementById("hintMorse").textContent = morse_name.join('／');
+            document.getElementById("hintArea").style.display = "block";
         }
-      }, 800);
-    }
-    function prevQuiz() {
-      if (currentQuiz > 0) {
-        currentQuiz--;
-        renderQuiz();
-      } else {
-        goToStep(4);
-      }
-    }
+
+        // HINT音声再生
+        function playHintAudio() {
+            if (!morse_name.length) {
+                alert("前の画面でモールス信号を変換してください。");
+                return;
+            }
+            playMorse('NAME'); // 'NAME'はmorse_nameを直接再生させるモード
+        }
+
   </script>
 </body>
 </html>
