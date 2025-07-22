@@ -39,7 +39,7 @@
       
       <h2>あなたのお名前を教えてください</h2>
       <div style="margin: 30px 0;">
-        <input type="text" id="nameInput" placeholder="お名前をひらがなで入力" maxlength="20">
+        <input type="text" id="nameInput" placeholder="お名前をひらがなで入力" maxlength="20"value="てすと">
       </div>
       <div class="navigation">
         <button class="back-button" onclick="goToStep(0)">戻る</button>
@@ -192,63 +192,29 @@
       <div class="navigation">
         <button class="back-button" onclick="prevQuiz()">戻る</button>
         <button class="main-button" id="quiz-next-btn" onclick="nextQuiz()" disabled>次へ</button>
+        <!-- リザルトに戻るボタン -->
+        <button class="main-button" onclick="goToStep(4)">リザルトに戻る</button>
       </div>
     </div>
   </div>
+  <!-- quiz.jsを読み込み -->
+  <script src="quiz.js"></script>
+
+  <!-- モーダル: モールス信号表 -->
+  <div id="morseModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="close" onclick="closeMorseModal()">&times;</span>
+      <h3>モールス信号表</h3>
+      <iframe src="morsecode.pdf#toolbar=0&navpanes=0&scrollbar=0" style="width:100%; height:500px; border:none;"></iframe>
+    </div>
+  </div>
+ <footer class="footer">
+  <button class="footer-button" onclick="openMorseModal()">📖 モールス信号表</button>
+</footer>
+
+
 
   <script src="script.js"></script>
-  <script>
-        // 画面遷移機能
-        function goToStep(step) {
-          const screens = document.querySelectorAll('.screen');
-          screens.forEach(s => s.classList.remove('active'));
-          const ids = ['start-screen','name-screen','convert-screen','input-screen','complete-screen','quiz-screen'];
-          document.getElementById(ids[step]).classList.add('active');
-        }
-
-        // 名前変換機能を追加
-        function convertName() {
-          const nameInput = document.getElementById('nameInput');
-          const name = nameInput.value.trim();
-          
-          if (!name) {
-            alert('お名前を入力してください');
-            return;
-          }
-          
-          document.getElementById('userName').textContent = name;
-          ChangeIroha('nameInput', 'output');
-          goToStep(2);
-        }
-
-        // 初期化
-        document.addEventListener('DOMContentLoaded', function() {
-          // Enter キーでの進行
-          document.getElementById('nameInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-              convertName();
-            }
-          });
-        });
-        // HINTボタン押下時の処理
-        function showHint() {
-            if (!morse_name.length) {
-                alert("前の画面でモールス信号を変換してください。");
-                return;
-            }
-            document.getElementById("hintMorse").textContent = morse_name.join('／');
-            document.getElementById("hintArea").style.display = "block";
-        }
-
-        // HINT音声再生
-        function playHintAudio() {
-            if (!morse_name.length) {
-                alert("前の画面でモールス信号を変換してください。");
-                return;
-            }
-            playMorse('NAME'); // 'NAME'はmorse_nameを直接再生させるモード
-        }
-
-  </script>
+  <script src="js/ui.js"></script>
 </body>
 </html>

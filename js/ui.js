@@ -1,0 +1,99 @@
+// ========================
+// 画面遷移機能
+// ========================
+function goToStep(step) {
+  const screens = document.querySelectorAll('.screen');
+  if (screens.length > 0) {
+    screens.forEach(s => s.classList.remove('active'));
+    const ids = ['start-screen','name-screen','convert-screen','input-screen','complete-screen','quiz-screen'];
+    if (ids[step]) {
+      const target = document.getElementById(ids[step]);
+      if (target) target.classList.add('active');
+    }
+  }
+}
+
+// ========================
+// 名前変換機能
+// ========================
+function convertName() {
+  const nameInput = document.getElementById('nameInput');
+  if (!nameInput) return; // quiz.htmlにはnameInputが無いので何もしない
+
+  const name = nameInput.value.trim();
+  if (!name) {
+    alert('お名前を入力してください');
+    return;
+  }
+
+  const userNameEl = document.getElementById('userName');
+  if (userNameEl) userNameEl.textContent = name;
+
+  if (typeof ChangeIroha === "function") {
+    ChangeIroha('nameInput', 'output');
+  }
+
+  goToStep(2);
+}
+
+// ========================
+// 初期化処理
+// ========================
+document.addEventListener('DOMContentLoaded', function() {
+  const nameInput = document.getElementById('nameInput');
+  if (nameInput) {
+    nameInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        convertName();
+      }
+    });
+  }
+});
+
+// ========================
+// HINTボタン処理
+// ========================
+function showHint() {
+  if (typeof morse_name === "undefined" || !morse_name.length) {
+    alert("前の画面でモールス信号を変換してください。");
+    return;
+  }
+
+  const hintMorse = document.getElementById("hintMorse");
+  const hintArea = document.getElementById("hintArea");
+  if (hintMorse && hintArea) {
+    hintMorse.textContent = morse_name.join('／');
+    hintArea.style.display = "block";
+  }
+}
+
+function playHintAudio() {
+  if (typeof morse_name === "undefined" || !morse_name.length) {
+    alert("前の画面でモールス信号を変換してください。");
+    return;
+  }
+  if (typeof playMorse === "function") {
+    playMorse('NAME'); // 'NAME'はmorse_nameを直接再生させるモード
+  }
+}
+
+// ========================
+// モーダル処理
+// ========================
+function openMorseModal() {
+  const modal = document.getElementById('morseModal');
+  if (modal) modal.style.display = 'block';
+}
+
+function closeMorseModal() {
+  const modal = document.getElementById('morseModal');
+  if (modal) modal.style.display = 'none';
+}
+
+// モーダル外クリックで閉じる
+window.addEventListener('click', function(event) {
+  const modal = document.getElementById('morseModal');
+  if (modal && event.target === modal) {
+    modal.style.display = 'none';
+  }
+});
