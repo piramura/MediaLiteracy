@@ -396,17 +396,31 @@
 
         async function generateMorseMp3(id) {
         const morse = document.getElementById(id).value;
-        if (!morse.trim()) {
-            alert("何も入力されていません");
-            return;
-        }
+            if (!morse.trim()) {
+                alert("何も入力されていません");
+                return;
+            }
 
-        const blob = await morseToMp3(morse); // 変換
-        currentMp3Blob = blob;
+            const blob = await morseToMp3(morse);
+            currentMp3Blob = blob;
 
-        const btn = document.getElementById("downloadBtn");
-        btn.style.display = "inline-block";
-        btn.onclick = () => downloadBlob(currentMp3Blob, "morse.mp3");
+            // 既存のdownloadBtn（クリックで保存）も残す
+            const btn = document.getElementById("downloadBtn");
+            btn.style.display = "inline-block";
+            btn.onclick = () => downloadBlob(currentMp3Blob, "morse.mp3");
+
+            // ★追加：スマホ用の長押し保存リンクを作成
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(currentMp3Blob);
+            link.download = "morse.mp3";
+            link.textContent = "📥 スマホ用：MP3を長押しして保存";
+            link.style.display = "block";
+            link.style.marginTop = "10px";
+            link.id = "longPressLink";
+
+            const existing = document.getElementById("longPressLink");
+            if (existing) existing.remove(); // 再生成時に重複防止
+            btn.insertAdjacentElement("afterend", link);
         }
 
         //音の流れる速さを返す　〇倍速
