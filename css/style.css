@@ -335,7 +335,21 @@ button:active {
   background: linear-gradient(135deg, var(--gray-500) 0%, var(--gray-600) 100%);
   box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
 }
-
+#quiz-next-btn:disabled,
+.main-button:disabled {
+  background: #b0b8c9 !important;   /* グレー系で無効感 */
+  color: #fff !important;
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+  filter: grayscale(60%);
+  pointer-events: none;
+}
+#quiz-next-btn:disabled:hover,
+.main-button:disabled:hover {
+  background: #b0b8c9 !important;
+  filter: grayscale(60%);
+}
 /* モールス符号専用ボタン */
 .morse-btn {
   min-width: 110px;
@@ -754,4 +768,55 @@ button:active {
   .character-area {
     right: var(--spacing-md);
   }
+}
+/* =====================================
+   SNSシェアボタン
+   ===================================== */
+.sns-share {
+  margin: 18px 0 24px 0;
+  text-align: center;
+}
+.sns-btn {
+  display: inline-block;
+  margin: 0 8px;
+  padding: 8px 18px;
+  border-radius: 20px;
+  color: #fff;
+  font-weight: bold;
+  text-decoration: none;
+  transition: filter 0.2s;
+}
+.sns-btn.twitter { background: #1da1f2; }
+.sns-btn.line    { background: #06c755; }
+.sns-btn:hover   { filter: brightness(0.85); }
+/* =====================================
+   マークアップ用スタイル
+   ===================================== */
+.mark {
+  display: inline-block;
+  width: 1.6em;
+  height: 1.6em;
+  vertical-align: middle;
+  text-align: center;
+  line-height: 1.6em;
+  font-size: 1.6em;
+  font-weight: bold;
+  animation: pop-in 0.4s cubic-bezier(.68,-0.55,.27,1.55);
+}
+@keyframes pop-in {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  80% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.result-table td {
+  height: 5em; /* 必要に応じて調整、またはmin-height: 2em; */
 }
