@@ -68,17 +68,22 @@
         <textarea id="output" rows="3" readonly style="font-size: 1.5em; text-align: center;"></textarea>
       </div>
       
-      <div style="margin: 20px 0;">
-        <button class="main-button" onclick="playMorse('output')">🔊 音で聞いてみる</button>
+      <div class="sound-row">
+        <div class="sound-buttons">
+          <button class="main-button" onclick="playMorse('output')">🔊 音で聞いてみる</button>
+        </div>
+        <div class="dropdown">
+          <button class="dropbtn" onclick="toggleDropdown(event)">操作メニュー</button>
+          <div class="dropdown-content">
+            <button onclick="ChangeSpeed(3)">3倍速</button>
+            <button onclick="ChangeSpeed(2)">2倍速</button>
+            <button onclick="ChangeSpeed(1)">1倍速</button>
+            <button onclick="ChangeSpeed(0.75)">0.75倍速</button>
+            <button onclick="ChangeSpeed(0.5)">0.5倍速</button>
+          </div>
+        </div>
       </div>
-      
       <div class="convert-buttons">
-        <button onclick="playMorse('output')">再生</button>
-         <button onclick="ChangeSpeed(3)">3倍速</button>
-         <button onclick="ChangeSpeed(2)">2倍速</button>
-        <button onclick="ChangeSpeed(1)">1倍速</button>
-        <button onclick="ChangeSpeed(0.75)">0.75倍速</button>
-        <button onclick="ChangeSpeed(0.5)">0.5倍速</button>
         <button onclick="generateMorseMp3('output')">MP3変換</button>
         <button id="downloadBtn" style="display:none;">MP3をダウンロード</button>
       </div>
@@ -110,16 +115,22 @@
       <textarea id="morseInput" rows="3" placeholder="ここにモールス信号が入力されます" readonly style="font-size: 1.3em;"></textarea>
       
       <div class="morse-buttons">
-        <button onclick="appendText('・','morseInput')">・（短音）</button>
-        <button onclick="appendText('－','morseInput')">－（長音）</button>
-        <button onclick="appendText('／','morseInput')">文字区切り</button>
-        <button onclick="deleteLast('morseInput')">1文字削除</button>
-        <button onclick="clearText('morseInput')">全削除</button>
-        <button onclick="playMorse('morseInput')">🔊 再生</button>
-        <button onclick="ChangeMorse('morseInput')">日本語に変換</button>
+        <div class="morse-row">
+          <button class="morse-btn dot" onclick="appendText('・','morseInput')">・（短音）</button>
+          <button class="morse-btn dash" onclick="appendText('－','morseInput')">－（長音）</button>
+          <button class="morse-btn slash" onclick="appendText('／','morseInput')">／ (区切り)</button>
+        </div>
+        <div class="delete-row">
+          <button class="delete-btn" onclick="deleteLast('morseInput')">1文字削除</button>
+          <button class="delete-btn" onclick="clearText('morseInput')">全削除</button>
+        </div>
+        <div class="play-row">
+        <button class="play-btn" onclick="playMorse('morseInput')">🔊 再生</button>
+        <button class="check-btn" onclick="ChangeMorse('morseInput')">✅確認</button>
+        </div>
       </div>
       <!-- HINTボタン -->
-      <button id="hintBtn" onclick="showHint()">💡 HINT</button>
+      <button id="hintBtn" onclick="toggleHint()">💡 HINT</button>
 
       <!-- HINT表示エリア（最初は非表示）-->
       <div id="hintArea" style="display: none; margin-top: 15px; border: 1px solid #ccc; padding: 10px; border-radius: 8px;">
@@ -154,24 +165,30 @@
       </div>
       
       <h3>クイズに挑戦してみませんか？</h3>
-      <button onclick="AskQuestion('question')" class="main-button">クイズを始める</button>
+      <button onclick="AskQuestion('question')" class="main-button">クイズを表示</button>
       <span id="question" style="display: block; margin: 20px 0; font-size: 1.1em;">クイズやっていかない？</span>
       
       <textarea id="answerInput" rows="3" cols="70" readonly placeholder="クイズの答えをモールス信号で入力してください"></textarea>
       
-      <div class="answer-buttons">
-        <button onclick="appendText('・','answerInput')">・</button>
-        <button onclick="appendText('－','answerInput')">－</button>
-        <button onclick="appendText('／','answerInput')">全角空白</button>
-        <button onclick="deleteLast('answerInput')">1文字削除</button>
-        <button onclick="clearText('answerInput')">全部削除</button>
-        <button onclick="playMorse('answerInput')">再生</button>
-        <button onclick="CheckAnswer('answerInput')">答えを確定！</button>
+       <div class="morse-buttons" id="morse-section" style="display: none;">
+        <div class="morse-row">
+          <button class="morse-btn dot" onclick="appendText('・','morseInput')">・（短音）</button>
+          <button class="morse-btn dash" onclick="appendText('－','morseInput')">－（長音）</button>
+          <button class="morse-btn slash" onclick="appendText('／','morseInput')">／ (区切り)</button>
+        </div>
+        <div class="delete-row">
+          <button class="delete-btn" onclick="deleteLast('morseInput')">1文字削除</button>
+          <button class="delete-btn" onclick="clearText('morseInput')">全削除</button>
+        </div>
+        <div class="play-row">
+        <button class="play-btn" onclick="playMorse('morseInput')">🔊 再生</button>
+        <button class="check-btn" onclick="ChangeMorse('morseInput')">✅確認</button>
+        </div>
       </div>
       
       <div class="navigation">
         <button class="back-button" onclick="goToStep(3)">戻る</button>
-        <button class="main-button" onclick="goToStep(5)">クイズ</button>
+        <button class="main-button" onclick="goToStep(5)">簡単クイズ</button>
       </div>
     </div>
     <!-- 追加：クイズ画面 -->
