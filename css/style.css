@@ -789,3 +789,34 @@ button:active {
 .sns-btn.twitter { background: #1da1f2; }
 .sns-btn.line    { background: #06c755; }
 .sns-btn:hover   { filter: brightness(0.85); }
+/* =====================================
+   マークアップ用スタイル
+   ===================================== */
+.mark {
+  display: inline-block;
+  width: 1.6em;
+  height: 1.6em;
+  vertical-align: middle;
+  text-align: center;
+  line-height: 1.6em;
+  font-size: 1.6em;
+  font-weight: bold;
+  animation: pop-in 0.4s cubic-bezier(.68,-0.55,.27,1.55);
+}
+@keyframes pop-in {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  80% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.result-table td {
+  height: 5em; /* 必要に応じて調整、またはmin-height: 2em; */
+}
