@@ -123,11 +123,11 @@ document.addEventListener('click', function() {
 // ========================
 // クイズ機能
 // ========================
-function AskQuestion(targetId) {
+function ShowQuestion(targetId) {
   // クイズの質問表示
   const questionEl = document.getElementById(targetId);
   if (questionEl) questionEl.textContent = "クイズやっていかない？";
-
+  AskQuestion(targetId); // クイズの質問を表示
   // モールス入力セクションを表示
   const morseSection = document.getElementById("morse-section");
   if (morseSection) morseSection.style.display = "block";
