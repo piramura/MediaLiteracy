@@ -401,6 +401,11 @@
                 return;
             }
 
+            if (isLineBrowser()) {
+                alert("LINEのブラウザではMP3をダウンロードできません。\n右上の「…」から「ブラウザで開く」またはSafari/Chromeで開いてください。");
+                return;
+            }
+
             const blob = await morseToMp3(morse);
             currentMp3Blob = blob;
 
@@ -409,18 +414,18 @@
             btn.style.display = "inline-block";
             btn.onclick = () => downloadBlob(currentMp3Blob, "morse.mp3");
 
-            // ★追加：スマホ用の長押し保存リンクを作成
-            const link = document.createElement("a");
-            link.href = URL.createObjectURL(currentMp3Blob);
-            link.download = "morse.mp3";
-            link.textContent = "📥 スマホ用：MP3を長押しして保存";
-            link.style.display = "block";
-            link.style.marginTop = "10px";
-            link.id = "longPressLink";
+            // スマホ用の長押し保存リンクを作成
+            // const link = document.createElement("a");
+            // link.href = URL.createObjectURL(currentMp3Blob);
+            // link.download = "morse.mp3";
+            // link.textContent = "📥 スマホ用：MP3を保存";
+            // link.style.display = "block";
+            // link.style.marginTop = "10px";
+            // link.id = "longPressLink";
 
-            const existing = document.getElementById("longPressLink");
-            if (existing) existing.remove(); // 再生成時に重複防止
-            btn.insertAdjacentElement("afterend", link);
+            // const existing = document.getElementById("longPressLink");
+            // if (existing) existing.remove(); // 再生成時に重複防止
+            // btn.insertAdjacentElement("afterend", link);
         }
 
         //音の流れる速さを返す　〇倍速
