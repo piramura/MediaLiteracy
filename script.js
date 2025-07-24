@@ -394,6 +394,11 @@
         }
 
 
+        function isLineBrowser() {
+            const ua = navigator.userAgent.toLowerCase();
+            return ua.includes("line");
+        }
+
         async function generateMorseMp3(id) {
         const morse = document.getElementById(id).value;
             if (!morse.trim()) {
@@ -402,7 +407,7 @@
             }
 
             if (isLineBrowser()) {
-                alert("LINEのブラウザではMP3をダウンロードできません。\n右上の「…」から「ブラウザで開く」またはSafari/Chromeで開いてください。");
+                alert("LINEのブラウザではMP3をダウンロードできません。\n右下の「…」から「ブラウザで開く」またはSafari/Chromeで開いてください。");
                 return;
             }
 
