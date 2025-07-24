@@ -67,7 +67,7 @@ function nextQuiz() {
     loadQuiz();
   } else {
     alert("全問正解！リザルトへ進みます");
-    goToStep(4); // リザルト画面などに切り替え（既存の機能）
+    showQuizResult();
   }
 }
 

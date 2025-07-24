@@ -211,37 +211,12 @@
       <div class="navigation">
         <button class="back-button" onclick="prevQuiz()">戻る</button>
         <button class="main-button" id="quiz-next-btn" onclick="nextQuiz()" disabled>次へ</button>
-        <!-- リザルトに戻るボタン -->
-        <button class="main-button" onclick="goToStep(4)">リザルトに戻る</button>
       </div>
       </div>
-        <div class="screen" id="quiz-screen">
-      <div class="progress-bar">
-        <div class="progress-fill" id="quiz-progress"></div>
-      </div>
-
-      <div class="step-indicator" id="quiz-steps">
-        <!-- Q1, Q2, ... はquiz.jsで更新 -->
-      </div>
-
-      <h2 id="quiz-question">質問がここに表示されます</h2>
-
-      <div class="options">
-        <button class="option" onclick="selectOption(this)">選択肢1</button>
-        <button class="option" onclick="selectOption(this)">選択肢2</button>
-        <button class="option" onclick="selectOption(this)">選択肢3</button>
-      </div>
-
-      <div class="navigation">
-        <button class="main-button" id="quiz-next-btn" onclick="nextQuiz()" disabled>次へ</button>
-      </div>
-    </div>
     <!-- ★リザルト専用エリアを追加（最初は非表示） -->
-    <div class="screen" id="quiz-result" style="display:none"></div>
-    
+    <div class="screen" id="quiz-result"></div>
+
   </div>
-  <!-- quiz.jsを読み込み -->
-  <script src="quiz.js"></script>
 
   <!-- モーダル: モールス信号表 -->
   <div id="morseModal" class="modal" style="display:none;">
@@ -368,6 +343,8 @@
 
   <script src="js/ui.js"></script>
   <script src="script.js"></script>
+    <!-- quiz.jsを読み込み -->
+  <script src="quiz.js"></script>
 
 </body>
 </html>

@@ -5,7 +5,7 @@ function goToStep(step) {
   const screens = document.querySelectorAll('.screen');
   if (screens.length > 0) {
     screens.forEach(s => s.classList.remove('active'));
-    const ids = ['start-screen','name-screen','convert-screen','input-screen','complete-screen','quiz-screen'];
+    const ids = ['start-screen','name-screen','convert-screen','input-screen','complete-screen','quiz-screen','quiz-result'];
     if (ids[step]) {
       const target = document.getElementById(ids[step]);
       if (target) target.classList.add('active');
@@ -131,4 +131,33 @@ function ShowQuestion(targetId) {
   // モールス入力セクションを表示
   const morseSection = document.getElementById("morse-section");
   if (morseSection) morseSection.style.display = "block";
+}
+/// ========================
+// クイズの結果を表示
+// ========================
+function showQuizResult() {
+  const shareText = encodeURIComponent(
+    `モールス信号クイズに挑戦！覚えた単語${quizData.map(q => q.answer).join(',')} #モールス信号クイズ`
+  );
+  const shareUrl = encodeURIComponent(location.href);
+  let html = `
+    <h2>全問正解！おめでとうございます！</h2>
+    <p>あなたが覚えたモールス信号：</p>
+    <table class="result-table">
+      <thead>
+        <tr><th>モールス信号</th><th>日本語</th></tr>
+      </thead>
+      <tbody>
+        ${quizData.map(q => `<tr><td>${q.question}</td><td>${q.answer}</td></tr>`).join('')}
+      </tbody>
+    </table>
+    <div class="sns-share">
+      <a class="sns-btn twitter" href="https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}" target="_blank" rel="noopener">Twitterでシェア</a>
+      <a class="sns-btn line" href="https://social-plugins.line.me/lineit/share?url=${shareUrl}&text=${shareText}" target="_blank" rel="noopener">LINEでシェア</a>
+    </div>
+    <button class="main-button" onclick="location.reload()">最初から</button>
+  `;
+  document.getElementById("quiz-result").innerHTML = html;
+    // 追加: activeクラスの付け替え
+    goToStep(6); // リザルト画面へ遷移
 }
