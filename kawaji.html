@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>モールス信号クイズ</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="screen" id="quiz-screen">
+    <div class="progress-bar">
+      <div class="progress-fill" id="quiz-progress"></div>
+    </div>
+
+    <div class="step-indicator" id="quiz-steps">
+      <!-- Q1, Q2, ... はquiz.jsで更新 -->
+    </div>
+
+    <h2 id="quiz-question">質問がここに表示されます</h2>
+
+    <div class="options">
+      <button class="option" onclick="selectOption(this)">選択肢1</button>
+      <button class="option" onclick="selectOption(this)">選択肢2</button>
+      <button class="option" onclick="selectOption(this)">選択肢3</button>
+    </div>
+
+    <div class="navigation">
+      <button class="main-button" id="quiz-next-btn" onclick="nextQuiz()" disabled>次へ</button>
+
+    </div>
+  </div>
+  <!-- ロジックはquiz.jsに記述 -->
+  <script src="kawaji.js"></script>
+  <script src="script.js"></script>
+  <script src="js/ui.js"></script>
+  <script>
+    // 初期化処理
+    window.addEventListener('DOMContentLoaded', () => {
+        goToStep(5); // quiz-screenを表示
+    });
+  </script>
+</body>
+</html>
