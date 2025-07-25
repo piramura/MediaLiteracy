@@ -287,7 +287,7 @@ body::before {
     font-size: 48px;
     color: #ffffff;
     text-shadow: 2px 2px 8px #000;
-    animation: fadeInUp 2s ease-out forwards;
+    animation: fadeInUp 8s ease-out forwards;
 }
 
 /* 正解メッセージ */
@@ -296,10 +296,10 @@ body::before {
     top: 30%;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 36px;
+    font-size: 50px;
     color: #ff0000;
     text-shadow: 1px 1px 6px #901414;
-    animation: fadeInUp2 2s ease-out forwards;
+    animation: fadeInUp2 8s ease-out forwards;
 }
 
 .incorrect-float {
@@ -310,7 +310,7 @@ body::before {
     font-size: 36px;
     color: #0000ff; /* 青色 */
     text-shadow: 1px 1px 6px #002244;
-    animation: fadeInUp2 2s ease-out forwards;
+    animation: fadeInUp2 8s ease-out forwards;
 }
 
 @keyframes fadeInUp {

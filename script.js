@@ -612,6 +612,18 @@ function showFloatingResult(text, isCorrect = false){
     }
 }
 
+function showJudgeMark(isCorrect) {
+    const judgeMark = document.getElementById("judgeMark");
 
+    // 判定マークの内容とスタイル設定
+    if (isCorrect) {
+        judgeMark.textContent = "〇";
+        judgeMark.className = "judge-mark judge-correct";
+    } else {
+        judgeMark.textContent = "×";
+        judgeMark.className = "judge-mark judge-incorrect";
+    }
 
-
+    // アニメーション再発火のため強制再描画
+    void judgeMark.offsetWidth;
+}
