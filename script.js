@@ -463,3 +463,40 @@
       const textbox = document.getElementById(id);
       textbox.value = '';
     }
+
+
+// ========================
+// モールス信号のアニメーション
+// ========================
+// ===== モールスアニメーション調整用 =====
+// 調整用定数
+const MORSE_ANIMATION_BASE_DURATION = 3; // 1点(dot)の長さ（秒）と合わせる
+
+const MORSE_ANIMATION_FLOW_DURATION = 6.0; // 画面を流れる時間（秒）お好みで調整
+
+const DELAY_RATIO = 0.5; // 0.5倍に詰める（お好みで調整）
+
+function animateMorseFlow(morseStr) {
+  const flow = document.getElementById('morseFlow');
+  flow.innerHTML = '';
+  let baseDelay = 0;
+  const dot = SPEED * speedRatio;
+
+  // script.jsに合わせた実装
+  let delayRatio = 0.5 * speedRatio;
+  for (let i = 0; i < morseStr.length; i++) {
+    const ch = morseStr[i];
+    if (!'・－／'.includes(ch)) continue;
+
+    const span = document.createElement('span');
+    span.className = 'morse-flow-char';
+    span.textContent = ch;
+    span.style.animationDelay = `${baseDelay * delayRatio}s`;
+    span.style.animationDuration = `${MORSE_ANIMATION_FLOW_DURATION}s`;
+    flow.appendChild(span);
+
+    if (ch === "・") baseDelay += dot * 2;
+    else if (ch === "－" || ch === "-") baseDelay += dot * 3 + dot;
+    else if (ch === "／") baseDelay += dot * 5;
+  }
+}
