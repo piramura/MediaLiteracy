@@ -221,8 +221,8 @@ body::before {
     opacity: 1;
   }
   to {
-    transform: translateX(-120vw); /* 画面外左へ */
-    opacity: 0.2;
+    transform: translateX(var(--morse-end-position, -200vw)); /* 画面外左へ */
+    opacity: 1;
   }
 }
 
@@ -267,6 +267,70 @@ body::before {
     transform: scale(1.2) rotate(180deg);
   }
 }
+
+
+/* 文字が浮かびあがる */
+.morse-float, .correct-float {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: bold;
+    text-align: center;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* 漢字・ひらがな変換文字 */
+.morse-float {
+    top: 40%;
+    font-size: 48px;
+    color: #ffffff;
+    text-shadow: 2px 2px 8px #000;
+    animation: fadeInUp 2s ease-out forwards;
+}
+
+/* 正解メッセージ */
+.correct-float {
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 36px;
+    color: #ff0000;
+    text-shadow: 1px 1px 6px #901414;
+    animation: fadeInUp2 2s ease-out forwards;
+}
+
+.incorrect-float {
+    position: fixed;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 36px;
+    color: #0000ff; /* 青色 */
+    text-shadow: 1px 1px 6px #002244;
+    animation: fadeInUp2 2s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+    50% { opacity: 1; transform: translate(-50%, -60%) scale(1.1); }
+    100% { opacity: 0; transform: translate(-50%, -70%) scale(1); }
+}
+
+@keyframes fadeInUp2 {
+    0% { opacity: 0; transform: translate(-50%, -40%) scale(0.8); }
+    50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+    100% { opacity: 0; transform: translate(-50%, -60%) scale(1); }
+}
+
+@keyframes fadeInUp3 {
+    0% { opacity: 0; transform: translate(-50%, -40%) scale(0.8); }
+    50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+    100% { opacity: 0; transform: translate(-50%, -60%) scale(1); }
+}
+
 
 /* =====================================
    タイポグラフィ

@@ -98,7 +98,61 @@
                 ["ゎ","－・－"], //ゎ－95
                 ["゛","・・"],// 濁点 －96
                 ["゜","・・－－・"], //半濁点 －97
-                ["\n","・－・－・・"] //改行 －98
+                ["\n","・－・－・・"], //改行 －98
+                ["っ","・－－・"] //っ－99
+        ];
+
+         const rome = [
+            ["A","・－"],
+            ["B","－・・・"],
+            ["C","－・－・"],
+            ["D","－・・"],
+            ["E","・"],
+            ["F","・・－・"],
+            ["G","－－・"],
+            ["H","・・・・"],
+            ["I","・・"],
+            ["J","・－－－"],
+            ["K","－・－"],
+            ["L","・－・・"],
+            ["M","－－"],
+            ["N","－・"],
+            ["O","－－－"],
+            ["P","・－－・"],
+            ["Q","－－・－"],
+            ["R","・－・"],
+            ["S","・・・"],
+            ["T","－"],
+            ["U","・・－"],
+            ["V","・・・－"],
+            ["W","・－－"],
+            ["X","－・・－"],
+            ["Y","－・－－"],
+            ["Z","－－・・"],
+            ["0","－－－－－"], 
+            ["1","・－－－－"], 
+            ["2","・・－－－"], 
+            ["3","・・・－－"],
+            ["4","・・・・－"], 
+            ["5","・・・・・"], 
+            ["6","－・・・・"],
+            ["7","－－・・・"], 
+            ["8","－－－・・"], 
+            ["9","－－－－・"], 
+            [".","・－・－・－"],
+            [",","－－・・－－"],
+            [":","－－－・・・"],
+            ["?","・・－－・・"],
+            ["'","・－－－－・"],
+            ["－","－・・・・－"],
+            ["(","－・－－・"],
+            [")","－・－－・－"],
+            ["/","－・・－・"],
+            ["=","－・・・－"],
+            ["+","・－・－・"],
+            ['"',"・－・・－・"],
+            ["×","－・・－"],
+            ["@","・－－・－・"]
         ];
 
         const ques = [
@@ -199,7 +253,7 @@
             let morse =[];
             if(id == 'NAME'){morse = morse_name.join('／');}
             else{morse = document.getElementById(id).value;}
-        
+
             // 前回の音を止める
             currentOscillators.forEach(osc => {
                 try { osc.stop(); } catch (e) {}
@@ -212,6 +266,9 @@
             audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             const dot = SPEED * speedRatio; 
             let time = audioCtx.currentTime; // 再生開始時刻
+
+            animateMorseFlow(morse);
+
             for(let char of morse){
                 if(char === "・"){
                     ring(audioCtx, time, dot);
@@ -259,10 +316,14 @@
                     result += "？";
                 }
             }
+            showMorseResult(DirectChangeMorse(morseInput));
             result = Conversion(result);
-            window.alert(result);
-            if(morseInput === morse_name.join('／')){window.alert("正解！！");}
-            else{window.alert("不正解...");}
+            if(morseInput === morse_name.join('／')){
+                showFloatingResult(result,1);
+            }
+            else{
+                showFloatingResult(result,0);
+            }
             return result;
         }
 
@@ -294,6 +355,7 @@
         function ChangeDiff(diff){
             if(diff === 'easy'){DIFFICULTY = 'easy';}
             else if(diff === 'hard'){DIFFICULTY = 'hard';}
+            else{DIFFICULTY = 'normal';}
         }
 
         //クイズの出題
@@ -414,23 +476,10 @@
             const blob = await morseToMp3(morse);
             currentMp3Blob = blob;
 
-            // 既存のdownloadBtn（クリックで保存）も残す
             const btn = document.getElementById("downloadBtn");
             btn.style.display = "inline-block";
             btn.onclick = () => downloadBlob(currentMp3Blob, "morse.mp3");
 
-            // スマホ用の長押し保存リンクを作成
-            // const link = document.createElement("a");
-            // link.href = URL.createObjectURL(currentMp3Blob);
-            // link.download = "morse.mp3";
-            // link.textContent = "📥 スマホ用：MP3を保存";
-            // link.style.display = "block";
-            // link.style.marginTop = "10px";
-            // link.id = "longPressLink";
-
-            // const existing = document.getElementById("longPressLink");
-            // if (existing) existing.remove(); // 再生成時に重複防止
-            // btn.insertAdjacentElement("afterend", link);
         }
 
         //音の流れる速さを返す　〇倍速
@@ -472,9 +521,13 @@
 // 調整用定数
 const MORSE_ANIMATION_BASE_DURATION = 3; // 1点(dot)の長さ（秒）と合わせる
 
-const MORSE_ANIMATION_FLOW_DURATION = 6.0; // 画面を流れる時間（秒）お好みで調整
+const MORSE_ANIMATION_FLOW_DURATION = 10.0; // 画面を流れる時間（秒）お好みで調整
 
 const DELAY_RATIO = 0.5; // 0.5倍に詰める（お好みで調整）
+
+function setMorseEndPosition(value) {
+  document.documentElement.style.setProperty('--morse-end-position', value);
+}
 
 function animateMorseFlow(morseStr) {
   const flow = document.getElementById('morseFlow');
@@ -482,8 +535,13 @@ function animateMorseFlow(morseStr) {
   let baseDelay = 0;
   const dot = SPEED * speedRatio;
 
-  // script.jsに合わせた実装
-  let delayRatio = 0.5 * speedRatio;
+  const baseDistance = 400; // vw
+
+  const newDistance = baseDistance / speedRatio;
+
+   setMorseEndPosition(`-${newDistance}vw`);
+
+  let delayRatio =  DELAY_RATIO * speedRatio;
   for (let i = 0; i < morseStr.length; i++) {
     const ch = morseStr[i];
     if (!'・－／'.includes(ch)) continue;
@@ -495,8 +553,65 @@ function animateMorseFlow(morseStr) {
     span.style.animationDuration = `${MORSE_ANIMATION_FLOW_DURATION}s`;
     flow.appendChild(span);
 
-    if (ch === "・") baseDelay += dot * 2;
-    else if (ch === "－" || ch === "-") baseDelay += dot * 3 + dot;
-    else if (ch === "／") baseDelay += dot * 5;
-  }
+    const RATIO = 1.0/ speedRatio;
+
+    if( RATIO < 0.75){
+        if (ch === "・"){baseDelay += dot * 0.35 + dot;}
+        else if (ch === "－" || ch === "-"){baseDelay += dot*2.4 + dot;}
+        else if (ch === "／"){baseDelay += dot * 0.9;}
+    }else if(0.75 <= RATIO && RATIO < 1){
+        if (ch === "・"){baseDelay += dot * 0.55 + dot;}
+        else if (ch === "－" || ch === "-"){baseDelay += dot * 3 + dot;}
+        else if (ch === "／"){baseDelay += dot * 3.5;}
+    }else if(RATIO == 1){
+        if (ch === "・"){baseDelay += dot * 1 + dot;}
+        else if (ch === "－" || ch === "-"){baseDelay += dot * 5 + dot;}
+        else if (ch === "／"){baseDelay += dot * 5;}
+     }else if(1 < RATIO && RATIO <= 2){
+        if (ch === "・"){baseDelay += dot * 2+ dot;}
+        else if (ch === "－" || ch === "-"){baseDelay += dot * 10.5 + dot;}
+        else if (ch === "／"){baseDelay += dot * 12;}
+     }else if(2 < RATIO && RATIO <= 3){
+        if (ch === "・"){baseDelay += dot * 0.5 + dot;}
+        else if (ch === "－" || ch === "-"){baseDelay += dot * 13 + dot;}
+        else if (ch === "／"){baseDelay += dot * 34;}
+     }
+    }
+
 }
+
+function showMorseResult(text){
+    const resultDiv = document.getElementById("morseResult");
+    resultDiv.textContent = text;
+    
+    // 再アニメーションのためのクラスリセット
+    resultDiv.classList.remove("morse-float");
+    void resultDiv.offsetWidth; // DOM再描画を強制
+    resultDiv.classList.add("morse-float");
+}
+
+function showFloatingResult(text, isCorrect = false){
+    const resultDiv = document.getElementById("morseResult");
+    const correctDiv = document.getElementById("correctMessage");
+
+    // 変換文字表示
+    resultDiv.textContent = text;
+    resultDiv.classList.remove("morse-float");
+    void resultDiv.offsetWidth;
+    resultDiv.classList.add("morse-float");
+
+    // 正解・不正解表示
+    correctDiv.classList.remove("correct-float", "incorrect-float");
+    void correctDiv.offsetWidth;
+
+    if (isCorrect) {
+        correctDiv.textContent = "正解！！";
+        correctDiv.classList.add("correct-float");
+    } else {
+        correctDiv.textContent = ""
+    }
+}
+
+
+
+
