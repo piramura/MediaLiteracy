@@ -287,7 +287,7 @@ body::before {
     font-size: 48px;
     color: #ffffff;
     text-shadow: 2px 2px 8px #000;
-    animation: fadeInUp 8s ease-out forwards;
+    animation: fadeInUp 4s ease-out forwards;
 }
 
 /* 正解メッセージ */
@@ -299,7 +299,7 @@ body::before {
     font-size: 50px;
     color: #ff0000;
     text-shadow: 1px 1px 6px #901414;
-    animation: fadeInUp2 8s ease-out forwards;
+    animation: fadeInUp2 4s ease-out forwards;
 }
 
 .incorrect-float {
@@ -310,7 +310,7 @@ body::before {
     font-size: 36px;
     color: #0000ff; /* 青色 */
     text-shadow: 1px 1px 6px #002244;
-    animation: fadeInUp2 8s ease-out forwards;
+    animation: fadeInUp2 4s ease-out forwards;
 }
 
 @keyframes fadeInUp {
@@ -330,6 +330,41 @@ body::before {
     50% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
     100% { opacity: 0; transform: translate(-50%, -60%) scale(1); }
 }
+
+/* 判定マーク共通スタイル */
+.judge-mark {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 80px;
+    font-weight: bold;
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* 正解の〇 */
+.judge-correct {
+    color: #da1f48; 
+    text-shadow: 2px 2px 8px #145c27;
+    animation: fadeInUp3 1.5s ease-out forwards;
+}
+
+/* 不正解の× */
+.judge-incorrect {
+    color: #1814ed;
+    text-shadow: 2px 2px 8px #5a111b;
+    animation: fadeInUp3 1.5s ease-out forwards;
+}
+
+/* 浮かび上がるアニメーション */
+@keyframes fadeInUp3 {
+    0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.6); }
+    50%  { opacity: 1; transform: translate(-50%, -60%) scale(1.2); }
+    100% { opacity: 0; transform: translate(-50%, -70%) scale(1); }
+}
+
 
 
 /* =====================================
