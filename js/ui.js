@@ -168,31 +168,32 @@ function showQuizResult() {
 // ===== モールスアニメーション調整用 =====
 // 調整用定数
 const MORSE_ANIMATION_BASE_DURATION = 3; // 1点(dot)の長さ（秒）と合わせる
-const MORSE_ANIMATION_DASH_RATIO = 3;      // ダッシュは3倍
-const MORSE_ANIMATION_SPACE_RATIO = 2;     // 文字間スペース
+
+const MORSE_ANIMATION_FLOW_DURATION = 6.0; // 画面を流れる時間（秒）お好みで調整
+
+const DELAY_RATIO = 0.5; // 0.5倍に詰める（お好みで調整）
 
 function animateMorseFlow(morseStr) {
   const flow = document.getElementById('morseFlow');
   flow.innerHTML = '';
   let baseDelay = 0;
-  const dot = SPEED * speedRatio; // 音と同じ基準
+  const dot = SPEED * speedRatio;
 
+  // script.jsに合わせた実装
+  let delayRatio = 0.5 * speedRatio;
   for (let i = 0; i < morseStr.length; i++) {
     const ch = morseStr[i];
-    let duration = dot;
-    if (ch === "－" || ch === "-") duration = dot * MORSE_ANIMATION_DASH_RATIO;
     if (!'・－／'.includes(ch)) continue;
 
     const span = document.createElement('span');
     span.className = 'morse-flow-char';
     span.textContent = ch;
-    span.style.animationDelay = `${baseDelay}s`;
-    span.style.animationDuration = `${duration}s`;
+    span.style.animationDelay = `${baseDelay * delayRatio}s`;
+    span.style.animationDuration = `${MORSE_ANIMATION_FLOW_DURATION}s`;
     flow.appendChild(span);
 
-    // 次の文字のdelayを計算
-    if (ch === "・") baseDelay += dot * 2; // 点+空白
-    else if (ch === "－" || ch === "-") baseDelay += dot * 3 + dot; // ダッシュ+空白
-    else if (ch === "／") baseDelay += dot * MORSE_ANIMATION_SPACE_RATIO;
+    if (ch === "・") baseDelay += dot * 2;
+    else if (ch === "－" || ch === "-") baseDelay += dot * 3 + dot;
+    else if (ch === "／") baseDelay += dot * 5;
   }
 }

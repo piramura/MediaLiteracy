@@ -206,14 +206,15 @@ body::before {
   display: inline-block;
   font-size: 2em;
   position: relative;
-  opacity: 0; /* ← 追加: 最初は非表示 */
+  opacity: 0;
   will-change: transform, opacity;
-  animation: morseScroll 1.5s linear forwards;
+  animation-name: morseScroll;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
 }
-
 @keyframes morseScroll {
   from {
-    transform: translateX(100vw); /* 画面外右から */
+    transform: translateX(40vw); /* 画面外右から */
     opacity: 1;
   }
   10% {
