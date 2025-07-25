@@ -161,3 +161,38 @@ function showQuizResult() {
     // 追加: activeクラスの付け替え
     goToStep(6); // リザルト画面へ遷移
 }
+
+// ========================
+// モールス信号のアニメーション
+// ========================
+// ===== モールスアニメーション調整用 =====
+// 調整用定数
+const MORSE_ANIMATION_BASE_DURATION = 3; // 1点(dot)の長さ（秒）と合わせる
+const MORSE_ANIMATION_DASH_RATIO = 3;      // ダッシュは3倍
+const MORSE_ANIMATION_SPACE_RATIO = 2;     // 文字間スペース
+
+function animateMorseFlow(morseStr) {
+  const flow = document.getElementById('morseFlow');
+  flow.innerHTML = '';
+  let baseDelay = 0;
+  const dot = SPEED * speedRatio; // 音と同じ基準
+
+  for (let i = 0; i < morseStr.length; i++) {
+    const ch = morseStr[i];
+    let duration = dot;
+    if (ch === "－" || ch === "-") duration = dot * MORSE_ANIMATION_DASH_RATIO;
+    if (!'・－／'.includes(ch)) continue;
+
+    const span = document.createElement('span');
+    span.className = 'morse-flow-char';
+    span.textContent = ch;
+    span.style.animationDelay = `${baseDelay}s`;
+    span.style.animationDuration = `${duration}s`;
+    flow.appendChild(span);
+
+    // 次の文字のdelayを計算
+    if (ch === "・") baseDelay += dot * 2; // 点+空白
+    else if (ch === "－" || ch === "-") baseDelay += dot * 3 + dot; // ダッシュ+空白
+    else if (ch === "／") baseDelay += dot * MORSE_ANIMATION_SPACE_RATIO;
+  }
+}

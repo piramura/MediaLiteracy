@@ -23,6 +23,12 @@
         あなたの名前をモールス信号に変換したり、<br>
         実際にモールス入力を体験してみましょう。
       </div>
+      <div class="inline-character-area">
+        <img src="assets/png/マールス.png" alt="マールス" class="inline-character-img">
+        <div class="inline-character-balloon">
+          僕と一緒にモールス信号を学ぼう！
+        </div>
+      </div>
       <button class="main-button" onclick="goToStep(1)">はじめる</button>
     </div>
 
@@ -39,6 +45,12 @@
       </div>
       
       <h2>あなたのお名前を教えてください</h2>
+      <div class="inline-character-area">
+        <img src="assets/png/マールス.png" alt="マールス" class="inline-character-img">
+        <div class="inline-character-balloon">
+          ひらがなで入力してね！
+        </div>
+      </div>
       <div style="margin: 30px 0;">
         <input type="text" id="nameInput" placeholder="お名前をひらがなで入力" maxlength="20"value="てすと">
       </div>
@@ -61,13 +73,25 @@
       </div>
       
       <h2>モールス信号に変換しました！</h2>
+      <div class="inline-character-area">
+        <img src="assets/png/マールス.png" alt="マールス" class="inline-character-img">
+        <div class="inline-character-balloon">
+          君の名前がモールスになった！
+        </div>
+      </div>
       <div style="margin: 20px 0;">
         <div style="font-size: 1.2em; margin: 10px 0;">
           <strong id="userName"></strong> さんのお名前は：
         </div>
         <textarea id="output" rows="3" readonly style="font-size: 1.5em; text-align: center;"></textarea>
       </div>
-      
+      <!-- 電鍵画像は専用クラスで -->
+      <div class="morse-animation-row">
+        <div class="morse-flow-area" id="morseFlow"></div>
+        <img src="assets/png/machine_denken.png" alt="デンケン" class="denken-img vibrate" id="denkenVibrate"
+            style="cursor:pointer; float:right;"
+            onclick="playMorse('output'); animateMorseFlow(document.getElementById('output').value);">
+      </div>
       <div class="sound-row">
         <div class="sound-buttons">
           <button class="main-button" onclick="playMorse('output')">🔊 音で聞いてみる</button>
@@ -165,6 +189,10 @@
       </div>
       
       <h3>クイズに挑戦してみませんか？</h3>
+      <!-- クイズ画面の質問の上などに追加 -->
+      <div class="quiz-character-area">
+        <img src="assets/png/マールス.png" alt="マールス" class="quiz-character-img">
+      </div>
       <button onclick="ShowQuestion('complete-question')" class="main-button">クイズを表示</button>
       <!-- 完了画面 -->
       <span id="complete-question" style="display: block; margin: 20px 0; font-size: 1.1em;">クイズやっていかない？</span>
