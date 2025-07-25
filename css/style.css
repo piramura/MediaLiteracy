@@ -140,58 +140,100 @@ body::before {
 /* =====================================
    キャラクターエリア
    ===================================== */
-.character-area {
-  position: fixed;
-  right: var(--spacing-lg);
-  top: 50%;
-  transform: translateY(-50%);
-  width: var(--character-width);
-  height: var(--character-height);
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: var(--spacing-md);
-  box-shadow: var(--shadow-modal);
+/* その場だけ表示するキャラクター */
+.inline-character-area {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.inline-character-img {
+  width: 90px;
+  height: auto;
+  flex-shrink: 0;
+}
+
+.inline-character-balloon {
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid #ccc;
+  padding: 12px 18px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  font-size: 1em;
+  position: relative;
+}
+
+.inline-character-balloon::before {
+  content: "";
+  position: absolute;
+  left: -16px;
+  top: 24px;
+  border-width: 8px 16px 8px 0;
+  border-style: solid;
+  border-color: transparent #fff transparent transparent;
+  filter: drop-shadow(-1px 0 0 #ccc);
+}
+.danken-img, .denken-img {
+  width: 80px;
+  height: auto;
+  display: block;
+  margin: 12px auto 8px auto;
+  transition: transform 0.1s;
+}
+.danken-img:hover, .denken-img:active {
+  transform: scale(1.08) rotate(-7deg);
+  filter: brightness(1.1);
+}.morse-animation-row {
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 3em;
-  z-index: 1000;
-  backdrop-filter: blur(10px);
-  border: 2px solid rgba(42, 93, 132, 0.3);
+  justify-content: flex-end;
+  margin-bottom: 24px;
+  min-height: 80px;
+  position: relative;
+}
+.morse-flow-area {
+  position: relative;
+  overflow: hidden;
+  height: 48px;
+  width: 100%;
+  min-width: 200px;
+  text-align: right;
+  white-space: nowrap;
 }
 
-.character-speech {
-  position: fixed;
-  right: 110px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: var(--white);
-  padding: var(--spacing-sm) var(--spacing-md);
-  border-radius: var(--spacing-md);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  font-size: 0.9em;
-  max-width: 150px;
-  z-index: 999;
+.morse-flow-char {
+  display: inline-block;
+  font-size: 2em;
+  position: relative;
   opacity: 0;
-  transition: opacity var(--transition-normal);
+  will-change: transform, opacity;
+  animation-name: morseScroll;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+@keyframes morseScroll {
+  from {
+    transform: translateX(40vw); /* 画面外右から */
+    opacity: 1;
+  }
+  10% {
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-120vw); /* 画面外左へ */
+    opacity: 0.2;
+  }
 }
 
-.character-speech:before {
-  content: '';
-  position: absolute;
-  right: -10px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 0;
-  height: 0;
-  border-left: 10px solid var(--white);
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
+/* 電鍵振動 */
+.vibrate {
+  animation: vibrateKey 0.15s linear infinite alternate;
 }
-
-.character-speech.show {
-  opacity: 1;
+@keyframes vibrateKey {
+  0% { transform: translateY(0) rotate(-3deg);}
+  100% { transform: translateY(-4px) rotate(3deg);}
 }
-
 /* =====================================
    画面遷移・アニメーション
    ===================================== */
