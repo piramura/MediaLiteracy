@@ -99,7 +99,8 @@
                 ["゛","・・"],// 濁点 －96
                 ["゜","・・－－・"], //半濁点 －97
                 ["\n","・－・－・・"], //改行 －98
-                ["っ","・－－・"] //っ－99
+                ["っ","・－－・"], //っ－99
+                ["",""] // 区切り連続でもok　-100
         ];
 
          const rome = [
@@ -167,6 +168,7 @@
         let getname;
         let iroha_name = [];
         let morse_name = [];
+        let invalidChars = [];
         let speedRatio = 1;
         let SPEED = 0.15; // モールス信号の速さ(前の3倍遅い)
         let DIFFICULTY = 'normal'; //文字と文字の間隔 normalがスタンダート
@@ -210,7 +212,7 @@
                 if(found){
                     morse_name.push(found[1]);
                 }else{ //未定義の文字があった場合
-                    morse_name.push("？")
+                    morse_name.push("？");
                 }
             }
             let morse = morse_name.join('／');
@@ -281,7 +283,7 @@
                 } else if(char === "／" && DIFFICULTY === 'easy'){
                     time += dot * 5; // 文字と文字の間 6点(上の空白分 + 5点)
                 } else if(char === "？"){ //  ?の処理どうしよう
-                    time += dot * 7;
+                    time += dot ;
                 }
             }
         }
@@ -308,21 +310,23 @@
             const morseInput = document.getElementById(inputID).value;
             const getMorse = morseInput.split("／");
             let result = "";
+            invalidChars = [];
             for(let code of getMorse){
                 const found = iroha.find(data => data[1] === code);
                 if(found){
                     result += found[0];
                 }else{
                     result += "？";
+                    invalidChars.push(code);
                 }
             }
-            showMorseResult(DirectChangeMorse(morseInput));
+            // showMorseResult(DirectChangeMorse(morseInput));
             result = Conversion(result);
             if(morseInput === morse_name.join('／')){
-                showFloatingResult(result,1);
+                showFloatingResult(result,1,invalidChars);
             }
             else{
-                showFloatingResult(result,0);
+                showFloatingResult(result,0,invalidChars);
             }
             return result;
         }
@@ -600,9 +604,21 @@ function showMorseResult(text){
     resultDiv.classList.add("morse-float");
 }
 
-function showFloatingResult(text, isCorrect = false){
+function showFloatingResult(text, isCorrect = false,invalidChars = []){
     const resultDiv = document.getElementById("morseResult");
     const correctDiv = document.getElementById("correctMessage");
+
+
+    if (!text || text.trim() === "") {
+        window.alert("モールス信号が空です。\nモールス信号を入力してください。");
+        return;
+    }
+
+    if (text.includes("？")){
+        const unique = [...new Set(invalidChars)].join("、");
+        window.alert(`存在しないモールス信号が含まれています:\n「${unique}」\n`);
+        return;
+    }
 
     // 変換文字表示
     resultDiv.textContent = text;
