@@ -517,9 +517,14 @@
             const btn = document.getElementById("downloadBtn");
             btn.style.display = "inline-block";
             btn.onclick = () => {
-                const now = new Date();
-                const timestamp = now.toISOString().replace(/[:.]/g, '-');
-                 const filename = `morse_${timestamp}.mp3`;
+                //ファイル名に現在時刻を採用
+                // const now = new Date();
+                // const timestamp = now.toISOString().replace(/[:.]/g, '-');
+                //  const filename = `morse_${timestamp}.mp3`;
+
+                //ファイル名に変換した文字を採用
+                const originalText = iroha_name.join("");
+                const filename = `モールス信号_${originalText}.mp3`;
                 downloadBlob(currentMp3Blob, filename);
                 window.alert(`ダウンロード完了！\nファイル名: ${filename}`);
             }
