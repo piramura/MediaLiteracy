@@ -615,8 +615,8 @@ function showFloatingResult(text, isCorrect = false,invalidChars = []){
     }
 
     if (text.includes("？")){
-        const unique = [...new Set(invalidChars)].join("、");
-        window.alert(`存在しないモールス信号が含まれています:\n「${unique}」\n`);
+        const unique = [...new Set(invalidChars)].join("\n");
+        window.alert(`存在しないモールス信号が含まれています:\n${unique}\n`);
         return;
     }
 
