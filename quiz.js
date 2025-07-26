@@ -117,6 +117,9 @@ function prevQuiz() {
     currentQuizIndex--;
     selectedAnswer = null;
     loadQuiz();
+  }else if(currentQuizIndex == 0){
+    resetQuiz();
+    goToStep(4);
   }
 }
 
