@@ -1,23 +1,47 @@
-// クイズデータ（モールス信号 → 正しい日本語）
-const quizData = [
-  {
-    question: "－・・・／・・／・－・／・－・", // バナナ
-    options: ["バナナ", "りんご", "もも"],
-    answer: "バナナ"
-  },
-  {
-    question: "・・－／－・－・－／－・－・・／・・", // うさぎ
-    options: ["ねこ", "いぬ", "うさぎ"],
-    answer: "うさぎ"
-  },
-  {
-    question: "・・－・／・－－・－／－－－・－／・・", // チーズ
-    options: ["チーズ", "ミルク", "バター"],
-    answer: "チーズ"
-  }
+// ランダムに並び替えるユーティリティ関数
+function shuffle(array) {
+  return array
+    .map(value => ({ value, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ value }) => value);
+}
+
+// クイズ候補（選択肢となる語）を用意
+const wordPool = [
+  ["ぶどう", "りんご", "もも"],
+  ["ねこ", "いぬ", "うさぎ"],
+  ["あか", "あお", "きいろ"],
+  ["さとう", "しお", "こしょう"],
+  ["でんき", "つうしん", "だいがく"]
 ];
 
+// ランダムに問題を生成
+function generateQuizData() {
+  const data = wordPool.map(options => {
+    const shuffled = shuffle(options);
+    const answer = shuffled[Math.floor(Math.random() * shuffled.length)];
+    const question = DirectChangeIroha(answer); // モールス信号に変換
+
+    return {
+      question,
+      options: shuffled,
+      answer
+    };
+  });
+
+  return shuffle(data); // クイズ順自体もシャッフル
+}
+
+let NumOfQuiz = 3;//クイズの問題数
+let isQuizCorrect = null;//クイズが正解か　正解なら1、不正解なら0
+// まず全問作成
+const allQuizData = generateQuizData();
+
+// NumOfQuiz分だけ切り出して新しい配列を作る
+const quizData = allQuizData.slice(0, NumOfQuiz);
+
 let currentQuizIndex = 0;
+
 let selectedAnswer = null;
 
 // クイズの表示
@@ -26,18 +50,19 @@ function loadQuiz() {
   document.getElementById("quiz-question").textContent = currentQuiz.question;
 
   const optionButtons = document.querySelectorAll(".option");
-  optionButtons.forEach((btn, index) => {
-    btn.textContent = currentQuiz.options[index];
+  currentQuiz.options.forEach((opt, index) => {
+    const btn = optionButtons[index];
+    btn.textContent = opt;
     btn.disabled = false;
     btn.classList.remove("selected");
   });
 
-  // ボタン無効化
+  // 次へボタン無効化
   document.getElementById("quiz-next-btn").disabled = true;
 
-  // Q番号と進捗バー更新
+  // 進捗表示
   document.getElementById("quiz-steps").textContent = `Q${currentQuizIndex + 1}`;
-  const progress = ((currentQuizIndex) / quizData.length) * 100;
+  const progress = (currentQuizIndex / quizData.length) * 100;
   document.getElementById("quiz-progress").style.width = `${progress}%`;
 }
 
@@ -54,16 +79,31 @@ function selectOption(btn) {
 
 // 「次へ」ボタン
 function nextQuiz() {
+  //console.log(isQuizCorrect);
   const correct = quizData[currentQuizIndex].answer;
   if (selectedAnswer !== correct) {
+    isQuizCorrect = 0;
+    const sound = document.getElementById("incorrectSound");
+    sound.currentTime = 0;
+    sound.play();
+    if(isQuizCorrect != null){
+      showJudgeMark(isQuizCorrect);
+    }
     alert("不正解です！");
     return;
+  }else if(selectedAnswer === correct){
+    isQuizCorrect = 1;
+    const sound = document.getElementById("correctSound");
+    sound.currentTime = 0;
+    sound.play();
+    if(isQuizCorrect != null){
+      showJudgeMark(isQuizCorrect);
+    }
+    currentQuizIndex++;
+    selectedAnswer = null;
   }
 
-  currentQuizIndex++;
-  selectedAnswer = null;
-
-  if (currentQuizIndex < quizData.length) {
+  if (currentQuizIndex < NumOfQuiz) {
     loadQuiz();
   } else {
     alert("全問正解！リザルトへ進みます");
@@ -80,7 +120,28 @@ function prevQuiz() {
   }
 }
 
+function resetQuiz() {
+  // クイズデータを再生成して出題数ぶん切り出す
+  const allQuizData = generateQuizData();
+  quizData.length = 0; // quizData配列の中身を空にして
+  quizData.push(...allQuizData.slice(0, NumOfQuiz)); // 新しい問題を代入
+
+  // 状態を初期化
+  currentQuizIndex = 0;
+  selectedAnswer = null;
+  isQuizCorrect = null;
+  showJudgeMark(null);
+
+  // UIを更新
+  loadQuiz();
+
+  // 結果表示などがあれば非表示に（必要に応じて）
+  //hideQuizResult();
+}
+
 // 初回読み込み
 window.addEventListener("DOMContentLoaded", () => {
+  resetQuiz();
   loadQuiz();
+
 });

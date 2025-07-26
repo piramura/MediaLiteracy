@@ -155,9 +155,10 @@ function showQuizResult() {
       <a class="sns-btn twitter" href="https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}" target="_blank" rel="noopener">Twitterでシェア</a>
       <a class="sns-btn line" href="https://social-plugins.line.me/lineit/share?url=${shareUrl}&text=${shareText}" target="_blank" rel="noopener">LINEでシェア</a>
     </div>
-    <button class="main-button" onclick="location.reload()">最初から</button>
+    <button class="main-button" onclick="goToStep(4);resetQuiz();">完了画面へ</button>
   `;
   document.getElementById("quiz-result").innerHTML = html;
     // 追加: activeクラスの付け替え
     goToStep(6); // リザルト画面へ遷移
+
 }
