@@ -516,7 +516,12 @@
 
             const btn = document.getElementById("downloadBtn");
             btn.style.display = "inline-block";
-            btn.onclick = () => downloadBlob(currentMp3Blob, "morse.mp3");
+            btn.onclick = () => {
+                const now = new Date();
+                const timestamp = now.toISOString().replace(/[:.]/g, '-');
+                 const filename = `morse_${timestamp}.mp3`;
+                downloadBlob(currentMp3Blob, filename);
+            }
 
         }
 
