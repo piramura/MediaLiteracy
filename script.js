@@ -519,9 +519,9 @@
 // ========================
 // ===== モールスアニメーション調整用 =====
 // 調整用定数
-const MORSE_ANIMATION_BASE_DURATION = 3; // 1点(dot)の長さ（秒）と合わせる
+// const MORSE_ANIMATION_BASE_DURATION = 3; // 1点(dot)の長さ（秒）と合わせる
 
-const MORSE_ANIMATION_FLOW_DURATION = 10.0; // 画面を流れる時間（秒）お好みで調整
+// const MORSE_ANIMATION_FLOW_DURATION = 10.0; // 画面を流れる時間（秒）お好みで調整
 
 const DELAY_RATIO = 0.5; // 0.5倍に詰める（お好みで調整）
 
@@ -533,49 +533,59 @@ function animateMorseFlow(morseStr) {
   const flow = document.getElementById('morseFlow');
   flow.innerHTML = '';
   let baseDelay = 0;
-  const dot = SPEED * speedRatio;
+  const dot = SPEED;
 
-  const baseDistance = 400; // vw
+  const flowWidth = flow.offsetWidth; // flow領域のpx幅
+  const endMargin = 8000; // 追加距離(px) ぴ×20に対応
+  const totalDistance = flowWidth + endMargin;
 
-  const newDistance = baseDistance / speedRatio;
+    const flowSpeed = 118 / speedRatio; 
+    const animationDurationSec = totalDistance / flowSpeed;
 
-   setMorseEndPosition(`-${newDistance}vw`);
+    setMorseEndPosition(`${-totalDistance}px`);
 
-  let delayRatio =  DELAY_RATIO * speedRatio;
-  for (let i = 0; i < morseStr.length; i++) {
-    const ch = morseStr[i];
-    if (!'・－／'.includes(ch)) continue;
+    let delayRatio = DELAY_RATIO * speedRatio;
 
-    const span = document.createElement('span');
-    span.className = 'morse-flow-char';
-    span.textContent = ch;
-    span.style.animationDelay = `${baseDelay * delayRatio}s`;
-    span.style.animationDuration = `${MORSE_ANIMATION_FLOW_DURATION}s`;
-    flow.appendChild(span);
+    for (let i = 0; i < morseStr.length; i++) {
+        const ch = morseStr[i];
+        if (!'・－／'.includes(ch)) continue;
 
-    const RATIO = 1.0/ speedRatio;
+        const span = document.createElement('span');
+        span.className = 'morse-flow-char';
+        span.textContent = ch;
 
-    if( RATIO < 0.75){
-        if (ch === "・"){baseDelay += dot * 0.35 + dot;}
-        else if (ch === "－" || ch === "-"){baseDelay += dot*2.4 + dot;}
-        else if (ch === "／"){baseDelay += dot * 0.9;}
-    }else if(0.75 <= RATIO && RATIO < 1){
-        if (ch === "・"){baseDelay += dot * 0.55 + dot;}
-        else if (ch === "－" || ch === "-"){baseDelay += dot * 3 + dot;}
-        else if (ch === "／"){baseDelay += dot * 3.5;}
-    }else if(RATIO == 1){
-        if (ch === "・"){baseDelay += dot * 1 + dot;}
-        else if (ch === "－" || ch === "-"){baseDelay += dot * 5 + dot;}
-        else if (ch === "／"){baseDelay += dot * 5;}
-     }else if(1 < RATIO && RATIO <= 2){
-        if (ch === "・"){baseDelay += dot * 2+ dot;}
-        else if (ch === "－" || ch === "-"){baseDelay += dot * 10.5 + dot;}
-        else if (ch === "／"){baseDelay += dot * 12;}
-     }else if(2 < RATIO && RATIO <= 3){
-        if (ch === "・"){baseDelay += dot * 0.5 + dot;}
-        else if (ch === "－" || ch === "-"){baseDelay += dot * 13 + dot;}
-        else if (ch === "／"){baseDelay += dot * 34;}
-     }
+        span.style.animationDelay = `${baseDelay * delayRatio}s`;
+        span.style.animationDuration = `${animationDurationSec}s`;
+
+        flow.appendChild(span);
+
+        if (ch === "・"){baseDelay += dot + dot;}
+        else if (ch === "－" || ch === "-"){baseDelay += dot*2 + dot;}
+        else if (ch === "／"){baseDelay += dot * 2;}
+
+    // const RATIO = 1.0/ speedRatio;
+
+    // if( RATIO < 0.75){
+    //     if (ch === "・"){baseDelay += dot * 0.35 + dot;}
+    //     else if (ch === "－" || ch === "-"){baseDelay += dot*2.4 + dot;}
+    //     else if (ch === "／"){baseDelay += dot * 0.9;}
+    // }else if(0.75 <= RATIO && RATIO < 1){
+    //     if (ch === "・"){baseDelay += dot * 0.55 + dot;}
+    //     else if (ch === "－" || ch === "-"){baseDelay += dot * 3 + dot;}
+    //     else if (ch === "／"){baseDelay += dot * 3.5;}
+    // }else if(RATIO == 1){
+    //     if (ch === "・"){baseDelay += dot * 1 + dot;}
+    //     else if (ch === "－" || ch === "-"){baseDelay += dot * 5 + dot;}
+    //     else if (ch === "／"){baseDelay += dot * 5;}
+    //  }else if(1 < RATIO && RATIO <= 2){
+    //     if (ch === "・"){baseDelay += dot * 2+ dot;}
+    //     else if (ch === "－" || ch === "-"){baseDelay += dot * 10.5 + dot;}
+    //     else if (ch === "／"){baseDelay += dot * 12;}
+    //  }else if(2 < RATIO && RATIO <= 3){
+    //     if (ch === "・"){baseDelay += dot * 0.5 + dot;}
+    //     else if (ch === "－" || ch === "-"){baseDelay += dot * 13 + dot;}
+    //     else if (ch === "／"){baseDelay += dot * 34;}
+    //  }
     }
 
 }

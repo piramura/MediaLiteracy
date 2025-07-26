@@ -52,7 +52,7 @@
         </div>
       </div>
       <div style="margin: 30px 0;">
-        <input type="text" id="nameInput" placeholder="お名前をひらがなで入力" maxlength="20"value="てすと">
+        <input type="text" id="nameInput" placeholder="お名前をひらがなで入力(最大20文字)" maxlength="20"value="てすと">
       </div>
       <div class="navigation">
         <button class="back-button" onclick="goToStep(0)">戻る</button>
@@ -239,6 +239,8 @@
         
       <!-- アニメーション用 -->
       <div id="judgeMark"></div>
+      <audio id="correctSound" src="クイズに正解2.mp3" preload="auto"></audio>
+      <audio id="incorrectSound" src="決定ボタンを押す44.mp3" preload="auto"></audio>
 
       <div class="navigation">
         <button class="back-button" onclick="prevQuiz()">戻る</button>
