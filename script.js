@@ -521,6 +521,7 @@
                 const timestamp = now.toISOString().replace(/[:.]/g, '-');
                  const filename = `morse_${timestamp}.mp3`;
                 downloadBlob(currentMp3Blob, filename);
+                window.alert(`ダウンロード完了！\nファイル名: ${filename}`);
             }
 
         }
