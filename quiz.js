@@ -89,7 +89,7 @@ function nextQuiz() {
     if(isQuizCorrect != null){
       showJudgeMark(isQuizCorrect);
     }
-    alert("不正解です！");
+    //alert("不正解です！");
     return;
   }else if(selectedAnswer === correct){
     isQuizCorrect = 1;
@@ -106,7 +106,7 @@ function nextQuiz() {
   if (currentQuizIndex < NumOfQuiz) {
     loadQuiz();
   } else {
-    alert("全問正解！リザルトへ進みます");
+    //alert("全問正解！リザルトへ進みます");
     showQuizResult();
   }
 }
@@ -117,6 +117,9 @@ function prevQuiz() {
     currentQuizIndex--;
     selectedAnswer = null;
     loadQuiz();
+  }else if(currentQuizIndex == 0){
+    resetQuiz();
+    goToStep(4);
   }
 }
 
