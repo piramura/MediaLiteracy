@@ -34,8 +34,8 @@ function convertName() {
   const userNameEl = document.getElementById('userName');
   if (userNameEl) userNameEl.textContent = name;
 
-  if (typeof ChangeIroha === "function") {
-    ChangeIroha('nameInput', 'output');
+  if (typeof ChangeIrohaNAME === "function") {
+    ChangeIrohaNAME('nameInput', 'output');
   }
 
   goToStep(2);

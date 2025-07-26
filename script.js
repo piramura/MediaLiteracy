@@ -165,9 +165,10 @@
             ["いまマールスは何を持っている？", "ばなな","りんご","いちご"]
         ];
 
-        let getname;
         let iroha_name = [];
         let morse_name = [];
+        let quiz_iroha= [];
+        let quiz_morse = [];
         let invalidChars = [];
         let speedRatio = 1;
         let SPEED = 0.15; // モールス信号の速さ(前の3倍遅い)
@@ -185,8 +186,25 @@
 
         //入力元と出力先を引数に渡すといろはをモールスに変えて出力する
         function ChangeIroha(inputID,outputID){
+            quiz_morse = [];
+            const getname = document.getElementById(inputID).value;        
+            quiz_iroha = getname.split("");
+            for(let char of quiz_iroha){
+                const found = iroha.find(data => data[0] === char); //探索
+                if(found){
+                    quiz_morse.push(found[1]);
+                }else{ //未定義の文字があった場合
+                    quiz_morse.push("？")
+                }
+            }
+            let morse = quiz_morse.join('／');
+            document.getElementById(outputID).value = morse;
+            return morse;
+        }
+
+        function ChangeIrohaNAME(inputID,outputID){
             morse_name = []; //初期化
-            getname = document.getElementById(inputID).value;        
+            const getname = document.getElementById(inputID).value;        
             iroha_name = getname.split("");
             for(let char of iroha_name){
                 const found = iroha.find(data => data[0] === char); //探索
@@ -205,6 +223,22 @@
 
         //いろはを直接入れると対応するモールスを返す
         function DirectChangeIroha(IROHA){
+             quiz_morse = []; //初期化
+             IROHA = IROHA.split("");
+              for(let char of IROHA){
+                const found = iroha.find(data => data[0] === char); //探索
+                if(found){
+                    quiz_morse.push(found[1]);
+                }else{ //未定義の文字があった場合
+                    quiz_morse.push("？");
+                }
+            }
+            let morse = quiz_morse.join('／');
+            return morse;
+        }
+
+        //いろはを直接入れると対応するモールスを返す
+        function DirectChangeIrohaNAME(IROHA){
              morse_name = []; //初期化
              IROHA = IROHA.split("");
               for(let char of IROHA){
