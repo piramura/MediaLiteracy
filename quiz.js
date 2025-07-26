@@ -86,6 +86,7 @@ function nextQuiz() {
     const sound = document.getElementById("incorrectSound");
     sound.currentTime = 0;
     sound.play();
+    console.log("不正解"+ isQuizCorrect);
     if(isQuizCorrect != null){
       showJudgeMark(isQuizCorrect);
     }
@@ -97,6 +98,7 @@ function nextQuiz() {
     sound.currentTime = 0;
     sound.play();
     if(isQuizCorrect != null){
+      console.log("正解"+ isQuizCorrect);
       showJudgeMark(isQuizCorrect);
     }
     currentQuizIndex++;
@@ -107,7 +109,9 @@ function nextQuiz() {
     loadQuiz();
   } else {
     //alert("全問正解！リザルトへ進みます");
-    showQuizResult();
+    setTimeout(() => {
+      showQuizResult();
+    }, 1000); // 1000ms = 1秒
   }
 }
 
