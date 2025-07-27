@@ -170,11 +170,11 @@ document.addEventListener('DOMContentLoaded', function() {
   const slider = document.getElementById('volumeSlider');
   if (slider) {
     // 初期値を反映
-    volume = Number(slider.value);
+    setVolume(Number(slider.value));
     slider.addEventListener('input', function() {
-      volume = Number(this.value);
+      setVolume(Number(this.value));
       const valueSpan = document.getElementById('volumeValue');
-      if (valueSpan) valueSpan.textContent = Math.round(volume * 100) + '%';
+      if (valueSpan) valueSpan.textContent = Math.round(getVolume() * 100) + '%';
     });
   }
 });
