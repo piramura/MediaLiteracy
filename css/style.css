@@ -208,14 +208,73 @@ body::before {
   position: relative;
   opacity: 0;
   will-change: transform, opacity;
-  animation-name: morseScroll;
+  animation-name: morseScrollPC;
   animation-timing-function: linear;
   animation-fill-mode: forwards;
 }
-@keyframes morseScroll {
+
+@media(min-width: 768px) and (max-width: 1024px) {
+  .morse-flow-char {
+    display: inline-block;
+    font-size: 2em;
+    position: relative;
+    opacity: 0;
+    will-change: transform, opacity;
+    animation-name: morseScrollTablet;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+  }
+}
+
+@media (max-width: 767px) {
+  .morse-flow-char {
+    display: inline-block;
+    font-size: 2em;
+    position: relative;
+    opacity: 0;
+    will-change: transform, opacity;
+    animation-name: morseScrollMobile;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+  }
+}
+
+@keyframes morseScrollPC {
   from {
     /*///////////////////ここ変えた/////////////////////////*/
-    transform: translateX(58vw); /* 画面外右から */ 
+    transform: translateX(20vw); /* 画面外右から */ 
+    /*///////////////////////////////////////////////////*/
+    opacity: 1;
+  }
+  10% {
+    opacity: 1;
+  }
+  to {
+    transform: translateX(var(--morse-end-position, -200vw)); /* 画面外左へ */
+    opacity: 1;
+  }
+}
+
+@keyframes morseScrollTablet {
+  from {
+    /*///////////////////ここ変えた/////////////////////////*/
+    transform: translateX(40vw); /* 画面外右から */ 
+    /*///////////////////////////////////////////////////*/
+    opacity: 1;
+  }
+  10% {
+    opacity: 1;
+  }
+  to {
+    transform: translateX(var(--morse-end-position, -200vw)); /* 画面外左へ */
+    opacity: 1;
+  }
+}
+
+@keyframes morseScrollMobile {
+  from {
+    /*///////////////////ここ変えた/////////////////////////*/
+    transform: translateX(60vw); /* 画面外右から */ 
     /*///////////////////////////////////////////////////*/
     opacity: 1;
   }
