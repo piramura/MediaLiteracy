@@ -1,17 +1,28 @@
 // ========================
 // 画面遷移機能
 // ========================
+const SCREEN_IDS = [
+  'start-screen',
+  'name-screen',
+  'convert-screen',
+  'input-screen',
+  'complete-screen',
+  'quiz-screen',
+  'quiz-result'
+];
+
 function goToStep(step) {
-  const screens = document.querySelectorAll('.screen');
-  if (screens.length > 0) {
-    screens.forEach(s => s.classList.remove('active'));
-    const ids = ['start-screen','name-screen','convert-screen','input-screen','complete-screen','quiz-screen','quiz-result'];
-    if (ids[step]) {
-      const target = document.getElementById(ids[step]);
+  setTimeout(() => {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const targetId = SCREEN_IDS[step];
+    if (targetId) {
+      const target = document.getElementById(targetId);
       if (target) target.classList.add('active');
     }
-  }
-  // MP3ダウンロードボタンと長押しリンクを安全に非表示・削除
+    hideDownloadAndLongPress();
+  }, 500); // 0.5秒遅延
+}
+function hideDownloadAndLongPress() {
   const btn = document.getElementById("downloadBtn");
   if (btn) btn.style.display = "none";
   const link = document.getElementById("longPressLink");
@@ -23,7 +34,7 @@ function goToStep(step) {
 // ========================
 function convertName() {
   const nameInput = document.getElementById('nameInput');
-  if (!nameInput) return; // quiz.htmlにはnameInputが無いので何もしない
+  if (!nameInput) return;
 
   const name = nameInput.value.trim();
   if (!name) {
@@ -48,9 +59,17 @@ document.addEventListener('DOMContentLoaded', function() {
   const nameInput = document.getElementById('nameInput');
   if (nameInput) {
     nameInput.addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        convertName();
-      }
+      if (e.key === 'Enter') convertName();
+    });
+  }
+
+  const slider = document.getElementById('volumeSlider');
+  if (slider) {
+    setVolume(Number(slider.value));
+    slider.addEventListener('input', function() {
+      setVolume(Number(this.value));
+      const valueSpan = document.getElementById('volumeValue');
+      if (valueSpan) valueSpan.textContent = Math.round(getVolume() * 100) + '%';
     });
   }
 });
@@ -58,16 +77,13 @@ document.addEventListener('DOMContentLoaded', function() {
 // ========================
 // HINTボタン処理
 // ========================
-
 function toggleHint() {
-  if (typeof morse_name === "undefined" || !morse_name.length) {
+  if (!Array.isArray(morse_name) || !morse_name.length) {
     alert("前の画面でモールス信号を変換してください。");
     return;
   }
-
   const hintArea = document.getElementById("hintArea");
   const hintMorse = document.getElementById("hintMorse");
-
   if (hintArea.style.display === "none") {
     hintMorse.textContent = morse_name.join('／');
     hintArea.style.display = "block";
@@ -77,13 +93,11 @@ function toggleHint() {
 }
 
 function playHintAudio() {
-  if (typeof morse_name === "undefined" || !morse_name.length) {
+  if (!Array.isArray(morse_name) || !morse_name.length) {
     alert("前の画面でモールス信号を変換してください。");
     return;
   }
-  if (typeof playMorse === "function") {
-    playMorse('NAME'); // 'NAME'はmorse_nameを直接再生させるモード
-  }
+  if (typeof playMorse === "function") playMorse('NAME');
 }
 
 // ========================
@@ -91,9 +105,7 @@ function playHintAudio() {
 // ========================
 function openMorseModal() {
   const modal = document.getElementById('morseModal');
-  if (modal) {
-    modal.style.display = (modal.style.display === 'block') ? 'none' : 'block';
-  }
+  if (modal) modal.style.display = (modal.style.display === 'block') ? 'none' : 'block';
 }
 
 function closeMorseModal() {
@@ -101,23 +113,19 @@ function closeMorseModal() {
   if (modal) modal.style.display = 'none';
 }
 
-// モーダル外クリックで閉じる
 window.addEventListener('click', function(event) {
   const modal = document.getElementById('morseModal');
-  if (modal && event.target === modal) {
-    modal.style.display = 'none';
-  }
+  if (modal && event.target === modal) modal.style.display = 'none';
 });
+
 // ========================
 // ドロップダウンメニュー処理
 // ========================
 function toggleDropdown(event) {
   event.stopPropagation();
-  const dropdown = event.currentTarget.parentElement;
-  dropdown.classList.toggle('open');
+  event.currentTarget.parentElement.classList.toggle('open');
 }
 
-// 閉じる処理
 document.addEventListener('click', function() {
   document.querySelectorAll('.dropdown.open').forEach(el => el.classList.remove('open'));
 });
@@ -126,17 +134,13 @@ document.addEventListener('click', function() {
 // クイズ機能
 // ========================
 function ShowQuestion(targetId) {
-  // クイズの質問表示
   const questionEl = document.getElementById(targetId);
   if (questionEl) questionEl.textContent = "クイズやっていかない？";
-  AskQuestion(targetId); // クイズの質問を表示
-  // モールス入力セクションを表示
+  AskQuestion(targetId);
   const morseSection = document.getElementById("morse-section");
   if (morseSection) morseSection.style.display = "block";
 }
-/// ========================
-// クイズの結果を表示
-// ========================
+
 function showQuizResult() {
   const shareText = encodeURIComponent(
     `モールス信号クイズに挑戦！\n覚えた単語 [${quizData.map(q => q.answer).join(',')}] \n #モールス信号クイズ\n#UECコミュニケーションミュージアム`
@@ -160,21 +164,5 @@ function showQuizResult() {
     <button class="main-button" onclick="goToStep(4);resetQuiz();">完了画面へ</button>
   `;
   document.getElementById("quiz-result").innerHTML = html;
-    // 追加: activeクラスの付け替え
-    goToStep(6); // リザルト画面へ遷移
-
+  goToStep(6);
 }
-
-// 音量スライダーの値をvolumeに反映
-document.addEventListener('DOMContentLoaded', function() {
-  const slider = document.getElementById('volumeSlider');
-  if (slider) {
-    // 初期値を反映
-    setVolume(Number(slider.value));
-    slider.addEventListener('input', function() {
-      setVolume(Number(this.value));
-      const valueSpan = document.getElementById('volumeValue');
-      if (valueSpan) valueSpan.textContent = Math.round(getVolume() * 100) + '%';
-    });
-  }
-});
