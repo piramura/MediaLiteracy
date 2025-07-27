@@ -156,15 +156,6 @@
             ["@","・－－・－・"]
         ];
 
-        const ques = [
-            ["電気通信大学ミュージアムのマスコットキャラクターと言えば？", "まーるす"],
-            ["ありがとう","ありがとう"]
-        ];
-
-         const selection = [
-            ["いまマールスは何を持っている？", "ばなな","りんご","いちご"]
-        ];
-
         let iroha_name = [];
         let morse_name = [];
         let quiz_iroha= [];
@@ -180,9 +171,6 @@
 
         let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         let currentOscillators = [];
-        let question;
-        let correctanswer;
-        let questionNumber = 0;
 
         //入力元と出力先を引数に渡すといろはをモールスに変えて出力する
         function ChangeIroha(inputID,outputID){
@@ -397,22 +385,22 @@
         }
 
         //クイズの出題
-        function AskQuestion(id){
-            question = ques[questionNumber][0];
-            correctanswer = ques[questionNumber][1];
-            correctanswer = DirectChangeIroha(correctanswer);
-            document.getElementById(id).textContent = question;
-        }
+        // function AskQuestion(id){
+        //     question = ques[questionNumber][0];
+        //     correctanswer = ques[questionNumber][1];
+        //     correctanswer = DirectChangeIroha(correctanswer);
+        //     document.getElementById(id).textContent = question;
+        // }
 
-        //クイズの答え合わせ
-        function CheckAnswer(id){
-            answer = document.getElementById(id).value;
-            if(answer === correctanswer){
-                window.alert("正解！！\n答え: " + DirectChangeMorse(correctanswer) +"\n" + "モールス: " + correctanswer);
-            }else{window.alert("不正解...\n答え: " + DirectChangeMorse(correctanswer) +"\n"
-                + "\nあなたの入力: " +  DirectChangeMorse(answer) + "\n正解のモールス信号: " + correctanswer
-                 + "\nあなたの入力したモールス信号: " + answer);}
-        }
+        // //クイズの答え合わせ
+        // function CheckAnswer(id){
+        //     answer = document.getElementById(id).value;
+        //     if(answer === correctanswer){
+        //         window.alert("正解！！\n答え: " + DirectChangeMorse(correctanswer) +"\n" + "モールス: " + correctanswer);
+        //     }else{window.alert("不正解...\n答え: " + DirectChangeMorse(correctanswer) +"\n"
+        //         + "\nあなたの入力: " +  DirectChangeMorse(answer) + "\n正解のモールス信号: " + correctanswer
+        //          + "\nあなたの入力したモールス信号: " + answer);}
+        // }
 
         // モールス信号をmp3ファイルに変換
         async function morseToMp3(morseString) {
@@ -611,30 +599,6 @@ function animateMorseFlow(morseStr) {
         if (ch === "・"){baseDelay += dot + dot;}
         else if (ch === "－" || ch === "-"){baseDelay += dot*2 + dot;}
         else if (ch === "／"){baseDelay += dot * 2;}
-
-    // const RATIO = 1.0/ speedRatio;
-
-    // if( RATIO < 0.75){
-    //     if (ch === "・"){baseDelay += dot * 0.35 + dot;}
-    //     else if (ch === "－" || ch === "-"){baseDelay += dot*2.4 + dot;}
-    //     else if (ch === "／"){baseDelay += dot * 0.9;}
-    // }else if(0.75 <= RATIO && RATIO < 1){
-    //     if (ch === "・"){baseDelay += dot * 0.55 + dot;}
-    //     else if (ch === "－" || ch === "-"){baseDelay += dot * 3 + dot;}
-    //     else if (ch === "／"){baseDelay += dot * 3.5;}
-    // }else if(RATIO == 1){
-    //     if (ch === "・"){baseDelay += dot * 1 + dot;}
-    //     else if (ch === "－" || ch === "-"){baseDelay += dot * 5 + dot;}
-    //     else if (ch === "／"){baseDelay += dot * 5;}
-    //  }else if(1 < RATIO && RATIO <= 2){
-    //     if (ch === "・"){baseDelay += dot * 2+ dot;}
-    //     else if (ch === "－" || ch === "-"){baseDelay += dot * 10.5 + dot;}
-    //     else if (ch === "／"){baseDelay += dot * 12;}
-    //  }else if(2 < RATIO && RATIO <= 3){
-    //     if (ch === "・"){baseDelay += dot * 0.5 + dot;}
-    //     else if (ch === "－" || ch === "-"){baseDelay += dot * 13 + dot;}
-    //     else if (ch === "／"){baseDelay += dot * 34;}
-    //  }
     }
 
 }
@@ -689,7 +653,7 @@ function showJudgeMark(isCorrect) {
     // 一旦 class を削除して強制的に初期化
     judgeMark.classList.remove("judge-correct", "judge-incorrect");
 
-    // 強制再描画（アニメーションリセット）
+    // 強制再描画
     void judgeMark.offsetWidth;
 
     // 判定マークの内容とスタイル設定
