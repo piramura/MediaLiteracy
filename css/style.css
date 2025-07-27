@@ -215,7 +215,7 @@ body::before {
 @keyframes morseScroll {
   from {
     /*///////////////////ここ変えた/////////////////////////*/
-    transform: translateX(53vw); /* 画面外右から */ 
+    transform: translateX(60vw); /* 画面外右から */ 
     /*///////////////////////////////////////////////////*/
     opacity: 1;
   }
