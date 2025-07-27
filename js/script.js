@@ -167,7 +167,7 @@
         let frequency = 880; //モールスの音の高さ
         let currentMp3Blob = null; // 一番新しいmp3(Binary Large Object)
         const channels = 1; //チャンネル数
-        let loudness = 1; //音の大きさ
+        let volume = 1; //音の大きさ
 
         let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         let currentOscillators = [];
@@ -317,7 +317,7 @@
             oscillator.type = "sine";
             // 音量の設定
             oscillator.frequency.setValueAtTime(frequency, start);
-            gainNode.gain.setValueAtTime(loudness, start); //音量loudnessでスタート
+            gainNode.gain.setValueAtTime(volume, start); //音量volumeでスタート
             gainNode.gain.setValueAtTime(0, start + duration); //duration分たったら0にする 
             // 音の設定
             oscillator.connect(gainNode).connect(ctx.destination); //音量調整->スピーカに接続
@@ -424,7 +424,7 @@
             osc.type = 'sine';
             osc.connect(gain);
             gain.connect(ctx.destination);
-            gain.gain.setValueAtTime(loudness, startTime);
+            gain.gain.setValueAtTime(volume, startTime);
             gain.gain.setValueAtTime(0, startTime + duration);
             osc.start(startTime);
             osc.stop(startTime + duration);
@@ -512,8 +512,22 @@
         }
 
         //音の大きさを返す 0~1
-        function getVelocity(){ 
-            return loudness;
+        function getVolume(){ 
+            return volume;
+        }
+
+        //音の大きさを設定 0~1
+        function setVolume(newVolume){ 
+            volume = newVolume;
+        }
+
+        //音の高さを設定
+        function setFrequency(newFrequency){ 
+            Frequency = newFrequency;
+        }
+
+        function setSpeed(){ 
+            return speedRatio;
         }
                 
     function appendText(char,id) {
