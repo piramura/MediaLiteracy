@@ -384,24 +384,6 @@
             else{DIFFICULTY = 'normal';}
         }
 
-        //クイズの出題
-        // function AskQuestion(id){
-        //     question = ques[questionNumber][0];
-        //     correctanswer = ques[questionNumber][1];
-        //     correctanswer = DirectChangeIroha(correctanswer);
-        //     document.getElementById(id).textContent = question;
-        // }
-
-        // //クイズの答え合わせ
-        // function CheckAnswer(id){
-        //     answer = document.getElementById(id).value;
-        //     if(answer === correctanswer){
-        //         window.alert("正解！！\n答え: " + DirectChangeMorse(correctanswer) +"\n" + "モールス: " + correctanswer);
-        //     }else{window.alert("不正解...\n答え: " + DirectChangeMorse(correctanswer) +"\n"
-        //         + "\nあなたの入力: " +  DirectChangeMorse(answer) + "\n正解のモールス信号: " + correctanswer
-        //          + "\nあなたの入力したモールス信号: " + answer);}
-        // }
-
         // モールス信号をmp3ファイルに変換
         async function morseToMp3(morseString) {
             const sampleRate = 44100; //サンプリング周波数
@@ -666,4 +648,28 @@ function showJudgeMark(isCorrect) {
         judgeMark.className = "judge-mark judge-incorrect";
     }
 
+}
+
+function playDot(){
+    currentOscillators.forEach(osc => {
+        try { osc.stop(); } catch (e) {}
+    });
+    currentOscillators = [];
+    audioCtx.close();
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const dot = SPEED * speedRatio; 
+    let time = audioCtx.currentTime; // 再生開始時刻
+    ring(audioCtx,time,dot);
+}
+
+function playDash(){
+    currentOscillators.forEach(osc => {
+        try { osc.stop(); } catch (e) {}
+    });
+    currentOscillators = [];
+    audioCtx.close();
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const dot = SPEED * speedRatio; 
+    let time = audioCtx.currentTime; // 再生開始時刻
+    ring(audioCtx,time,dot*3);
 }
