@@ -91,7 +91,9 @@ function playHintAudio() {
 // ========================
 function openMorseModal() {
   const modal = document.getElementById('morseModal');
-  if (modal) modal.style.display = 'block';
+  if (modal) {
+    modal.style.display = (modal.style.display === 'block') ? 'none' : 'block';
+  }
 }
 
 function closeMorseModal() {
@@ -137,7 +139,7 @@ function ShowQuestion(targetId) {
 // ========================
 function showQuizResult() {
   const shareText = encodeURIComponent(
-    `モールス信号クイズに挑戦！\n覚えた単語${quizData.map(q => q.answer).join(',')}\n #モールス信号クイズ\n#UECコミュニケーションミュージアム`
+    `モールス信号クイズに挑戦！\n覚えた単語 [${quizData.map(q => q.answer).join(',')}] \n #モールス信号クイズ\n#UECコミュニケーションミュージアム`
   );
   const shareUrl = encodeURIComponent(location.href);
   let html = `
@@ -162,3 +164,17 @@ function showQuizResult() {
     goToStep(6); // リザルト画面へ遷移
 
 }
+
+// 音量スライダーの値をvolumeに反映
+document.addEventListener('DOMContentLoaded', function() {
+  const slider = document.getElementById('volumeSlider');
+  if (slider) {
+    // 初期値を反映
+    volume = Number(slider.value);
+    slider.addEventListener('input', function() {
+      volume = Number(this.value);
+      const valueSpan = document.getElementById('volumeValue');
+      if (valueSpan) valueSpan.textContent = Math.round(volume * 100) + '%';
+    });
+  }
+});

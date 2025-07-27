@@ -646,7 +646,12 @@ button:active {
   filter: brightness(0.9);
   box-shadow: var(--shadow-md);
 }
-
+#volumeValue {
+  display: inline-block;
+  width: 48px;      /* 例: 3桁分の幅に固定 */
+  text-align: center;
+  font-variant-numeric: tabular-nums; /* 数字幅を揃える（対応ブラウザのみ） */
+}
 /* =====================================
    プログレス・インジケーター
    ===================================== */

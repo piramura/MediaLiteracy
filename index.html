@@ -29,6 +29,13 @@
           僕と一緒にモールス信号を学ぼう！
         </div>
       </div>
+      <!-- 音量スライダーUI（convert-screenやsound-rowなどに追加） -->
+      <div class="volume-row">
+        <label for="volumeSlider">音量</label>
+        <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.8">
+        <span id="volumeValue">80%</span>
+        <button type="button" onclick="playDash()" style="margin-left:10px;">テスト再生</button>
+      </div>
       <button class="main-button" onclick="goToStep(1)">はじめる</button>
     </div>
 
@@ -141,8 +148,8 @@
       <div id="correctMessage" class="correct-float"></div>
       <div class="morse-buttons">
         <div class="morse-row">
-          <button class="morse-btn dot" onclick="appendText('・','morseInput')">・（短音）</button>
-          <button class="morse-btn dash" onclick="appendText('－','morseInput')">－（長音）</button>
+          <button class="morse-btn dot" onclick="appendText('・','morseInput');playDot();">・（短音）</button>
+          <button class="morse-btn dash" onclick="appendText('－','morseInput');playDash();">－（長音）</button>
           <button class="morse-btn slash" onclick="appendText('／','morseInput')">／ (区切り)</button>
         </div>
         <div class="delete-row">
@@ -150,8 +157,7 @@
           <button class="delete-btn" onclick="clearText('morseInput')">全削除</button>
         </div>
         <div class="play-row">
-        <button class="play-btn" onclick="playMorse('morseInput')">🔊 再生</button>
-        <button class="check-btn" onclick="ChangeMorse('morseInput')">✅確認</button>
+        <button class="play-btn" onclick="playMorse('morseInput');ChangeMorse('morseInput')">🔊✅確認</button>
         </div>
       </div>
       <!-- HINTボタン -->
@@ -165,7 +171,7 @@
       </div>
 
       <div class="navigation">
-        <button class="back-button" onclick="goToStep(2)">戻る</button>
+        <button class="back-button" onclick="location.reload()">最初から</button>
         <button class="main-button" onclick="goToStep(4)">終わりにする</button>
       </div>
     </div>
