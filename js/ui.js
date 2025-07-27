@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
     slider.addEventListener('input', function() {
       setVolume(Number(this.value));
       const valueSpan = document.getElementById('volumeValue');
-      if (valueSpan) valueSpan.textContent = Math.round(getVolume() * 100) + '%';
+      if (valueSpan) valueSpan.textContent = Math.round(Number(this.value) * 100) + '%';
     });
   }
 });

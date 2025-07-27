@@ -518,12 +518,12 @@
 
         //音の大きさを設定 0~1
         function setVolume(newVolume){ 
-            volume = newVolume;
+            volume = Math.pow(newVolume, 2); //音量を2乗して小さい音も聞こえるように
         }
 
         //音の高さを設定
         function setFrequency(newFrequency){ 
-            Frequency = newFrequency;
+            frequency = newFrequency;
         }
 
         function setSpeed(){ 
