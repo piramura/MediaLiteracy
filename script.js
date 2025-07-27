@@ -576,7 +576,7 @@ function animateMorseFlow(morseStr) {
   const endMargin = 8000; // 追加距離(px) ぴ×20に対応
   const totalDistance = flowWidth + endMargin;
 
-    const flowSpeed = 118 / speedRatio; 
+    const flowSpeed = 125 / speedRatio; // モールスのスピード
     const animationDurationSec = totalDistance / flowSpeed;
 
     setMorseEndPosition(`${-totalDistance}px`);

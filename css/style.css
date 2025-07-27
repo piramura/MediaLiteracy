@@ -258,7 +258,7 @@ body::before {
 @keyframes morseScrollTablet {
   from {
     /*///////////////////ここ変えた/////////////////////////*/
-    transform: translateX(40vw); /* 画面外右から */ 
+    transform: translateX(45vw); /* 画面外右から */ 
     /*///////////////////////////////////////////////////*/
     opacity: 1;
   }
@@ -274,7 +274,7 @@ body::before {
 @keyframes morseScrollMobile {
   from {
     /*///////////////////ここ変えた/////////////////////////*/
-    transform: translateX(60vw); /* 画面外右から */ 
+    transform: translateX(62vw); /* 画面外右から */ 
     /*///////////////////////////////////////////////////*/
     opacity: 1;
   }
