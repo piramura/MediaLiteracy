@@ -354,13 +354,14 @@ body::before {
 /* 正解メッセージ */
 .correct-float {
     position: fixed;
-    top: 30%;
+    top: 50%;
     left: 50%;
     transform: translateX(-50%);
     font-size: 50px;
     color: #ff0000;
-    text-shadow: 1px 1px 6px #901414;
+    text-shadow: 1px 1px 6px #FFD400;
     animation: fadeInUp2 4s ease-out forwards;
+    white-space: nowrap;
 }
 
 .incorrect-float {
@@ -408,14 +409,14 @@ body::before {
 /* 正解の〇 */
 .judge-correct {
     color: #da1f48; 
-    text-shadow: 2px 2px 8px #145c27;
+    text-shadow: 2px 2px 8px var(--shadow-sm);
     animation: fadeInUp3 1.5s ease-out forwards;
 }
 
 /* 不正解の× */
 .judge-incorrect {
     color: #1814ed;
-    text-shadow: 2px 2px 8px #5a111b;
+    text-shadow: 2px 2px 8px var(--shadow-sm);
     animation: fadeInUp3 1.5s ease-out forwards;
 }
 

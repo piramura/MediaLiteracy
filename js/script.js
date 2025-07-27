@@ -636,7 +636,7 @@ function showFloatingResult(text, isCorrect = false,invalidChars = []){
     void correctDiv.offsetWidth;
 
     if (isCorrect) {
-        correctDiv.textContent = "正解！！";
+        correctDiv.textContent = "おめでとう🎉";
         correctDiv.classList.add("correct-float");
     } else {
         correctDiv.textContent = ""
