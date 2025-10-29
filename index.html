@@ -236,7 +236,7 @@
       
       <div class="navigation">
         <button class="back-button" onclick="location.reload()">最初から</button>
-        <button class="main-button" onclick="goToStep(5)">簡単クイズ</button>
+        <button class="main-button" onclick="startQuiz()">簡単クイズ</button>
       </div>
     </div>
     <!-- 追加：クイズ画面 -->
@@ -261,7 +261,7 @@
       <audio id="incorrectSound" src="assets/mp3/決定ボタンを押す44.mp3" preload="auto"></audio>
 
       <div class="navigation">
-        <button class="back-button" onclick="prevQuiz()">戻る</button>
+        <button class="back-button" onclick="prevQuiz()">終了</button>
         <button class="main-button" id="quiz-next-btn" onclick="nextQuiz()" disabled>次へ</button>
       </div>
       </div>

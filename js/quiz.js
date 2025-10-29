@@ -155,6 +155,12 @@ function selectOption(btn) {
   document.getElementById("quiz-next-btn").disabled = false;
 }
 
+//「クイズ開始」ボタン
+function startQuiz() {
+  resetQuiz();
+  goToStep(5)
+}
+
 // 「次へ」ボタン
 function nextQuiz() {
   //console.log(isQuizCorrect);
@@ -195,7 +201,7 @@ function nextQuiz() {
 
 // 「終了」ボタン
 function prevQuiz() {
-    resetQuiz();
+    //resetQuiz();
     goToStep(4);
 }
 
