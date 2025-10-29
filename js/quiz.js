@@ -193,16 +193,10 @@ function nextQuiz() {
   }
 }
 
-// 「戻る」ボタン
+// 「終了」ボタン
 function prevQuiz() {
-  /*if (currentQuizIndex > 0) {
-    currentQuizIndex--;
-    selectedAnswer = null;
-    loadQuiz();
-  }else if(currentQuizIndex == 0){*/
     resetQuiz();
     goToStep(4);
-  //}
 }
 
 function resetQuiz() {
