@@ -172,13 +172,16 @@
         let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         let currentOscillators = [];
 
+        let current_language = iroha;
+        const lang = document.getElementByID("language");
+
         //入力元と出力先を引数に渡すといろはをモールスに変えて出力する
         function ChangeIroha(inputID,outputID){
             quiz_morse = [];
             const getname = document.getElementById(inputID).value;        
             quiz_iroha = getname.split("");
             for(let char of quiz_iroha){
-                const found = iroha.find(data => data[0] === char); //探索
+                const found = current_language.find(data => data[0] === char); //探索
                 if(found){
                     quiz_morse.push(found[1]);
                 }else{ //未定義の文字があった場合
@@ -190,12 +193,14 @@
             return morse;
         }
 
+
+        // ダウンロードボタンの消去が上と違う
         function ChangeIrohaNAME(inputID,outputID){
             morse_name = []; //初期化
             const getname = document.getElementById(inputID).value;        
             iroha_name = getname.split("");
             for(let char of iroha_name){
-                const found = iroha.find(data => data[0] === char); //探索
+                const found = current_language.find(data => data[0] === char); //探索
                 if(found){
                     morse_name.push(found[1]);
                 }else{ //未定義の文字があった場合
@@ -214,7 +219,7 @@
              quiz_morse = []; //初期化
              IROHA = IROHA.split("");
               for(let char of IROHA){
-                const found = iroha.find(data => data[0] === char); //探索
+                const found = current_language.find(data => data[0] === char); //探索
                 if(found){
                     quiz_morse.push(found[1]);
                 }else{ //未定義の文字があった場合
@@ -230,7 +235,7 @@
              morse_name = []; //初期化
              IROHA = IROHA.split("");
               for(let char of IROHA){
-                const found = iroha.find(data => data[0] === char); //探索
+                const found = current_language.find(data => data[0] === char); //探索
                 if(found){
                     morse_name.push(found[1]);
                 }else{ //未定義の文字があった場合
@@ -334,7 +339,7 @@
             let result = "";
             invalidChars = [];
             for(let code of getMorse){
-                const found = iroha.find(data => data[1] === code);
+                const found = current_language.find(data => data[1] === code);
                 if(found){
                     result += found[0];
                 }else{
@@ -358,7 +363,7 @@
             const getMorse = morse.split("／");
             let result = "";
             for(let code of getMorse){
-                const found = iroha.find(data => data[1] === code);
+                const found = current_language.find(data => data[1] === code);
                 if(found){
                     result += found[0];
                 }else{
@@ -377,12 +382,6 @@
             btn.style.display = "none";
         }
 
-        //空白の時間変更
-        function ChangeDiff(diff){
-            if(diff === 'easy'){DIFFICULTY = 'easy';}
-            else if(diff === 'hard'){DIFFICULTY = 'hard';}
-            else{DIFFICULTY = 'normal';}
-        }
 
         // モールス信号をmp3ファイルに変換
         async function morseToMp3(morseString) {
@@ -464,11 +463,13 @@
         }
 
 
+        //LINEかどうかの判断
         function isLineBrowser() {
             const ua = navigator.userAgent.toLowerCase();
             return ua.includes("line");
         }
 
+        // ダウンロード処理
         async function generateMorseMp3(id) {
         const morse = document.getElementById(id).value;
             if (!morse.trim()) {
@@ -686,4 +687,18 @@ function playDash(){
     const dot = SPEED * speedRatio; 
     let time = audioCtx.currentTime; // 再生開始時刻
     ring(audioCtx,time,dot*3);
+}
+
+ lang.addEventListener("change", function (e) {
+        changeLanguage(lang.value);
+        console.log(lang.value);
+       document.getElementById("span4").textContent = lang.value;
+    });
+
+function changeLanguage(languageName){
+    if(languageName === "日本語"){
+        current_language = iroha;
+    }else{
+        current_language = rome;
+    }
 }
