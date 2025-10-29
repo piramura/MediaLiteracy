@@ -153,7 +153,33 @@
             ["+","・－・－・"],
             ['"',"・－・・－・"],
             ["×","－・・－"],
-            ["@","・－－・－・"]
+            ["@","・－－・－・"],
+            ["a","・－"],
+            ["b","－・・・"],
+            ["c","－・－・"],
+            ["d","－・・"],
+            ["e","・"],
+            ["f","・・－・"],
+            ["g","－－・"],
+            ["h","・・・・"],
+            ["i","・・"],
+            ["j","・－－－"],
+            ["k","－・－"],
+            ["l","・－・・"],
+            ["m","－－"],
+            ["n","－・"],
+            ["o","－－－"],
+            ["p","・－－・"],
+            ["q","－－・－"],
+            ["r","・－・"],
+            ["s","・・・"],
+            ["t","－"],
+            ["u","・・－"],
+            ["v","・・・－"],
+            ["w","・－－"],
+            ["x","－・・－"],
+            ["y","－・－－"],
+            ["z","－－・・"]
         ];
 
         let iroha_name = [];
@@ -173,7 +199,7 @@
         let currentOscillators = [];
 
         let current_language = iroha;
-        const lang = document.getElementByID("language");
+        const lang = document.getElementById("language");
 
         //入力元と出力先を引数に渡すといろはをモールスに変えて出力する
         function ChangeIroha(inputID,outputID){
@@ -691,7 +717,6 @@ function playDash(){
 
  lang.addEventListener("change", function (e) {
         changeLanguage(lang.value);
-        console.log(lang.value);
        document.getElementById("span4").textContent = lang.value;
     });
 
