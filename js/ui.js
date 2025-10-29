@@ -103,9 +103,14 @@ function playHintAudio() {
 // ========================
 // モーダル処理
 // ========================
-function openMorseModal() {
-  const modal = document.getElementById('morseModal');
-  if (modal) modal.style.display = (modal.style.display === 'block') ? 'none' : 'block';
+function openMorseModal(lang) {
+  if(lang === "日本語"){
+    const modal = document.getElementById('morseModal');
+    if (modal) modal.style.display = (modal.style.display === 'block') ? 'none' : 'block';
+  }else{
+      const modal = document.getElementById('morseModal2');
+     if (modal) modal.style.display = (modal.style.display === 'block') ? 'none' : 'block';
+  }
 }
 
 function closeMorseModal() {
