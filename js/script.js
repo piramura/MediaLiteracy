@@ -245,6 +245,18 @@
             ["ｘ","－・・－"],
             ["ｙ","－・－－"],
             ["ｚ","－－・・"],
+            ["（","－・－－・－"], //( －101
+            [")","・－・・－・"], //) －102 
+            ["０","－－－－－"], //0 －103
+            ["１","・－－－－"], //1 －104
+            ["２","・・－－－"], //2 －105
+            ["３","・・・－－"], //3 －106
+            ["４","・・・・－"], //4 －107
+            ["５","・・・・・"], //5 －108
+            ["６","－・・・・"], //6 －109
+            ["７","－－・・・"], //7 －110
+            ["８","－－－・・"], //8 －111
+            ["９","－－－－・"], //9 －112
         ];
 
         let iroha_name = [];
@@ -790,8 +802,19 @@ lang.addEventListener("change", function (e) {
 function changeLanguage(languageName){
     if(languageName === "日本語"){
         current_language = iroha;
+     
+        document.getElementById("h1").innerHTML = "🎵 モールス信号体験アプリ 📡";
+        document.getElementById("inline-character-balloon").innerHTML = "僕と一緒にモールス信号を学ぼう！";
+        document.getElementById("welcome-text").innerHTML = "モールス信号の世界へようこそ！<br>\
+        あなたの名前をモールス信号に変換したり、実際にモールス入力を体験してみましょう。";
+        document.getElementById("h2").innerHTML = "あなたのお名前を教えてください";
     }else{
         current_language = rome;
+        document.getElementById("h1").innerHTML = "🎵 Morse Code Experience App 📡";
+        document.getElementById("inline-character-balloon").innerHTML = "Let's learn Morse code together!";
+        document.getElementById("welcome-text").innerHTML = "Welcome to the world of Morse code!<br>\
+        Convert your name into Morse code, and try experiencing Morse code input for yourself.";
+        document.getElementById("h2").innerHTML = "Please tell me your name.";
     }
 }
 
