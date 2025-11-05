@@ -266,7 +266,7 @@
   <!-- モーダル: モールス信号表 -->
   <div id="morseModal" class="modal" style="display:none;">
     <div class="modal-content">
-      <span class="close" onclick="closeMorseModal(lang.value)">&times;</span>
+      <span class="close" onclick="closeMorseModal(document.getElementById('language').value)">&times;</span>
       <h3>モールス信号表</h3>
       <div style="overflow-x:auto; max-height:500px;">
         <table class="morse-table" border="1" style="width:100%; border-collapse:collapse;">
@@ -385,7 +385,7 @@
 
     <div id="morseModal2" class="modal" style="display:none;">
     <div class="modal-content">
-      <span class="close" onclick="closeMorseModal(lang.value)">&times;</span>
+      <span class="close" onclick="closeMorseModal(document.getElementById('language').value)">&times;</span>
       <h3>モールス信号表</h3>
       <div style="overflow-x:auto; max-height:500px;">
         <table class="morse-table" border="1" style="width:100%; border-collapse:collapse;">
@@ -396,106 +396,56 @@
             </tr>
           </thead>
           <tbody>
-            <tr><td>A</td><td>－－・－－</td></tr>
-            <tr><td>B</td><td>・－</td></tr>
-            <tr><td>C</td><td>・・－</td></tr>
-            <tr><td>D</td><td>－・－－－</td></tr>
-            <tr><td>E</td><td>・－・・・</td></tr>
-            <tr><td>F</td><td>・－・・</td></tr>
-            <tr><td>き</td><td>－・－・・</td></tr>
-            <tr><td>く</td><td>・・・－</td></tr>
-            <tr><td>け</td><td>－・－－</td></tr>
-            <tr><td>こ</td><td>－－－－</td></tr>
-            <tr><td>さ</td><td>－・－・－</td></tr>
-            <tr><td>し</td><td>－－・－・</td></tr>
-            <tr><td>す</td><td>－－－・－</td></tr>
-            <tr><td>せ</td><td>・－－－・</td></tr>
-            <tr><td>そ</td><td>－－－・</td></tr>
-            <tr><td>た</td><td>－・</td></tr>
-            <tr><td>ち</td><td>・・－・</td></tr>
-            <tr><td>つ</td><td>・－－・</td></tr>
-            <tr><td>て</td><td>・－・－－</td></tr>
-            <tr><td>と</td><td>・・－・・</td></tr>
-            <tr><td>な</td><td>・－・</td></tr>
-            <tr><td>に</td><td>－・－・</td></tr>
-            <tr><td>ぬ</td><td>・・・・</td></tr>
-            <tr><td>ね</td><td>－－・－</td></tr>
-            <tr><td>の</td><td>・・－－</td></tr>
-            <tr><td>は</td><td>－・・・</td></tr>
-            <tr><td>ひ</td><td>－－・・－</td></tr>
-            <tr><td>ふ</td><td>－－・・</td></tr>
-            <tr><td>へ</td><td>・</td></tr>
-            <tr><td>ほ</td><td>－・・</td></tr>
-            <tr><td>ま</td><td>－・・－</td></tr>
-            <tr><td>み</td><td>・・－・－</td></tr>
-            <tr><td>む</td><td>－</td></tr>
-            <tr><td>め</td><td>－・・・－</td></tr>
-            <tr><td>も</td><td>－・・－・</td></tr>
-            <tr><td>や</td><td>・－－</td></tr>
-            <tr><td>ゐ</td><td>・－・・－</td></tr>
-            <tr><td>ゆ</td><td>－・・－－</td></tr>
-            <tr><td>ゑ</td><td>・－－・・</td></tr>
-            <tr><td>よ</td><td>－－</td></tr>
-            <tr><td>ら</td><td>・・・</td></tr>
-            <tr><td>り</td><td>－－・</td></tr>
-            <tr><td>る</td><td>－・－－・</td></tr>
-            <tr><td>れ</td><td>－－－</td></tr>
-            <tr><td>ろ</td><td>・－・－</td></tr>
-            <tr><td>わ</td><td>－・－</td></tr>
-            <tr><td>を</td><td>・－－－</td></tr>
-            <tr><td>ん</td><td>・－・－・</td></tr>
-            <tr><td>が</td><td>・－・・／・・</td></tr>
-            <tr><td>ぎ</td><td>－・－・・／・・</td></tr>
-            <tr><td>ぐ</td><td>・・・－／・・</td></tr>
-            <tr><td>げ</td><td>－・－－／・・</td></tr>
-            <tr><td>ご</td><td>－－－－／・・</td></tr>
-            <tr><td>ざ</td><td>－・－・－／・・</td></tr>
-            <tr><td>じ</td><td>－－・－・／・・</td></tr>
-            <tr><td>ず</td><td>－－－・－／・・</td></tr>
-            <tr><td>ぜ</td><td>・－－－・／・・</td></tr>
-            <tr><td>ぞ</td><td>－－－・／・・</td></tr>
-            <tr><td>だ</td><td>－・／・・</td></tr>
-            <tr><td>ぢ</td><td>・・－・／・・</td></tr>
-            <tr><td>づ</td><td>・－－・／・・</td></tr>
-            <tr><td>で</td><td>・－・－－／・・</td></tr>
-            <tr><td>ど</td><td>・・－・・／・・</td></tr>
-            <tr><td>ば</td><td>－・・・／・・</td></tr>
-            <tr><td>び</td><td>－－・・－／・・</td></tr>
-            <tr><td>ぶ</td><td>－－・・／・・</td></tr>
-            <tr><td>べ</td><td>・／・・</td></tr>
-            <tr><td>ぼ</td><td>－・・／・・</td></tr>
-            <tr><td>ぱ</td><td>－・・・／・・－－・</td></tr>
-            <tr><td>ぴ</td><td>－－・・－／・・－－・</td></tr>
-            <tr><td>ぷ</td><td>－－・・／・・－－・</td></tr>
-            <tr><td>ぺ</td><td>・／・・－－・</td></tr>
-            <tr><td>ぽ</td><td>－・・／・・－－・</td></tr>
-            <tr><td>ー</td><td>・－－・－</td></tr>
-            <tr><td>、</td><td>・－・－・－</td></tr>
-            <tr><td>(</td><td>－・－－・－</td></tr>
-            <tr><td>)</td><td>・－・・－・</td></tr>
-            <tr><td>0</td><td>－－－－－</td></tr>
-            <tr><td>1</td><td>・－－－－</td></tr>
-            <tr><td>2</td><td>・・－－－</td></tr>
-            <tr><td>3</td><td>・・・－－</td></tr>
-            <tr><td>4</td><td>・・・・－</td></tr>
-            <tr><td>5</td><td>・・・・・</td></tr>
-            <tr><td>6</td><td>－・・・・</td></tr>
-            <tr><td>7</td><td>－－・・・</td></tr>
-            <tr><td>8</td><td>－－－・・</td></tr>
-            <tr><td>9</td><td>－－－－・</td></tr>
-            <tr><td>ぁ</td><td>－－・－－</td></tr>
-            <tr><td>ぃ</td><td>・－</td></tr>
-            <tr><td>ぅ</td><td>・・－</td></tr>
-            <tr><td>ぇ</td><td>－・－－－</td></tr>
-            <tr><td>ぉ</td><td>・－・・・</td></tr>
-            <tr><td>ゃ</td><td>・－－</td></tr>
-            <tr><td>ゅ</td><td>－・・－－</td></tr>
-            <tr><td>ょ</td><td>－－</td></tr>
-            <tr><td>ゎ</td><td>－・－</td></tr>
-            <tr><td>っ</td><td>・－－・</td></tr>
-            <tr><td>゛</td><td>・・</td></tr>
-            <tr><td>゜</td><td>・・－－・</td></tr>
-            <tr><td>\n</td><td>・－・－・・</td></tr>
+            <tr><td>A</td><td>・－</td><td>
+            <tr><td>B</td><td>－・・・</td><td>
+            <tr><td>C</td><td>－・－・</td><td>
+            <tr><td>D</td><td>－・・</td><td>
+            <tr><td>E</td><td>・</td><td>
+            <tr><td>F</td><td>・・－・</td><td>
+            <tr><td>G</td><td>－－・</td><td>
+            <tr><td>H</td><td>・・・・</td><td>
+            <tr><td>I</td><td>・・</td><td>
+            <tr><td>J</td><td>・－－－</td><td>
+            <tr><td>K</td><td>－・－</td><td>
+            <tr><td>L</td><td>・－・・</td><td>
+            <tr><td>M</td><td>－－</td><td>
+            <tr><td>N</td><td>－・</td><td>
+            <tr><td>O</td><td>－－－</td><td>
+            <tr><td>P</td><td>・－－・</td><td>
+            <tr><td>Q</td><td>－－・－</td><td>
+            <tr><td>R</td><td>・－・</td><td>
+            <tr><td>S</td><td>・・・</td><td>
+            <tr><td>T</td><td>－</td><td>
+            <tr><td>U</td><td>・・－</td><td>
+            <tr><td>V</td><td>・・・－</td><td>
+            <tr><td>W</td><td>・－－</td><td>
+            <tr><td>X</td><td>－・・－</td><td>
+            <tr><td>Y</td><td>－・－－</td><td>
+            <tr><td>Z</td><td>－－・・</td><td>
+            <tr><td>0</td><td>－－－－－</td><td> 
+            <tr><td>1</td><td>・－－－－</td><td> 
+            <tr><td>2</td><td>・・－－－</td><td> 
+            <tr><td>3</td><td>・・・－－</td><td>
+            <tr><td>4</td><td>・・・・－</td><td> 
+            <tr><td>5</td><td>・・・・・</td><td> 
+            <tr><td>6</td><td>－・・・・</td><td>
+            <tr><td>7</td><td>－－・・・</td><td> 
+            <tr><td>8</td><td>－－－・・</td><td> 
+            <tr><td>9</td><td>－－－－・</td><td> 
+            <tr><td>.</td><td>・－・－・－</td><td>
+            <tr><td>,</td><td>－－・・－－</td><td>
+            <tr><td>:</td><td>－－－・・・</td><td>
+            <tr><td>?</td><td>・・－－・・</td><td>
+            <tr><td>'</td><td>・－－－－・</td><td>
+            <tr><td>－</td><td>－・・・・－</td><td>
+            <tr><td>(</td><td>－・－－・</td><td>
+            <tr><td>)</td><td>－・－－・－</td><td>
+            <tr><td>/</td><td>－・・－・</td><td>
+            <tr><td>=</td><td>－・・・－</td><td>
+            <tr><td>+</td><td>・－・－・</td><td>
+            <tr><td>"</td><td>・－・・－・</td><td>
+            <tr><td>×</td><td>－・・－</td><td>
+            <tr><td>@</td><td>・－－・－・</td><td>
           </tbody>
         </table>
       </div>
@@ -503,7 +453,7 @@
   </div>
 
  <footer class="footer">
-  <button class="footer-button" onclick="openMorseModal(lang.value)">📖 モールス信号表</button>
+  <button class="footer-button" onclick="openMorseModal(document.getElementById('language').value)">📖 モールス信号表</button>
 </footer>
 
 

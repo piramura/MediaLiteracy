@@ -113,9 +113,14 @@ function openMorseModal(lang) {
   }
 }
 
-function closeMorseModal() {
-  const modal = document.getElementById('morseModal');
-  if (modal) modal.style.display = 'none';
+function closeMorseModal(lang) {
+  if(lang === "日本語"){
+    const modal = document.getElementById('morseModal');
+    if (modal) modal.style.display = 'none';
+  }else{
+    const modal = document.getElementById('morseModal2');
+    if (modal) modal.style.display = 'none';
+  }
 }
 
 window.addEventListener('click', function(event) {
