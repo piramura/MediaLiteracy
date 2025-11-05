@@ -93,6 +93,69 @@ const wordPool = [
   
 ];
 
+//英語
+const EnglishWordPool = [
+  ["cat", "dog", "pig"],
+  ["sun", "sky", "star"],
+  ["car", "boat", "bike"],
+  ["shelf", "door", "window"],
+  ["lamp", "desk", "chair"],
+  ["card", "coin", "book"],
+  ["boy", "girl", "baby"],
+["mom", "dad", "son"],
+["hand", "foot", "face"],
+["bird", "fish", "lion"],
+["bear", "frog", "wolf"],
+["fire", "tree", "water"],
+["rain", "snow", "wind"],
+["moon", "mars", "earth"],
+["river", "lake", "sea"],
+["road", "park", "home"],
+["bath", "room", "hall"],
+["fork", "cup", "dish"],
+["love", "hope", "dream"],
+["time", "life", "space"],
+["file", "data", "mail"],
+["app", "game", "link"],
+["piano", "drum", "harp"],
+["golf", "swim", "dive"],
+["reef", "dune", "lava"],     // 地形
+["fern", "vine", "herb"],     // 植物
+["mist", "hail", "gale"],     // 天候
+["wave", "tide", "reef"],     // 海
+["rock", "coal", "ore"],      // 山・石
+["fear", "rage", "hope"],     // 感情
+["idea", "plan", "fact"],     // 思考
+["rule", "law", "code"],      // 社会的概念
+["hour", "week", "year"],     // 時間の単位
+["calm", "heat", "rest"],     // 状態
+["file", "data", "code"],
+["mail", "post", "link"],
+["app", "tool", "site"],
+["pass", "key", "lock"],
+["news", "ad", "film"],
+["chef", "nurse", "clerk"],   // 職業
+["king", "lord", "duke"],     // 社会階層
+["exam", "test", "quiz"],     // 学校関連
+["love", "hate", "envy"],     // 感情の関係
+["team", "unit", "band"],     // グループ
+["hall", "mall", "cafe"],     // 建物
+["road", "park", "port"],     // 都市要素
+["sofa", "desk", "lamp"],     // 家具
+["gear", "tool", "rope"],     // 道具
+["lamp", "bell", "horn"],     // 音・照明
+["crow", "dove", "hawk"],     // 鳥
+["lion", "wolf", "bear"],     // 猛獣
+["seal", "crab", "eel"],      // 海の生き物
+["ant", "bee", "fly"],        // 昆虫
+["band", "song", "note"],     // 音楽
+["art", "form", "line"],      // 美術
+["play", "show", "act"],      // 舞台芸術
+["poem", "book", "tale"],     // 文学
+["film", "hero", "star"],     // 映画関連
+
+];
+
 // ランダムに問題を生成
 function generateQuizData() {
   const data = wordPool.map(options => {
