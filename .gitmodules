@@ -1,0 +1,3 @@
+[submodule "MediaLiteracy"]
+    path = MediaLiteracy
+    url = https://github.com/piramura/MediaLiteracy.git
