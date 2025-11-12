@@ -11,13 +11,14 @@
   ライセンス: MIT License
   CDN URL: https://cdn.jsdelivr.net/npm/lamejs@1.2.0/lame.min.js
   -->
-  <script src="https://cdn.jsdelivr.net/npm/lamejs@1.2.0/lame.min.js"></script>
+ <script src="/js/lame.min.js"></script>
+
 </head>
 <body>
   <div class="container">
     <!-- スタート画面 -->
     <div class="screen active" id="start-screen">
-      <h1>🎵 モールス信号体験アプリ 📡</h1>
+      <h1 id = "h1">🎵 モールス信号体験アプリ 📡</h1>
       <div class="welcome-text" id = "welcome-text">
         モールス信号の世界へようこそ！<br>
         あなたの名前をモールス信号に変換したり、
@@ -25,7 +26,7 @@
       </div>
       <div class="inline-character-area">
         <img src="assets/png/マールス.png" alt="マールス" class="inline-character-img">
-        <div class="inline-character-balloon">
+        <div class="inline-character-balloon" id = "inline-character-balloon">
           僕と一緒にモールス信号を学ぼう！
         </div>
       </div>
