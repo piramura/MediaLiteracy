@@ -276,7 +276,7 @@
         let currentOscillators = [];
 
 
-        let current_language = rome;
+        let current_language = iroha;
         let lang = document.getElementById("language");
 
         //入力元と出力先を引数に渡すといろはをモールスに変えて出力する
@@ -802,7 +802,8 @@ lang.addEventListener("change", function (e) {
 function changeLanguage(languageName){
     if(languageName === "日本語"){
         current_language = iroha;
-     
+    
+        console.log("日本語選択\n");
         document.getElementById("h1").innerHTML = "🎵 モールス信号体験アプリ 📡";
         document.getElementById("inline-character-balloon").innerHTML = "僕と一緒にモールス信号を学ぼう！";
         document.getElementById("welcome-text").innerHTML = "モールス信号の世界へようこそ！<br>\
@@ -810,6 +811,7 @@ function changeLanguage(languageName){
         document.getElementById("h2").innerHTML = "あなたのお名前を教えてください";
     }else{
         current_language = rome;
+        console.log("English\n");
         document.getElementById("h1").innerHTML = "🎵 Morse Code Experience App 📡";
         document.getElementById("inline-character-balloon").innerHTML = "Let's learn Morse code together!";
         document.getElementById("welcome-text").innerHTML = "Welcome to the world of Morse code!<br>\
