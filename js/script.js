@@ -809,6 +809,18 @@ function changeLanguage(languageName){
         document.getElementById("welcome-text").innerHTML = "モールス信号の世界へようこそ！<br>\
         あなたの名前をモールス信号に変換したり、実際にモールス入力を体験してみましょう。";
         document.getElementById("h2").innerHTML = "あなたのお名前を教えてください";
+        document.getElementById("volume").innerHTML = "音量";
+        document.getElementById("TestPlayback").innerHTML = "テスト再生";
+        document.getElementById("start").innerHTML = "はじめる";
+        document.getElementById("inputName").innerHTML = "名前入力";
+        document.getElementById("change_playback").innerHTML = "変換・再生";
+        document.getElementById("inputMores").innerHTML = "モールス入力";
+        document.getElementById("finish").innerHTML = "完了";
+        document.getElementById("input").innerHTML = "ひらがなで入力してね！";
+        document.getElementById("nameInput").placeholder = "お名前をひらがなで入力(最大20文字)";
+        document.getElementById("back").innerHTML = "戻る";
+        document.getElementById("change").innerHTML = "変換する";
+        
     }else{
         current_language = rome;
         console.log("English\n");
@@ -817,6 +829,17 @@ function changeLanguage(languageName){
         document.getElementById("welcome-text").innerHTML = "Welcome to the world of Morse code!<br>\
         Convert your name into Morse code, and try experiencing Morse code input for yourself.";
         document.getElementById("h2").innerHTML = "Please tell me your name.";
+        document.getElementById("volume").innerHTML = "Volume";
+        document.getElementById("TestPlayback").innerHTML = "Test Playback";
+        document.getElementById("start").innerHTML = "START";
+        document.getElementById("inputName").innerHTML = "Input your name";
+        document.getElementById("change_playback").innerHTML = "Conversion and Playback";
+        document.getElementById("inputMores").innerHTML = "モールス入力";
+        document.getElementById("finish").innerHTML = "完了";
+        document.getElementById("input").innerHTML = "ひらがなで入力してね！";
+        document.getElementById("nameInput").placeholder = "お名前をひらがなで入力(最大20文字)";
+        document.getElementById("back").innerHTML = "戻る";
+        document.getElementById("change").innerHTML = "変換する";
     }
 }
 
