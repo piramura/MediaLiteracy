@@ -11,7 +11,7 @@
   ライセンス: MIT License
   CDN URL: https://cdn.jsdelivr.net/npm/lamejs@1.2.0/lame.min.js
   -->
- <script src="/js/lame.min.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/lamejs@1.2.0/lame.min.js"></script>
 
 </head>
 <body>
@@ -32,16 +32,16 @@
       </div>
       <!-- 音量スライダーUI（convert-screenやsound-rowなどに追加） -->
       <div class="volume-row">
-        <label for="volumeSlider">音量</label>
+        <label for="volumeSlider" id = "volume">音量</label>
         <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.8">
         <span id="volumeValue">80%</span>
-        <button type="button" onclick="playDash()" style="margin-left:10px;">テスト再生</button>
+        <button type="button" onclick="playDash()" style="margin-left:10px;" id = "TestPlayback">テスト再生</button>
       </div>
       <p><span id="span4">確認用</span></p>
-      <button class="main-button" onclick="goToStep(1)">はじめる</button>
+      <button class="main-button" onclick="goToStep(1)" id = "start">はじめる</button>
       <select id="language">
       <option value="日本語">日本語</option>
-      <option value="English">英語</option>
+      <option value="English">Engulish</option>
       </select>
     </div>
 
@@ -51,16 +51,16 @@
         <div class="progress-fill" style="width: 25%"></div>
       </div>
       <div class="step-indicator">
-        <span class="step active">名前入力</span>
-        <span class="step">変換・再生</span>
-        <span class="step">モールス入力</span>
-        <span class="step">完了</span>
+        <span class="step active" id = "inputName">名前入力</span>
+        <span class="step" id = "change_playback">変換・再生</span>
+        <span class="step" id = "inputMores">モールス入力</span>
+        <span class="step" id = "finish">完了</span>
       </div>
       
       <h2 id = "h2">あなたのお名前を教えてください</h2>
       <div class="inline-character-area">
         <img src="assets/png/マールス.png" alt="マールス" class="inline-character-img">
-        <div class="inline-character-balloon">
+        <div class="inline-character-balloon" id = "input">
           ひらがなで入力してね！
         </div>
       </div>
@@ -68,8 +68,8 @@
         <input type="text" id="nameInput" placeholder="お名前をひらがなで入力(最大20文字)" maxlength="20"value="">
       </div>
       <div class="navigation">
-        <button class="back-button" onclick="goToStep(0)">戻る</button>
-        <button class="main-button" onclick="convertName()">変換する</button>
+        <button class="back-button" onclick="goToStep(0)" id = "back">戻る</button>
+        <button class="main-button" onclick="convertName()" id = "change">変換する</button>
       </div>
     </div>
 
