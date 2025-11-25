@@ -124,6 +124,23 @@
         <button onclick="generateMorseMp3('output')">MP3変換</button>
         <button id="downloadBtn" style="display:none;">MP3をダウンロード</button>
       </div>
+      <!-- 追加: MP3解析用UI -->
+      <div class="analyze-row" style="margin-top: 16px;">
+        <label for="audioFile">モールス音声(mp3)をアップロードして解析:</label>
+        <input type="file" id="audioFile" accept="audio/*" />
+        <button class="main-button" id="analyzeBtn" onclick="analyzeUploadedFile()">解析する</button>
+      </div>
+      <div class="analysis-area" style="margin-top: 10px; display:flex; flex-direction:column; gap:8px;">
+        <!-- <canvas id="audioCanvas" width="900" height="120" style="border:1px solid #ddd; width:100%; max-width:900px;"></canvas> -->
+        <!-- <div style="display:flex; gap:8px; align-items:flex-start;"> -->
+          <textarea id="analyzedMorse" rows="5" readonly style="font-size:1.1em; width:90%;"></textarea>
+          <textarea id="analyzedMorseToIroha" rows="5" readonly style="font-size:1.1em; width:90%;"></textarea>
+          <div style="display:flex; flex-direction:column; gap:6px; width:30%;">
+            <!-- <button onclick="showDecodedFromAnalyzed()">文字に変換</button> -->
+            <div id="analyzeInfo" style="font-size:0.9em; color:#444;">解析結果と波形が表示されます</div>
+          <!-- </div> -->
+        </div>
+      </div>
       
       <div class="navigation">
         <button class="back-button" onclick="goToStep(1)">戻る</button>

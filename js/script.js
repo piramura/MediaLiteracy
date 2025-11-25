@@ -797,10 +797,206 @@ function playDash(){
     ring(audioCtx,time,dot*3);
 }
 
+// ===== MP3 アップロード・解析機能 =====
+// ファイル入力から解析を行う
+async function analyzeUploadedFile(){
+    const input = document.getElementById('audioFile');
+    const file = input.files && input.files[0];
+    if(!file){
+        alert('ファイルを選択してください');
+        return;
+    }
+    const reader = new FileReader();
+    reader.onload = async function(e){
+        document.getElementById('analyzeInfo').textContent = '解析中...';
+        const arrayBuffer = e.target.result;
+        try{
+            const morse = await analyzeAudioBuffer(arrayBuffer);
+            document.getElementById('analyzedMorse').value = morse;
+            document.getElementById('analyzedMorseToIroha').value = showDecodedFromAnalyzed();
+            document.getElementById('analyzeInfo').textContent = '解析完了';
+        }catch(err){
+            console.error(err);
+            alert('解析に失敗しました: ' + err.message);
+            document.getElementById('analyzeInfo').textContent = '解析エラー';
+        }
+    };
+    reader.readAsArrayBuffer(file);
+}
+
+// ArrayBuffer を AudioBuffer にして解析する
+async function analyzeAudioBuffer(arrayBuffer){
+    // decode
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const audioBuffer = await ctx.decodeAudioData(arrayBuffer);
+    const sampleRate = audioBuffer.sampleRate;
+    const channelData = audioBuffer.getChannelData(0);
+
+    // envelope を作成 (5ms window)
+    const windowMs = 5; // ms
+    const windowSize = Math.max(1, Math.floor(sampleRate * (windowMs/1000)));
+    const envelope = [];
+    let maxEnv = 0;
+    for(let i = 0; i < channelData.length; i += windowSize){
+        let sum = 0;
+        let end = Math.min(i + windowSize, channelData.length);
+        for(let j = i; j < end; j++){
+            sum += Math.abs(channelData[j]);
+        }
+        let rms = sum / (end - i);
+        envelope.push(rms);
+        if(rms > maxEnv) maxEnv = rms;
+    }
+
+    // threshold を自動決定（ノイズの割合を考慮）
+    const sorted = Array.from(envelope).sort((a,b)=>a-b);
+    const noiseLevel = sorted[Math.floor(sorted.length * 0.25)] || 0; // 25%点
+    const signalLevel = sorted[Math.floor(sorted.length * 0.98)] || maxEnv; // 98%点
+    // threshold を noise と signal の中間的な値に設定
+    let threshold = Math.max(noiseLevel + (signalLevel - noiseLevel) * 0.25, maxEnv * 0.06);
+
+    // binary オン/オフ配列
+    const onOff = envelope.map(v => v >= threshold ? 1 : 0);
+
+    // segment 化して時間を測る
+    const segments = []; // {isOn: boolean, frames: n}
+    let current = onOff[0];
+    let count = 1;
+    for(let i = 1; i < onOff.length; i++){
+        if(onOff[i] === current){ count++; }
+        else{ segments.push({isOn: !!current, frames: count}); current = onOff[i]; count = 1; }
+    }
+    segments.push({isOn: !!current, frames: count});
+
+    // フレーム -> sec
+    const unitSec = windowSize / sampleRate; // sec per envelope frame
+    const toneDurations = segments.filter(s => s.isOn).map(s => s.frames * unitSec);
+    const silenceDurations = segments.filter(s => !s.isOn).map(s => s.frames * unitSec);
+
+    if(toneDurations.length === 0){
+        throw new Error('音が検出できませんでした');
+    }
+
+    // dotUnit の推定: 短いトーンの中央値
+    const sortedTones = toneDurations.slice().sort((a,b)=>a-b);
+    const cutoff = Math.max(1, Math.floor(sortedTones.length * 0.3));
+    const shortestSlice = sortedTones.slice(0, cutoff);
+    const dotUnit = median(shortestSlice);
+
+    // 構築：モールス表記(・,－,／)
+    let morseStr = '';
+    for(let i = 0; i < segments.length; i++){
+        const seg = segments[i];
+        if(seg.isOn){
+            const dur = seg.frames * unitSec;
+            if(dur <= dotUnit * 1.8){ morseStr += '・'; }
+            else{ morseStr += '－'; }
+        }else{
+            const dur = seg.frames * unitSec;
+            // silence 判定
+            if(dur > dotUnit * 5){ // word間
+                morseStr += '／'; // word gap (use same separator for simplicity)
+            }else if(dur > dotUnit * 2.5){ // letter間
+                morseStr += '／';
+            }else{
+                // intra element gap, do nothing
+            }
+        }
+    }
+
+    // 描画
+    drawAudioCanvas('audioCanvas', channelData, sampleRate, envelope, threshold, windowSize);
+
+    // クリーンアップ（連続の区切りを1つに）
+    morseStr = morseStr.replace(/／+/g,'／');
+    // 先頭末尾の不要区切りを除去
+    morseStr = morseStr.replace(/(^／+|／+$)/g,'');
+    return morseStr;
+}
+
+// median helper
+function median(arr){
+    if(arr.length === 0) return 0;
+    const s = arr.slice().sort((a,b)=>a-b);
+    const mid = Math.floor(s.length/2);
+    if(s.length % 2 === 0) return (s[mid-1] + s[mid]) / 2;
+    return s[mid];
+}
+
+// draw waveform + envelope + threshold marker
+function drawAudioCanvas(canvasId, samples, sampleRate, envelope, threshold, windowSize){
+    const canvas = document.getElementById(canvasId);
+    if(!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const w = canvas.width = canvas.clientWidth * (window.devicePixelRatio || 1);
+    const h = canvas.height = canvas.clientHeight * (window.devicePixelRatio || 1);
+    ctx.clearRect(0,0,w,h);
+    ctx.save();
+    // draw waveform in light gray
+    ctx.fillStyle = '#f8f8f8';
+    ctx.fillRect(0,0,w,h);
+    ctx.strokeStyle = '#999';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    const step = Math.ceil(samples.length / w);
+    for(let i = 0; i < w; i++){
+        const idx = i * step;
+        const v = samples[idx] || 0;
+        const y = (1 - (v + 1) / 2) * h; // normalize between -1..1
+        if(i === 0) ctx.moveTo(i, y);
+        else ctx.lineTo(i, y);
+    }
+    ctx.stroke();
+
+    // draw threshold and envelope as bars
+    const envStep = envelope.length / w;
+    for(let x = 0; x < w; x++){
+        const idx = Math.floor(x * envStep);
+        const val = envelope[idx] || 0;
+        const barH = Math.min(1, val / (threshold*3)) * h;
+        ctx.fillStyle = val >= threshold ? 'rgba(0,150,0,0.25)' : 'rgba(200,200,200,0.12)';
+        ctx.fillRect(x, h - barH, 1, barH);
+    }
+    // threshold line
+    ctx.strokeStyle = 'rgba(255,0,0,0.9)';
+    ctx.beginPath();
+    const thrY = h - Math.min(1, threshold / (threshold*3)) * h;
+    ctx.moveTo(0, thrY);
+    ctx.lineTo(w, thrY);
+    ctx.stroke();
+    ctx.restore();
+}
+
+// テキストのモールスを元に文字に変換して表示
+function showDecodedFromAnalyzed(){
+    const morseStr = document.getElementById('analyzedMorse').value;
+    if(!morseStr || morseStr.trim() === ''){
+        alert('解析結果がありません。まず音声を解析してください');
+        return;
+    }
+    const decoded = DirectChangeMorse(morseStr);
+    if(decoded){
+        // show in morseResult area
+        return decoded;
+    }
+}
+
 
 lang.addEventListener("change", function (e) {
     changeLanguage(lang.value);
        document.getElementById("span4").textContent = lang.value;
+    });
+
+    // DOMContentLoaded でイベントバインド
+    window.addEventListener('DOMContentLoaded', () => {
+        const audioInput = document.getElementById('audioFile');
+        if(audioInput){
+            audioInput.addEventListener('change', () => {
+                // optional: you can auto-analyze
+                // analyzeUploadedFile();
+                document.getElementById('analyzeInfo').textContent = 'ファイルが選択されました。解析ボタンを押してください';
+            });
+        }
     });
 
 function changeLanguage(languageName){
