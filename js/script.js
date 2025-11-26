@@ -714,16 +714,42 @@
             return speedRatio;
         }
                 
-    function appendText(char,id) {
-      const textbox = document.getElementById(id);
-      textbox.value += char;
-    }
+        function appendText(char,id) {
+            const textbox = document.getElementById(id);
+            if(!textbox) return;
+            // Insert at caret position (replace selection if any)
+            const start = textbox.selectionStart || 0;
+            const end = textbox.selectionEnd || 0;
+            const before = textbox.value.slice(0, start);
+            const after = textbox.value.slice(end);
+            textbox.value = before + char + after;
+            const newPos = before.length + char.length;
+            textbox.selectionStart = textbox.selectionEnd = newPos;
+            textbox.focus();
+        }
 
-    function deleteLast(id) {
-      const textbox = document.getElementById(id);
-      // 最後の1文字を削除（UTF-16コード単位に対応）
-      textbox.value = textbox.value.slice(0, -1);
-    }
+        function deleteLast(id) {
+            const textbox = document.getElementById(id);
+            if(!textbox) return;
+            const start = textbox.selectionStart || 0;
+            const end = textbox.selectionEnd || 0;
+            if(start !== end){
+                // Delete selected range
+                const before = textbox.value.slice(0, start);
+                const after = textbox.value.slice(end);
+                textbox.value = before + after;
+                textbox.selectionStart = textbox.selectionEnd = start;
+            } else {
+                // delete one char before caret
+                const deleteStart = Math.max(0, start - 1);
+                const before = textbox.value.slice(0, deleteStart);
+                const after = textbox.value.slice(end);
+                textbox.value = before + after;
+                const newPos = deleteStart;
+                textbox.selectionStart = textbox.selectionEnd = newPos;
+            }
+            textbox.focus();
+        }
 
     function clearText(id) {
       const textbox = document.getElementById(id);

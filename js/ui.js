@@ -205,6 +205,46 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   // run once for initial state
   formatAndShowWantToChange();
+
+  // ===== Morse input behavior: allow caret, prevent typing, enable deletion & keyboard shortcuts =====
+  const morseInputEl = document.getElementById('morseInput');
+  if (morseInputEl) {
+    // Prevent typing characters; allow navigation, delete/backspace, and Enter (play)
+    morseInputEl.addEventListener('keydown', function(e) {
+      const allowed = ['Backspace','Delete','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End','Tab','Enter'];
+      if (allowed.includes(e.key)) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          if (typeof playMorse === 'function') playMorse('morseInput');
+          if (typeof ChangeMorse === 'function') ChangeMorse('morseInput');
+        }
+        return; // allow navigation and deletion
+      }
+      // allow some control/meta keys
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      // block normal typing
+      e.preventDefault();
+    });
+    // prevent pasting
+    morseInputEl.addEventListener('paste', function(e){ e.preventDefault(); });
+    morseInputEl.addEventListener('cut', function(e){ e.preventDefault(); });
+    // sanitize input in case something slips through
+    morseInputEl.addEventListener('input', function() {
+      const allowedChars = ['・','－','／','？'];
+      const filtered = this.value.split('').filter(ch => allowedChars.includes(ch)).join('');
+      if (filtered !== this.value) {
+        const pos = this.selectionStart || 0;
+        this.value = filtered;
+        this.selectionStart = this.selectionEnd = Math.min(pos, filtered.length);
+      }
+    });
+    // keyboard shortcuts while morseInput is focused
+    morseInputEl.addEventListener('keydown', function(e){
+      if (e.key === '.') { e.preventDefault(); appendText('・','morseInput'); playDot(); }
+      else if (e.key === '-') { e.preventDefault(); appendText('－','morseInput'); playDash(); }
+      else if (e.key === '/') { e.preventDefault(); appendText('／','morseInput'); }
+    });
+  }
 });
 
 // ========================

@@ -574,6 +574,42 @@ button:active {
   background: linear-gradient(135deg, var(--success-light), var(--success-dark));
 }
 
+/* Morse pad grid (calculator style) */
+.morse-pad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  justify-items: stretch;
+  align-items: center;
+  margin: 12px 0;
+}
+
+.morse-pad .morse-btn,
+.morse-pad .control-btn {
+  height: 56px;
+  font-size: 1.25em;
+  border-radius: 12px;
+  min-width: 56px;
+  padding: 10px 8px;
+}
+
+.control-btn {
+  background: linear-gradient(135deg, #f5f7fa, #e9eef5);
+  color: var(--text-primary);
+  border: 1px solid rgba(34,72,104,0.06);
+}
+
+.control-btn.delete { background: linear-gradient(135deg, var(--danger-light), var(--danger-dark)); color: var(--white); }
+.control-btn.clear { background: linear-gradient(135deg, #ffb84d, #ff8a1f); color: var(--white); }
+.control-btn.play { background: linear-gradient(135deg, var(--blue-light), var(--blue-dark)); color: var(--white); }
+
+/* Improve touch target on mobile */
+@media (max-width: 480px) {
+  .morse-pad .morse-btn, .morse-pad .control-btn { height: 68px; font-size: 1.6em; }
+}
+
+.morse-pad button:active { transform: translateY(1px) scale(0.98); box-shadow: none; }
+
 .morse-btn:hover {
   filter: brightness(0.92);
 }
