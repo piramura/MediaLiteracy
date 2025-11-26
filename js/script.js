@@ -671,20 +671,14 @@
                 // const timestamp = now.toISOString().replace(/[:.]/g, '-');
                 //  const filename = `morse_${timestamp}.mp3`;
 
-                                //ファイル名に変換した文字を採用
+                //ファイル名に変換した文字を採用
                 let originalText = iroha_name.join("");
                 if (originalText.length > 20) {
                     originalText = originalText.substring(0, 20) + "・・・";
                 }
-                                // Determine language code from selects (prefer convert-screen 'language2')
-                                const langEl = document.getElementById('language2') || document.getElementById('language') || document.getElementById('language3');
-                                let langCode = 'JP';
-                                if (langEl && langEl.value) {
-                                    if (langEl.value === '日本語') langCode = 'JP';
-                                    else if (langEl.value === 'ローマ字') langCode = 'RO';
-                                    else langCode = 'EN';
-                                }
-                                const filename = `モールス信号${langCode}_${originalText}.mp3`;
+                if(mode === "JP"){const filename = `モールス信号JP_${originalText}.mp3`;}
+                if(mode === "RO"){const filename = `モールス信号RO_${originalText}.mp3`;}
+                if(mode === "EN"){const filename = `モールス信号EN_${originalText}.mp3`;}
                 downloadBlob(currentMp3Blob, filename);
                 window.alert(`ダウンロード完了！\nファイル名: ${filename}`);
             }

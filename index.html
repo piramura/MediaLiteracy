@@ -39,6 +39,7 @@
       </div>
       <p><span id="span4">確認用</span></p>
       <button class="main-button" onclick="goToStep(1)" id = "start">はじめる</button>
+      <button class="GoToHenkan-button" onclick="goToStep(7)">変換だけする</button>
       <select id="language">
       <option value="日本語">日本語</option>
       <option value="ローマ字">ローマ字</option>
@@ -129,61 +130,6 @@
       <div class="convert-buttons">
         <button onclick="generateMorseMp3('output')">MP3変換</button>
         <button id="downloadBtn" style="display:none;">MP3をダウンロード</button>
-      </div>
-      <!-- 追加: MP3解析用UI -->
-      <p><span id="span5">確認用</span></p>
-      <div class="analyze-row" style="margin-top: 16px;">
-        <label for="audioFile">モールス音声(mp3)をアップロードして解析:</label>
-      <select id="language2">
-      <option value="日本語">日本語</option>
-      <option value="ローマ字">ローマ字</option>
-      <option value="English">Engulish</option>
-      </select>
-        <input type="file" id="audioFile" accept="audio/*" />
-        <button class="main-button" id="analyzeBtn" onclick="analyzeUploadedFile()">解析する</button>
-      </div>
-      <div class="analysis-area" style="margin-top: 10px; display:flex; flex-direction:column; gap:8px;">
-        <!-- <canvas id="audioCanvas" width="900" height="120" style="border:1px solid #ddd; width:100%; max-width:900px;"></canvas> -->
-        <!-- <div style="display:flex; gap:8px; align-items:flex-start;"> -->
-          <textarea id="analyzedMorse" rows="5" readonly style="font-size:1.1em; width:100%;"></textarea>
-          <textarea id="analyzedMorseToIroha" rows="5" readonly style="font-size:1.1em; width:100%;"></textarea>
-          <!-- <div style="display:flex; flex-direction:column; gap:6px; width:30%;"> -->
-          <div id="analyzeInfo" style="font-size:0.9em; color:#444;">解析結果が表示されます ↑</div>
-            <!-- <button onclick="showDecodedFromAnalyzed() style="display:none;">ローマ字をひらがなに変換</button> -->
-          <!-- </div> -->
-        <!-- </div> -->
-      </div>
-
-       <input type="text" id="WantToChange" placeholder="変換したい文字を入力" value="">
-      <!-- 追加: 入力に合わせて変換結果を表示するエリア -->
-        <textarea id="WantToChangeOutput" rows="2" readonly style="font-size:1.2em; flex:1;"></textarea>
-      <div class="want-to-change-row" style="margin-top: 8px; display:flex; gap:8px; align-items:center;">
-       
-        <div style="display:flex; flex-direction:column; gap:6px; margin-left:6px; align-items:center;">
-          <!-- <div style="display:flex; gap:8px; flex-direction:column;"> -->
-            <button class="main-button" id="copyWantToChangeBtn" style="white-space:nowrap;">コピー</button>
-            <div style="display:flex; gap:8px;">
-              <button class="main-button" id="playWantToChangeBtn" style="white-space:nowrap;">🔊 再生</button>
-              <button class="main-button" id="downloadWantToChangeBtn" style="white-space:nowrap;">MP3ダウンロード</button>
-            <!-- </div> -->
-          </div>
-          <span id="copyWantToChangeMsg" style="display:none; font-size:0.85em; color:#2b8a3e;">コピーしました</span>
-        </div>
-      </div>
-      <!-- Hidden field used by playMorse (expects an element id) -->
-      <textarea id="WantToChangeOutputHidden" style="display:none;" readonly></textarea>
-      <!-- 変換のフォーマットオプション -->
-      <div style="margin-top:6px; display:flex; gap:8px; align-items:center;">
-        <label for="WantToChangeSeparator">区切り記号:</label>
-        <select id="WantToChangeSeparator">
-          <option value="／">全角スラッシュ（／）</option>
-          <option value="/">半角スラッシュ（/）</option>
-          <option value=" ">スペース</option>
-          <option value="">なし</option>
-        </select>
-        <label style="margin-left:12px;">
-          <input type="checkbox" id="WantToChangeShowUnknowns" checked> 未定義文字(？)を表示
-        </label>
       </div>
       
       <div class="navigation">
@@ -322,6 +268,90 @@
       </div>
     <!-- ★リザルト専用エリアを追加（最初は非表示） -->
     <div class="screen" id="quiz-result"></div>
+
+     <!-- 変換専用画面 -->
+       <div class="screen" id="henkan-screen">
+
+
+      <h2 id = "h2">モールス変換所</h2>
+      <div class="inline-character-area">
+        <img src="assets/png/マールス.png" alt="マールス" class="inline-character-img">
+        <div class="inline-character-balloon" id = "input">
+          モールスの解析や変換が出来るよ！
+        </div>
+      </div>
+      <label id="Input">使用言語: </label>
+      <select id="language2">
+      <option value="日本語">日本語</option>
+      <option value="ローマ字">ローマ字</option>
+      <option value="English">Engulish</option>
+      </select><br>
+          <!-- 追加: MP3解析用UI -->
+          <div class="henkan-grid" style="margin-top: 16px;">
+            <div class="panel" id="analyze-panel">
+              <div class="panel-header"><h3>解析 (Upload & Analyze)</h3></div>
+              <div class="panel-content">
+                  <div class="analyze-row">
+        <label for="audioFile">モールス音声(mp3)をアップロードして解析:</label>
+
+        <input type="file" id="audioFile" accept="audio/*" />
+        <button class="main-button" id="analyzeBtn" onclick="analyzeUploadedFile()">解析する</button>
+                </div>
+                <div class="analysis-area" style="margin-top: 10px; display:flex; flex-direction:column; gap:8px;">
+        <!-- <canvas id="audioCanvas" width="900" height="120" style="border:1px solid #ddd; width:100%; max-width:900px;"></canvas> -->
+        <!-- <div style="display:flex; gap:8px; align-items:flex-start;"> -->
+          <textarea id="analyzedMorse" rows="5" readonly style="font-size:1.1em; width:100%;"></textarea>
+          <textarea id="analyzedMorseToIroha" rows="5" readonly style="font-size:1.1em; width:100%;"></textarea>
+          <!-- <div style="display:flex; flex-direction:column; gap:6px; width:30%;"> -->
+          <div id="analyzeInfo" style="font-size:0.9em; color:#444;">解析結果が表示されます ↑</div>
+            <!-- <button onclick="showDecodedFromAnalyzed() style="display:none;">ローマ字をひらがなに変換</button> -->
+          <!-- </div> -->
+        <!-- </div> -->
+                </div>
+              </div>
+            </div>
+
+        <div class="panel" id="convert-panel">
+          <div class="panel-header"><h3>変換 (Convert Text)</h3></div>
+          <div class="panel-content">
+            <div class="help-text" style="font-size:0.95em; color:#5c6b73;">ファイルを選択して「解析する」を押すと、検出されたモールス記号が表示されます。</div>
+            <input type="text" id="WantToChange" placeholder="変換したい文字を入力" value="">
+            <div class="help-text" style="font-size:0.95em; color:#5c6b73;">入力したテキストは自動でモールスに変換されます。コピーや再生、MP3ダウンロードが可能です。</div>
+      <!-- 追加: 入力に合わせて変換結果を表示するエリア -->
+        <textarea id="WantToChangeOutput" rows="2" readonly style="font-size:1.2em; flex:1;"></textarea>
+      <div class="want-to-change-row" style="margin-top: 8px; display:flex; gap:8px; align-items:center;">
+       
+        <div style="display:flex; flex-direction:column; gap:6px; margin-left:6px; align-items:center;">
+          <div style="display:flex; gap:8px; flex-direction:column;">
+            <button class="convert-buttons" id="copyWantToChangeBtn" style="white-space:nowrap;">コピー</button>
+            <div style="display:flex; gap:8px; align-items:center;">
+              <button class="convert-buttons" id="playWantToChangeBtn" style="white-space:nowrap;">🔊 再生</button>
+              <button class="convert-buttons" id="downloadWantToChangeBtn" style="white-space:nowrap;">MP3ダウンロード</button>
+            </div>
+          </div>
+          <span id="copyWantToChangeMsg" style="display:none; font-size:0.85em; color:#2b8a3e;">コピーしました</span>
+        </div>
+          </div>
+        </div>
+      </div>
+      <!-- Hidden field used by playMorse (expects an element id) -->
+      <textarea id="WantToChangeOutputHidden" style="display:none;" readonly></textarea>
+      <!-- 変換のフォーマットオプション -->
+      <div style="margin-top:6px; display:flex; gap:8px; align-items:center;">
+        <label for="WantToChangeSeparator">区切り記号:</label>
+        <select id="WantToChangeSeparator">
+          <option value="／">全角スラッシュ（／）</option>
+          <option value="/">半角スラッシュ（/）</option>
+          <option value=" ">スペース</option>
+        </select>
+        <label style="margin-left:12px;">
+          <input type="checkbox" id="WantToChangeShowUnknowns" checked> 未定義文字(？)を表示
+        </label>
+      </div>
+      <div class="navigation">
+        <button class="back-button" onclick="goToStep(0)" id = "back">最初の画面へ</button>
+      </div>
+    </div>
 
   </div>
 

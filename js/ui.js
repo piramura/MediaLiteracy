@@ -8,7 +8,8 @@ const SCREEN_IDS = [
   'input-screen',
   'complete-screen',
   'quiz-screen',
-  'quiz-result'
+  'quiz-result',
+  'henkan-screen'
 ];
 
 function goToStep(step) {
