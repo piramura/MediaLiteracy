@@ -67,7 +67,7 @@
         </div>
       </div>
       <div style="margin: 30px 0;">
-        <input type="text" id="nameInput" placeholder="お名前をひらがなで入力(最大20文字)" value="">
+        <input type="text" id="nameInput" placeholder="お名前をひらがなで入力" value="">
       </div>
       <select id="language3">
       <option value="日本語">日本語</option>
@@ -153,11 +153,10 @@
       <h2>モールス入力を体験してみよう！</h2>
       <div style="margin: 20px 0;">
         <p>今度は自分の名前をモールス信号で入力してみましょう。<br>
-        「・」（短音）と「－」（長音）を組み合わせて文字を作ります。</p>
+        「・」（短音）と「－」（長音）と「／」(区切り) を組み合わせて文字を作ります。</p>
       </div>
       
-      <textarea id="morseInput" rows="3" placeholder="ボタンで入力してください（・/／/－）" style="font-size: 1.3em;">
-      </textarea>
+      <textarea id="morseInput" rows="3" placeholder="ボタンで入力してください" style="font-size: 1.3em;"></textarea>
     
       <div id="morseResult" class="morse-float"></div>
       <div id="correctMessage" class="correct-float"></div>
@@ -175,15 +174,14 @@
       🔊: 現在のモールス信号再生・確認<br>
         <div class="help-text" style="display:block; margin-top:8px; font-size:0.95em;">
         ・直接の文字入力は無効<br>
-        ・挿入位置を指定して削除可能<br>（Backspace／Delete）
+        ・挿入位置を指定して削除可能<br>
         </div>
       <!-- HINTボタン -->
       <button id="hintBtn" onclick="playHintAudio()">💡 HINT</button>
-
-      <!-- HINT表示エリア（最初は非表示）-->
-      <div id="hintArea" style="display: none; margin-top: 15px; border: 1px solid #ccc; padding: 10px; border-radius: 8px;">
-       <button onclick="playHintAudio()">🔊 再生</button>
-      </div>
+        <button class="play-btn" onclick="playMorse('morseInput');ChangeMorse('morseInput')">✅答え合わせ</button>
+       <div class="help-text" style="font-size:0.95em; color:#5c6b73;">自分の名前が完成したら先に進めます。
+        <br>「✅答え合わせ」で確認してみましょう！
+       </div>
 
       <div class="navigation">
         <button class="back-button" onclick="location.reload()">最初から</button>
@@ -293,6 +291,7 @@
             <div class="panel" id="analyze-panel">
               <div class="panel-header"><h3>解析 (Upload & Analyze)</h3></div>
               <div class="panel-content">
+                 <div class="help-text" style="font-size:0.95em; color:#5c6b73;">ファイルを選択して「解析する」を押すと、検出されたモールス記号が表示されます。</div>
                   <div class="analyze-row">
         <label for="audioFile">モールス音声(mp3)をアップロードして解析:</label>
 
@@ -300,11 +299,8 @@
         <button class="main-button" id="analyzeBtn" onclick="analyzeUploadedFile()">解析する</button>
                 </div>
                 <div class="analysis-area" style="margin-top: 10px; display:flex; flex-direction:column; gap:8px;">
-        <!-- <canvas id="audioCanvas" width="900" height="120" style="border:1px solid #ddd; width:100%; max-width:900px;"></canvas> -->
-        <!-- <div style="display:flex; gap:8px; align-items:flex-start;"> -->
           <textarea id="analyzedMorse" rows="5" readonly style="font-size:1.1em; width:100%;"></textarea>
           <textarea id="analyzedMorseToIroha" rows="5" readonly style="font-size:1.1em; width:100%;"></textarea>
-          <!-- <div style="display:flex; flex-direction:column; gap:6px; width:30%;"> -->
           <div id="analyzeInfo" style="font-size:0.9em; color:#444;">解析結果が表示されます ↑</div>
             <!-- <button onclick="showDecodedFromAnalyzed() style="display:none;">ローマ字をひらがなに変換</button> -->
           <!-- </div> -->
@@ -316,7 +312,7 @@
         <div class="panel" id="convert-panel">
           <div class="panel-header"><h3>変換 (Convert Text)</h3></div>
           <div class="panel-content">
-            <div class="help-text" style="font-size:0.95em; color:#5c6b73;">ファイルを選択して「解析する」を押すと、検出されたモールス記号が表示されます。</div>
+            <div class="help-text" style="font-size:0.95em; color:#5c6b73;">ここに変換したい文字を入力してください。使用言語には注意してください。</div>
             <input type="text" id="WantToChange" placeholder="変換したい文字を入力" value="">
             <div class="help-text" style="font-size:0.95em; color:#5c6b73;">入力したテキストは自動でモールスに変換されます。コピーや再生、MP3ダウンロードが可能です。</div>
       <!-- 追加: 入力に合わせて変換結果を表示するエリア -->
