@@ -68,6 +68,11 @@
       <div style="margin: 30px 0;">
         <input type="text" id="nameInput" placeholder="お名前をひらがなで入力(最大20文字)" value="">
       </div>
+      <select id="language3">
+      <option value="日本語">日本語</option>
+      <option value="ローマ字">ローマ字</option>
+      <option value="English">Engulish</option>
+      </select>
       <div class="navigation">
         <button class="back-button" onclick="goToStep(0)" id = "back">戻る</button>
         <button class="main-button" onclick="convertName()" id = "change">変換する</button>
@@ -143,10 +148,41 @@
           <textarea id="analyzedMorse" rows="5" readonly style="font-size:1.1em; width:100%;"></textarea>
           <textarea id="analyzedMorseToIroha" rows="5" readonly style="font-size:1.1em; width:100%;"></textarea>
           <!-- <div style="display:flex; flex-direction:column; gap:6px; width:30%;"> -->
-          <div id="analyzeInfo" style="font-size:0.9em; color:#444;">解析結果が表示されます</div>
+          <div id="analyzeInfo" style="font-size:0.9em; color:#444;">解析結果が表示されます ↑</div>
             <!-- <button onclick="showDecodedFromAnalyzed() style="display:none;">ローマ字をひらがなに変換</button> -->
           <!-- </div> -->
         <!-- </div> -->
+      </div>
+
+       <input type="text" id="WantToChange" placeholder="変換したい文字を入力" value="">
+      <!-- 追加: 入力に合わせて変換結果を表示するエリア -->
+      <div class="want-to-change-row" style="margin-top: 8px; display:flex; gap:8px; align-items:center;">
+        <textarea id="WantToChangeOutput" rows="2" readonly style="font-size:1.2em; flex:1;"></textarea>
+        <div style="display:flex; flex-direction:column; gap:6px; margin-left:6px; align-items:center;">
+          <div style="display:flex; gap:8px; flex-direction:column;">
+            <button class="main-button" id="copyWantToChangeBtn" style="white-space:nowrap;">コピー</button>
+            <div style="display:flex; gap:8px;">
+              <button class="main-button" id="playWantToChangeBtn" style="white-space:nowrap;">🔊 再生</button>
+              <button class="main-button" id="downloadWantToChangeBtn" style="white-space:nowrap;">MP3ダウンロード</button>
+            </div>
+          </div>
+          <span id="copyWantToChangeMsg" style="display:none; font-size:0.85em; color:#2b8a3e;">コピーしました</span>
+        </div>
+      </div>
+      <!-- Hidden field used by playMorse (expects an element id) -->
+      <textarea id="WantToChangeOutputHidden" style="display:none;" readonly></textarea>
+      <!-- 変換のフォーマットオプション -->
+      <div style="margin-top:6px; display:flex; gap:8px; align-items:center;">
+        <label for="WantToChangeSeparator">区切り記号:</label>
+        <select id="WantToChangeSeparator">
+          <option value="／">全角スラッシュ（／）</option>
+          <option value="/">半角スラッシュ（/）</option>
+          <option value=" ">スペース</option>
+          <option value="">なし</option>
+        </select>
+        <label style="margin-left:12px;">
+          <input type="checkbox" id="WantToChangeShowUnknowns" checked> 未定義文字(？)を表示
+        </label>
       </div>
       
       <div class="navigation">

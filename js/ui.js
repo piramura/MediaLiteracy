@@ -72,6 +72,138 @@ document.addEventListener('DOMContentLoaded', function() {
       if (valueSpan) valueSpan.textContent = Math.round(Number(this.value) * 100) + '%';
     });
   }
+  // WantToChange: テキスト入力に応じてモールスに即時変換し、表示／コピーする
+  const wantToChangeInput = document.getElementById('WantToChange');
+  const wantToChangeOutput = document.getElementById('WantToChangeOutput');
+  const wantToChangeOutputHidden = document.getElementById('WantToChangeOutputHidden');
+  const copyBtn = document.getElementById('copyWantToChangeBtn');
+  const playBtn = document.getElementById('playWantToChangeBtn');
+  const downloadWantBtn = document.getElementById('downloadWantToChangeBtn');
+  const copyMsg = document.getElementById('copyWantToChangeMsg');
+  const sepSelect = document.getElementById('WantToChangeSeparator');
+  const showUnknowns = document.getElementById('WantToChangeShowUnknowns');
+  if (wantToChangeInput && wantToChangeOutput) {
+    // 初期値がある場合は変換
+    if (wantToChangeInput.value && typeof ChangeIroha === 'function') {
+      ChangeIroha('WantToChange', 'WantToChangeOutput');
+    }
+    wantToChangeInput.addEventListener('input', function() {
+      formatAndShowWantToChange();
+    });
+  }
+  if (copyBtn) {
+    copyBtn.addEventListener('click', function() {
+      const outEl = document.getElementById('WantToChangeOutput');
+      if (!outEl) return;
+      const text = outEl.value || '';
+      if (!text.trim()) {
+        alert('コピーするモールス記号がありません');
+        return;
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          if (copyMsg) {
+            copyMsg.style.display = 'inline';
+            setTimeout(() => { copyMsg.style.display = 'none'; }, 1500);
+          }
+        }).catch(() => {
+          // fallback
+          try { outEl.select(); document.execCommand('copy'); if (copyMsg) { copyMsg.style.display = 'inline'; setTimeout(()=>{copyMsg.style.display='none';},1500); } } catch (e) { alert('コピーできませんでした'); }
+        });
+      } else {
+        // fallback
+        try { outEl.select(); document.execCommand('copy'); if (copyMsg) { copyMsg.style.display = 'inline'; setTimeout(()=>{copyMsg.style.display='none';},1500);} } catch (e) { alert('コピーできませんでした'); }
+      }
+    });
+  }
+  if (playBtn) {
+    playBtn.addEventListener('click', function() {
+      // For playback, always use the normalized raw morse (with ／) to keep timing accurate
+      if (!wantToChangeInput) return;
+      const rawMorse = (typeof DirectChangeIroha === 'function') ? DirectChangeIroha(wantToChangeInput.value || '') : (function(){ ChangeIroha('WantToChange', 'WantToChangeOutput'); return document.getElementById('WantToChangeOutput').value; })();
+      if (!rawMorse || !rawMorse.trim()) { alert('再生するモールス信号がありません'); return; }
+      if (wantToChangeOutputHidden) { wantToChangeOutputHidden.value = rawMorse; }
+      // Call playMorse with the id of the hidden textarea; playMorse will read its value
+      if (typeof playMorse === 'function') playMorse('WantToChangeOutputHidden');
+    });
+  }
+  if (downloadWantBtn) {
+    downloadWantBtn.addEventListener('click', async function() {
+      if (!wantToChangeInput) return;
+      const rawMorse = (typeof DirectChangeIroha === 'function') ? DirectChangeIroha(wantToChangeInput.value || '') : (function(){ ChangeIroha('WantToChange', 'WantToChangeOutput'); return document.getElementById('WantToChangeOutput').value; })();
+      if (!rawMorse || !rawMorse.trim()) { alert('ダウンロードするモールス信号がありません'); return; }
+      // Check for environments like LINE where download is disabled
+      if (typeof isLineBrowser === 'function' && isLineBrowser()) {
+        alert('LINEのブラウザではMP3をダウンロードできません。別ブラウザでお試しください。');
+        return;
+      }
+      try {
+        // call morseToMp3 (defined in script.js)
+        const blob = await morseToMp3(rawMorse);
+        // determine a simple filename, use text input or a default
+        let originalText = wantToChangeInput.value || 'morse';
+        originalText = originalText.replace(/[\\/:*?"<>|]/g, '_');
+        if (originalText.length > 20) originalText = originalText.substring(0, 20) + '・・・';
+        // Determine language code from selects (prefer convert-screen language2)
+        const langEl = document.getElementById('language2') || document.getElementById('language') || document.getElementById('language3');
+        let langCode = 'JP';
+        if (langEl && langEl.value) {
+          if (langEl.value === '日本語') langCode = 'JP';
+          else if (langEl.value === 'ローマ字') langCode = 'RO';
+          else langCode = 'EN';
+        }
+        const filename = `モールス信号${langCode}_${originalText}.mp3`;
+        // call global downloadBlob
+        if (typeof downloadBlob === 'function') {
+          downloadBlob(blob, filename);
+          window.alert(`ダウンロード完了！\nファイル名: ${filename}`);
+        } else {
+          // fallback: create link
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a'); a.href = url; a.download = filename; a.click(); URL.revokeObjectURL(url);
+          window.alert(`ダウンロード完了！\nファイル名: ${filename}`);
+        }
+      } catch (err) {
+        console.error(err);
+        alert('MP3の生成に失敗しました');
+      }
+    });
+  }
+  // 言語切替時にリアルタイム変換を更新
+  ['language', 'language2', 'language3'].forEach(elmId => {
+    const el = document.getElementById(elmId);
+    if (el) {
+      el.addEventListener('change', function() {
+        if (wantToChangeInput && typeof ChangeIroha === 'function') ChangeIroha('WantToChange', 'WantToChangeOutput');
+      });
+    }
+  });
+  if (sepSelect) sepSelect.addEventListener('change', formatAndShowWantToChange);
+  if (showUnknowns) showUnknowns.addEventListener('change', formatAndShowWantToChange);
+
+  // 初期表示またはページロード時にフォーマット反映
+  function formatAndShowWantToChange(){
+    if (!wantToChangeInput) return;
+    // get raw morse string using conversion function (DirectChangeIroha returns '／' separated morse)
+    const raw = (typeof DirectChangeIroha === 'function') ? DirectChangeIroha(wantToChangeInput.value || '') : (function(){ ChangeIroha('WantToChange', 'WantToChangeOutput'); return document.getElementById('WantToChangeOutput').value; })();
+    let result = raw || '';
+    // Option: show/hide unknowns
+    if (showUnknowns && !showUnknowns.checked) {
+      result = result.replace(/？/g, '');
+    }
+    // Option: separator
+    const sep = (sepSelect && sepSelect.value !== undefined) ? sepSelect.value : '／';
+    if (sep === '') {
+      // Remove separators
+      result = result.replace(/／/g, '');
+    } else if (sep !== '／') {
+      result = result.split('／').join(sep);
+    }
+    if (wantToChangeOutput) wantToChangeOutput.value = result;
+    if (wantToChangeOutputHidden) wantToChangeOutputHidden.value = raw || '';
+  }
+  // run once for initial state
+  formatAndShowWantToChange();
 });
 
 // ========================
