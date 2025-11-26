@@ -1056,30 +1056,40 @@ function showDecodedFromAnalyzed(){
 }
 
 
-lang.addEventListener("change", function (e) {
-        changeLanguage(lang.value);
-        document.getElementById("span4").textContent = lang.value;
-        lang2.value = lang.value;
-        if(lang.value === "ローマ字"){}
-    });
+window.addEventListener('DOMContentLoaded', () => {
+    // ★ lang, lang2 の初期化をここで行う
+    const lang = document.getElementById("language"); 
+    const lang2 = document.getElementById("language2");
 
-lang2.addEventListener("change", function (e) {
-        changeLanguage(lang2.value);
-        document.getElementById("span5").textContent = lang2.value;
-        lang.value = lang2.value;
- });
+    // ★ イベントリスナーの設定もここで行う
+    if(lang){ // 要素の存在チェックは必須
+        lang.addEventListener("change", function (e) {
+            changeLanguage(lang.value);
+            document.getElementById("span4").textContent = lang.value;
+            // lang2 が存在しない場合もあるのでチェック
+            if(lang2) lang2.value = lang.value; 
+            if(lang.value === "ローマ字"){}
+        });
+    }
 
-    // DOMContentLoaded でイベントバインド
-    window.addEventListener('DOMContentLoaded', () => {
-        const audioInput = document.getElementById('audioFile');
-        if(audioInput){
-            audioInput.addEventListener('change', () => {
-                // optional: you can auto-analyze
-                // analyzeUploadedFile();
-                document.getElementById('analyzeInfo').textContent = 'ファイルが選択されました。解析ボタンを押してください';
-            });
-        }
-    });
+    if(lang2){ // 要素の存在チェック
+        lang2.addEventListener("change", function (e) {
+            changeLanguage(lang2.value);
+            document.getElementById("span5").textContent = lang2.value;
+            // lang が存在しない場合もあるのでチェック
+            if(lang) lang.value = lang2.value;
+        });
+    }
+
+    const audioInput = document.getElementById('audioFile');
+    if(audioInput){
+        audioInput.addEventListener('change', () => {
+            // optional: you can auto-analyze
+            // analyzeUploadedFile();
+            document.getElementById('analyzeInfo').textContent = 'ファイルが選択されました。解析ボタンを押してください';
+        });
+    }
+});
 
 function changeLanguage(languageName){
     if(languageName === "日本語" || languageName === "ローマ字"){
