@@ -258,6 +258,79 @@
             ["７","－－・・・"], //7 －110
             ["８","－－－・・"], //8 －111
             ["９","－－－－・"], //9 －112
+                ["あ","・－"], //a－0
+                ["い","・・"], //i－1
+                ["う","・・－"], //u－2
+                ["え","・"], //e－3
+                ["お","－－－"], //o－4
+                ["か","－・－／・－"], //ka－5
+                ["き","－・－／・・"], //ki－6
+                ["く","－・－／・・－"], //ku－7
+                ["け","－・－／・"], //ke－8
+                ["こ","－・－／－－－"], //ko－9
+                ["さ","・・・／・－"], //sa－10
+                ["し","・・・／・・"], //si－11
+                ["す","・・・／・・－"], //su－12
+                ["せ","・・・／・"], //se－13
+                ["そ","・・・／－－－"], //so－14
+                ["た","－／・－"], //ta－15
+                ["ち","－／・・"], //ti－16
+                ["つ","－／・・－"], //tu－17
+                ["て","－／・"], //te－18
+                ["と","－／－－－"], //to－19
+                ["な","－・／・－"], //na－20
+                ["に","－・／・・"], //ni－21
+                ["ぬ","－・／・・－"], //nu－22
+                ["ね","－・／・"], //ne－23
+                ["の","－・／－－－"], //no－24
+                ["は","・・・・／・－"], //ha－25
+                ["ひ","・・・・／・・"], //hi－26
+                ["ふ","・・・・／・・－"], //hu－27
+                ["へ","・・・・／・"], //he－28
+                ["ほ","・・・・／－－－"], //ho－29
+                ["ま","－－／・－"], //ma－30
+                ["み","－－／・・"], //mi－31
+                ["む","－－／・・－"], //mu－32
+                ["め","－－／・"], //me－33
+                ["も","－－／－－－"], //mo－34
+                ["や","－・－－／・－"], //ya－35
+                ["ゐ","・－－／－・－－／・・"], //wyi－36
+                ["ゆ","－・－－／・・－"], //yu－37
+                ["ゑ","・－－／－・－－／・"], //wye－38
+                ["よ","－・－－／－－－"], //yo－39
+                ["ら","・－・／・－"], //ra－40
+                ["り","・－・／・・"], //ri－41
+                ["る","・－・／・・－"], //ru－42
+                ["れ","・－・／・"], //re－43
+                ["ろ","・－・／－－－"], //ro－44
+                ["わ","・－－／・－"], //wa－45
+                ["を","・－－／－－－"], //wo－46
+                ["ん","－・／－・"], //n－47
+                ["が","－－・／・－"], //ga－48
+                ["ぎ","－－・／・・"], //gi－49
+                ["ぐ","－－・／・・－"], //gu－50
+                ["げ","－－・／・"], //ge－51
+                ["ご","－－・／－－－"], //go－52
+                ["ざ","－－・・／・－"], //za－53
+                ["じ","－－・・／・・"], //zu－54
+                ["ず","－－・・／・・－"], //zu－55
+                ["ぜ","－－・・／・"], //ze－56
+                ["ぞ","－－・・／－－－"], //zo－57
+                ["だ","－・・／・－"], //da－58
+                ["ぢ","－・・／・・"], //di－59
+                ["づ","－・・／・・－"], //du－60
+                ["で","－・・／・"], //de－61
+                ["ど","－・・／－－－"], //do－62
+                ["ば","－・・・／・－"], //ba－63
+                ["び","－・・・／・・"], //bi－64
+                ["ぶ","－・・・／・・－"], //bu－65
+                ["べ","－・・・／・"], //be－66
+                ["ぼ","－・・・／－－－"], //bo－67
+                ["ぱ","・－－・／・－"], //pa－68
+                ["ぴ","・－－・／・・"], //pi－69
+                ["ぷ","・－－・／・・－"], //pu－70
+                ["ぺ","・－－・／・"], //pe－71
+                ["ぽ","・－－・／－－－"] //po－72
         ];
 
         let iroha_name = [];
@@ -279,6 +352,7 @@
 
         let current_language = iroha;
         let lang = document.getElementById("language");
+        let lang2= document.getElementById("language2");
 
         //入力元と出力先を引数に渡すといろはをモールスに変えて出力する
         function ChangeIroha(inputID,outputID){
@@ -813,7 +887,7 @@ async function analyzeUploadedFile(){
         try{
             const morse = await analyzeAudioBuffer(arrayBuffer);
             document.getElementById('analyzedMorse').value = morse;
-            document.getElementById('analyzedMorseToIroha').value = showDecodedFromAnalyzed();
+            document.getElementById('analyzedMorseToIroha').value = Conversion(showDecodedFromAnalyzed());
             document.getElementById('analyzeInfo').textContent = '解析完了';
         }catch(err){
             console.error(err);
@@ -983,9 +1057,17 @@ function showDecodedFromAnalyzed(){
 
 
 lang.addEventListener("change", function (e) {
-    changeLanguage(lang.value);
-       document.getElementById("span4").textContent = lang.value;
+        changeLanguage(lang.value);
+        document.getElementById("span4").textContent = lang.value;
+        lang2.value = lang.value;
+        if(lang.value === "ローマ字"){}
     });
+
+lang2.addEventListener("change", function (e) {
+        changeLanguage(lang2.value);
+        document.getElementById("span5").textContent = lang2.value;
+        lang.value = lang2.value;
+ });
 
     // DOMContentLoaded でイベントバインド
     window.addEventListener('DOMContentLoaded', () => {
@@ -1000,9 +1082,9 @@ lang.addEventListener("change", function (e) {
     });
 
 function changeLanguage(languageName){
-    if(languageName === "日本語"){
-        current_language = iroha;
-    
+    if(languageName === "日本語" || languageName === "ローマ字"){
+        if(languageName === "日本語" ){current_language = iroha;}
+        if(languageName === "ローマ字" ){current_language = rome;}
         console.log("日本語選択\n");
         document.getElementById("h1").innerHTML = "🎵 モールス信号体験アプリ 📡";
         document.getElementById("inline-character-balloon").innerHTML = "僕と一緒にモールス信号を学ぼう！";
@@ -1020,6 +1102,7 @@ function changeLanguage(languageName){
         document.getElementById("nameInput").placeholder = "お名前をひらがなで入力(最大20文字)";
         document.getElementById("back").innerHTML = "戻る";
         document.getElementById("change").innerHTML = "変換する";
+        document.getElementById("marusu2").innerHTML = "変換する";
         
     }else{
         current_language = rome;
@@ -1040,6 +1123,7 @@ function changeLanguage(languageName){
         document.getElementById("nameInput").placeholder = "お名前をひらがなで入力(最大20文字)";
         document.getElementById("back").innerHTML = "戻る";
         document.getElementById("change").innerHTML = "変換する";
+        document.getElementById("marusu2").innerHTML = "Your name has changed to Morse!";
     }
 }
 
