@@ -16,6 +16,41 @@
 </head>
 <body>
   <div class="container">
+    <!-- Small settings in top-right -->
+    <div class="settings-control" id="settingsControl" aria-hidden="false">
+      <button id="settingsBtn" class="settings-btn" aria-haspopup="true" aria-expanded="false" title="設定">
+        ⚙️
+      </button>
+      <div id="settingsPanel" class="settings-panel" role="dialog" aria-modal="false" style="display:none;">
+        <div class="settings-panel-content">
+          <div class="panel-header"><h3>設定</h3></div>
+          <div class="panel-content">
+            <label for="globalLanguage">使用言語:</label>
+            <select id="globalLanguage">
+              <option value="日本語">日本語</option>
+              <option value="ローマ字">ローマ字</option>
+              <option value="English">English</option>
+            </select>
+            <div style="margin-top:8px;">
+              <label for="globalVolumeSlider">音量:</label>
+              <input type="range" id="globalVolumeSlider" min="0" max="1" step="0.01" value="0.8" />
+              <span id="globalVolumeValue">80%</span>
+            </div>
+            <div style="margin-top:8px;">
+              <label for="globalSpeedSelect">再生速度:</label>
+              <select id="globalSpeedSelect">
+                <option value="3">3倍速</option>
+                <option value="2">2倍速</option>
+                <option value="1">1倍速</option>
+                <option value="0.75">0.75倍速</option>
+                <option value="0.5">0.5倍速</option>
+              </select>
+            </div>
+            <button id="closeSettings" class="main-button" aria-label="閉じる">閉じる</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- スタート画面 -->
     <div class="screen active" id="start-screen">
       <h1 id = "h1">🎵 モールス信号体験アプリ 📡</h1>
@@ -40,7 +75,7 @@
       <p><span id="span4">確認用</span></p>
       <button class="main-button" onclick="goToStep(1)" id = "start">はじめる</button>
       <button class="GoToHenkan-button" onclick="goToStep(7)">変換だけする</button>
-      <select id="language">
+      <select id="language" class="hide-inline-language">
       <option value="日本語">日本語</option>
       <option value="ローマ字">ローマ字</option>
       <option value="English">Engulish</option>
@@ -69,7 +104,7 @@
       <div style="margin: 30px 0;">
         <input type="text" id="nameInput" placeholder="お名前をひらがなで入力" value="">
       </div>
-      <select id="language3">
+      <select id="language3" class="hide-inline-language">
       <option value="日本語">日本語</option>
       <option value="ローマ字">ローマ字</option>
       <option value="English">Engulish</option>
@@ -281,7 +316,7 @@
         </div>
       </div>
       <label id="Input">使用言語: </label>
-      <select id="language2">
+      <select id="language2" class="hide-inline-language">
       <option value="日本語">日本語</option>
       <option value="ローマ字">ローマ字</option>
       <option value="English">Engulish</option>

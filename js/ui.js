@@ -206,6 +206,115 @@ document.addEventListener('DOMContentLoaded', function() {
   // run once for initial state
   formatAndShowWantToChange();
 
+  // Global settings panel for language sync
+  const settingsBtn = document.getElementById('settingsBtn');
+  const settingsPanel = document.getElementById('settingsPanel');
+  const globalLanguage = document.getElementById('globalLanguage');
+  const closeSettings = document.getElementById('closeSettings');
+  const inlineLangIds = ['language','language2','language3'];
+  // hide inline selects visually
+  inlineLangIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.add('hide-inline-language');
+  });
+
+  function toggleSettings() {
+    if (!settingsPanel) return;
+    const shown = settingsPanel.style.display && settingsPanel.style.display !== 'none';
+    settingsPanel.style.display = shown ? 'none' : 'block';
+    if (settingsBtn) settingsBtn.setAttribute('aria-expanded', (!shown).toString());
+    if (!shown && globalLanguage) globalLanguage.focus();
+  }
+  if (settingsBtn) settingsBtn.addEventListener('click', toggleSettings);
+  if (closeSettings) closeSettings.addEventListener('click', () => { settingsPanel.style.display = 'none'; if (settingsBtn) settingsBtn.setAttribute('aria-expanded', 'false'); });
+  // initialize globalLanguage from existing select
+  if (globalLanguage) {
+    // prefer stored language, otherwise prefer inline base select
+    const storedLang = localStorage.getItem('ml_language');
+    const base = document.getElementById('language') || document.getElementById('language2') || document.getElementById('language3');
+    if (storedLang !== null) globalLanguage.value = storedLang; else if (base && base.value) globalLanguage.value = base.value;
+    // mirror change to all inline selects
+    globalLanguage.addEventListener('change', function() {
+      const val = this.value;
+      inlineLangIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) { el.value = val; el.dispatchEvent(new Event('change')); }
+      });
+      localStorage.setItem('ml_language', val);
+    });
+    // Ensure inline selects reflect current value on load
+    globalLanguage.dispatchEvent(new Event('change'));
+  }
+
+  // Volume & Speed wiring
+  const globalVolumeSlider = document.getElementById('globalVolumeSlider');
+  const globalVolumeValue = document.getElementById('globalVolumeValue');
+  const existingSlider = document.getElementById('volumeSlider');
+  if (globalVolumeSlider) {
+    // initialize from existing slider or local storage
+    const storedVol = localStorage.getItem('ml_volume');
+    if (storedVol !== null) {
+      globalVolumeSlider.value = storedVol;
+    } else if (existingSlider) {
+      globalVolumeSlider.value = existingSlider.value;
+    }
+    globalVolumeValue.textContent = Math.round(Number(globalVolumeSlider.value) * 100) + '%';
+    globalVolumeSlider.addEventListener('input', function() {
+      const v = Number(this.value);
+      if (existingSlider) { existingSlider.value = v; existingSlider.dispatchEvent(new Event('input')); }
+      if (typeof setVolume === 'function') setVolume(v);
+      if (globalVolumeValue) globalVolumeValue.textContent = Math.round(v * 100) + '%';
+      localStorage.setItem('ml_volume', String(v));
+    });
+  }
+
+  // speed control
+  const globalSpeedSelect = document.getElementById('globalSpeedSelect');
+  if (globalSpeedSelect) {
+    const storedSpeed = localStorage.getItem('ml_speed');
+    if (storedSpeed !== null) { globalSpeedSelect.value = storedSpeed; }
+    // on change, call ChangeSpeed (existing function) and persist
+    globalSpeedSelect.addEventListener('change', function() {
+      const val = Number(this.value);
+      if (typeof ChangeSpeed === 'function') ChangeSpeed(val);
+      localStorage.setItem('ml_speed', String(val));
+    });
+  }
+
+  // on initial load, apply saved values
+  (function applySavedSettings() {
+    const v = localStorage.getItem('ml_volume');
+    if (v !== null) {
+      const nv = Number(v);
+      if (globalVolumeSlider) { globalVolumeSlider.value = nv; if (globalVolumeValue) globalVolumeValue.textContent = Math.round(nv*100)+'%'; }
+      if (existingSlider) { existingSlider.value = nv; existingSlider.dispatchEvent(new Event('input')); }
+      if (typeof setVolume === 'function') setVolume(nv);
+    }
+    const s = localStorage.getItem('ml_speed');
+    if (s !== null) {
+      const ns = Number(s);
+      if (globalSpeedSelect) globalSpeedSelect.value = ns;
+      if (typeof ChangeSpeed === 'function') ChangeSpeed(ns);
+    }
+  })();
+
+  // Close settings when clicking outside or pressing Escape
+  document.addEventListener('click', function(e) {
+    if (!settingsPanel || !settingsBtn) return;
+    const isInside = settingsPanel.contains(e.target) || settingsBtn.contains(e.target);
+    if (!isInside && settingsPanel.style.display === 'block') {
+      settingsPanel.style.display = 'none';
+      settingsBtn.setAttribute('aria-expanded', 'false');
+    }
+  });
+  document.addEventListener('keydown', function(e) {
+    if ((e.key === 'Escape' || e.key === 'Esc') && settingsPanel && settingsPanel.style.display === 'block') {
+      settingsPanel.style.display = 'none';
+      if (settingsBtn) settingsBtn.setAttribute('aria-expanded', 'false');
+      if (settingsBtn) settingsBtn.focus();
+    }
+  });
+
   // ===== Morse input behavior: allow caret, prevent typing, enable deletion & keyboard shortcuts =====
   const morseInputEl = document.getElementById('morseInput');
   if (morseInputEl) {
