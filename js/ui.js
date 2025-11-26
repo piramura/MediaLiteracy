@@ -227,6 +227,30 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   if (settingsBtn) settingsBtn.addEventListener('click', toggleSettings);
   if (closeSettings) closeSettings.addEventListener('click', () => { settingsPanel.style.display = 'none'; if (settingsBtn) settingsBtn.setAttribute('aria-expanded', 'false'); });
+  // Reset to defaults button - placed left of close button
+  const resetSettingsBtn = document.getElementById('resetSettings');
+  if (resetSettingsBtn) {
+    resetSettingsBtn.addEventListener('click', function() {
+      if (!confirm('設定を初期値に戻します。よろしいですか？')) return;
+      const defaults = { volume: 0.8, speed: 1, frequency: 880, language: '日本語' };
+      // Reset volume both local slider (start-screen) and global slider
+      if (existingSlider) { existingSlider.value = defaults.volume; existingSlider.dispatchEvent(new Event('input')); }
+      if (globalVolumeSlider) { globalVolumeSlider.value = defaults.volume; globalVolumeSlider.dispatchEvent(new Event('input')); }
+      // Reset speed
+      if (globalSpeedSelect) { globalSpeedSelect.value = defaults.speed; globalSpeedSelect.dispatchEvent(new Event('change')); }
+      // Reset frequency
+      if (globalFrequencySlider) { globalFrequencySlider.value = defaults.frequency; globalFrequencySlider.dispatchEvent(new Event('input')); }
+      // Reset language
+      if (globalLanguage) { globalLanguage.value = defaults.language; globalLanguage.dispatchEvent(new Event('change')); }
+      // Persist defaults
+      localStorage.setItem('ml_volume', String(defaults.volume));
+      localStorage.setItem('ml_speed', String(defaults.speed));
+      localStorage.setItem('ml_frequency', String(defaults.frequency));
+      localStorage.setItem('ml_language', defaults.language);
+      // Notify user
+      alert('設定を初期値に戻しました。');
+    });
+  }
   // initialize globalLanguage from existing select
   if (globalLanguage) {
     // prefer stored language, otherwise prefer inline base select

@@ -52,7 +52,10 @@
               </select>
             </div>
             
-            <button id="closeSettings" class="main-button" aria-label="閉じる">閉じる</button>
+            <div class="settings-actions" style="display:flex; justify-content:flex-end; gap:8px;">
+              <button id="resetSettings" class="reset-button" aria-label="初期設定" title="設定を初期値に戻します">初期設定に戻す</button>
+              <button id="closeSettings" class="main-button" aria-label="閉じる">閉じる</button>
+            </div>
           </div>
         </div>
       </div>
@@ -164,14 +167,14 @@
           <button class="main-button" onclick="playMorse('output')">🔊 音で聞いてみる</button>
         </div>
         <div class="dropdown">
-          <button class="dropbtn" onclick="toggleDropdown(event)">操作メニュー</button>
+          <!-- <button class="dropbtn" onclick="toggleDropdown(event)">操作メニュー</button>
           <div class="dropdown-content">
             <button onclick="ChangeSpeed(3)">3倍速</button>
             <button onclick="ChangeSpeed(2)">2倍速</button>
             <button onclick="ChangeSpeed(1)">1倍速</button>
             <button onclick="ChangeSpeed(0.75)">0.75倍速</button>
             <button onclick="ChangeSpeed(0.5)">0.5倍速</button>
-          </div>
+          </div> -->
         </div>
       </div>
       <div class="convert-buttons">

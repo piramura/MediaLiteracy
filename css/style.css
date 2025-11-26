@@ -687,6 +687,20 @@ button:active {
   filter: brightness(0.9);
 }
 
+/* Reset button style for settings */
+.reset-button {
+  background: linear-gradient(135deg, var(--danger-light), var(--danger-dark));
+  color: var(--white);
+  border: none;
+  padding: 8px 8px;
+  font-size: 12px;
+  border-radius: 100px;
+  cursor: pointer;
+  font-weight: 300;
+  margin-right: 8px;
+}
+.reset-button:hover { filter: brightness(0.95); }
+
 .play-btn {
   background: linear-gradient(135deg, var(--blue-light), var(--blue-dark));
   color: var(--white);
