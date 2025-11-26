@@ -23,7 +23,7 @@
       </button>
       <div id="settingsPanel" class="settings-panel" role="dialog" aria-modal="false" style="display:none;">
         <div class="settings-panel-content">
-          <div class="panel-header"><h3>設定</h3></div>
+          <div class="panel-header2"><h3>設定</h3></div>
           <div class="panel-content">
             <label for="globalLanguage">使用言語:</label>
             <select id="globalLanguage">
@@ -37,6 +37,11 @@
               <span id="globalVolumeValue">80%</span>
             </div>
             <div style="margin-top:8px;">
+              <label for="globalFrequencySlider">周波数:</label>
+              <input type="range" id="globalFrequencySlider" min="200" max="4000" step="1" value="880" />
+              <span id="globalFrequencyValue">880Hz</span>
+            </div>
+            <div style="margin-top:8px;">
               <label for="globalSpeedSelect">再生速度:</label>
               <select id="globalSpeedSelect">
                 <option value="3">3倍速</option>
@@ -46,6 +51,7 @@
                 <option value="0.5">0.5倍速</option>
               </select>
             </div>
+            
             <button id="closeSettings" class="main-button" aria-label="閉じる">閉じる</button>
           </div>
         </div>
@@ -65,14 +71,20 @@
           僕と一緒にモールス信号を学ぼう！
         </div>
       </div>
-      <!-- 音量スライダーUI（convert-screenやsound-rowなどに追加） -->
+       <div class="help-text" style="font-size:0.95em; color:#5c6b73;">右上の⚙️を押すと設定画面が開けます。使用言語などが変更可能です。<br>
+       </div>
+       <div class="help-text" style="font-size:0.95em; color:#5c6b73; margin-top: 10px;">
+        Press the ⚙️ in the upper right to open the settings screen.
+        You can change the language and other settings.
+       </div>
+      <!-- 音量スライダーUI（convert-screenやsound-rowなどに追加）
       <div class="volume-row">
         <label for="volumeSlider" id = "volume">音量</label>
         <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.8">
         <span id="volumeValue">80%</span>
         <button type="button" onclick="playDash()" style="margin-left:10px;" id = "TestPlayback">テスト再生</button>
       </div>
-      <p><span id="span4">確認用</span></p>
+      <p><span id="span4">確認用</span></p> -->
       <button class="main-button" onclick="goToStep(1)" id = "start">はじめる</button>
       <button class="GoToHenkan-button" onclick="goToStep(7)">変換だけする</button>
       <select id="language" class="hide-inline-language">

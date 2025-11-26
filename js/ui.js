@@ -268,6 +268,26 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
+  // Frequency wiring
+  const globalFrequencySlider = document.getElementById('globalFrequencySlider');
+  const globalFrequencyValue = document.getElementById('globalFrequencyValue');
+  if (globalFrequencySlider) {
+    // initialize: prefer stored value, otherwise use getFrequency if available
+    const storedFreq = localStorage.getItem('ml_frequency');
+    if (storedFreq !== null) {
+      globalFrequencySlider.value = storedFreq;
+    } else if (typeof getFrequency === 'function') {
+      try { globalFrequencySlider.value = Number(getFrequency()); } catch(e) {}
+    }
+    if (globalFrequencyValue) globalFrequencyValue.textContent = globalFrequencySlider.value + 'Hz';
+    globalFrequencySlider.addEventListener('input', function() {
+      const f = Number(this.value);
+      if (typeof setFrequency === 'function') setFrequency(f);
+      if (globalFrequencyValue) globalFrequencyValue.textContent = f + 'Hz';
+      localStorage.setItem('ml_frequency', String(f));
+    });
+  }
+
   // speed control
   const globalSpeedSelect = document.getElementById('globalSpeedSelect');
   if (globalSpeedSelect) {
@@ -295,6 +315,12 @@ document.addEventListener('DOMContentLoaded', function() {
       const ns = Number(s);
       if (globalSpeedSelect) globalSpeedSelect.value = ns;
       if (typeof ChangeSpeed === 'function') ChangeSpeed(ns);
+    }
+    const freq = localStorage.getItem('ml_frequency');
+    if (freq !== null) {
+      const nf = Number(freq);
+      if (globalFrequencySlider) { globalFrequencySlider.value = nf; if (globalFrequencyValue) globalFrequencyValue.textContent = nf + 'Hz'; }
+      if (typeof setFrequency === 'function') setFrequency(nf);
     }
   })();
 

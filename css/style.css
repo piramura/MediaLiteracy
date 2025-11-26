@@ -19,6 +19,7 @@
   --button-bg-success: #10b981;
   --button-bg-danger: #dc2626;
   --button-bg-blue: #2563eb;
+  --pink: #fecfef;
 
   --blue-light: #3b82f6;
   --blue-dark: #1d4ed8;
@@ -149,7 +150,10 @@ body::before {
   border-radius: 8px;
 }
 .settings-panel {
-  background: var(--white);
+  background: rgba(0, 0, 0, 0.6);
+  color: var(--white);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px); /* Safari用 */
   border-radius: var(--border-radius-sm);
   box-shadow: var(--shadow-md);
   padding: 12px;
@@ -1034,7 +1038,7 @@ button:active {
     grid-template-columns: 1fr;
   }
   /* settings panel responsiveness */
-  .settings-panel { right: 8px; top: 56px; width: 92%; max-width: 320px; min-width: unset; }
+  .settings-panel { right: 8px; top: 56px; width: 90vw; max-width: 320px; min-width: 200px; }
   .settings-btn { font-size: 1.1em; }
 }
 
@@ -1141,6 +1145,16 @@ button:active {
   position: relative;
 }
 
+.panel-header2 {
+  border-bottom: 1px dashed rgba(2, 100, 55, 0.06);
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-left: 10px;
+  position: relative;
+}
 .panel-header::before{
   content: "";
   position: absolute;
@@ -1152,9 +1166,26 @@ button:active {
   background: linear-gradient(180deg, var(--primary-color), var(--primary-dark));
 }
 
+.panel-header2::before{
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 5px;
+  border-radius: 4px;
+  background: linear-gradient(180deg, #ff9a9e, #fecfef);
+}
+
 .panel-header h3 {
   margin: 0;
-  color: var(--primary-dark);
+  color: var(--primary-color);
+  font-size: 1.05em;
+}
+
+.panel-header2 h3 {
+  margin: 0;
+  color: var(--pink);
   font-size: 1.05em;
 }
 
