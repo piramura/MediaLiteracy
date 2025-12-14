@@ -220,6 +220,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function toggleSettings() {
     if (!settingsPanel) return;
+    // If the Morse modal is open, prevent opening settings
+    const modal1 = document.getElementById('morseModal');
+    const modal2 = document.getElementById('morseModal2');
+    const modalOpen = (modal1 && modal1.style.display && modal1.style.display !== 'none') || (modal2 && modal2.style.display && modal2.style.display !== 'none');
+    if (modalOpen) {
+      // Optionally notify the user
+      // alert('モールス信号表が開いている間は設定を変更できません');
+      return;
+    }
     const shown = settingsPanel.style.display && settingsPanel.style.display !== 'none';
     settingsPanel.style.display = shown ? 'none' : 'block';
     if (settingsBtn) settingsBtn.setAttribute('aria-expanded', (!shown).toString());
@@ -256,7 +265,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // prefer stored language, otherwise prefer inline base select
     const storedLang = localStorage.getItem('ml_language');
     const base = document.getElementById('language') || document.getElementById('language2') || document.getElementById('language3');
-    if (storedLang !== null) globalLanguage.value = storedLang; else if (base && base.value) globalLanguage.value = base.value;
+    let initialLang = storedLang !== null ? storedLang : (base && base.value ? base.value : '日本語');
+    globalLanguage.value = initialLang;
     // mirror change to all inline selects
     globalLanguage.addEventListener('change', function() {
       const val = this.value;
@@ -265,6 +275,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if (el) { el.value = val; el.dispatchEvent(new Event('change')); }
       });
       localStorage.setItem('ml_language', val);
+      // Show/hide romaji->hiragana convert controls
+      const convertBtn = document.getElementById('convertRomajiToHiraBtn');
+      const romajiResult = document.getElementById('romajiToHiraResult');
+      if (convertBtn) convertBtn.style.display = (val === 'ローマ字') ? 'inline-block' : 'none';
+      if (romajiResult) romajiResult.style.display = (val === 'ローマ字') ? 'block' : 'none';
     });
     // Ensure inline selects reflect current value on load
     globalLanguage.dispatchEvent(new Event('change'));

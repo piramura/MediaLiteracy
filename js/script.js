@@ -115,6 +115,151 @@
                 ["７","－－・・・"], //7 －110
                 ["８","－－－・・"], //8 －111
                 ["９","－－－－・"], //9 －112
+                /*カタカナ*/
+                ["ア","－－・－－"], //あ－0
+                ["イ","・－"], //い－1
+                ["ウ","・・－"], //う－2
+                ["エ","－・－－－"], //え－3
+                ["オ","・－・・・"], //お－4
+                ["カ","・－・・"], //か－5
+                ["キ","－・－・・"], //き－6
+                ["ク","・・・－"], //く－7
+                ["ケ","－・－－"], //け－8
+                ["コ","－－－－"], //こ－9
+                ["サ","－・－・－"], //さ－10
+                ["シ","－－・－・"], //し－11
+                ["ス","－－－・－"], //す－12
+                ["セ","・－－－・"], //せ－13
+                ["ソ","－－－・"], //そ－14
+                ["タ","－・"], //た－15
+                ["チ","・・－・"], //ち－16
+                ["ツ","・－－・"], //つ－17
+                ["テ","・－・－－"], //て－18
+                ["ト","・・－・・"], //と－19
+                ["ナ","・－・"], //な－20
+                ["ニ","－・－・"], //に－21
+                ["ヌ","・・・・"], //ぬ－22
+                ["ネ","－－・－"], //ね－23
+                ["ノ","・・－－"], //の－24
+                ["ハ","－・・・"], //は－25
+                ["ヒ","－－・・－"], //ひ－26
+                ["フ","－－・・"], //ふ－27
+                ["ヘ","・"], //へ－28
+                ["ホ","－・・"], //ほ－29
+                ["マ","－・・－"], //ま－30
+                ["ミ","・・－・－"], //み－31
+                ["ム","－"], //む－32
+                ["メ","－・・・－"], //め－33
+                ["モ","－・・－・"], //も－34
+                ["ヤ","・－－"], //や－35
+                ["ヰ","・－・・－"], //ゐ－36
+                ["ユ","－・・－－"], //ゆ－37
+                ["ヱ","・－－・・"], //ゑ－38
+                ["ヨ","－－"], //よ－39
+                ["ラ","・・・"], //ら－40
+                ["リ","－－・"], //り－41
+                ["ル","－・－－・"], //る－42
+                ["レ","－－－"], //れ－43
+                ["ロ","・－・－"], //ろ－44
+                ["ワ","－・－"], //わ－45
+                ["ヲ","・－－－"], //を－46
+                ["ン","・－・－・"], //ん－47
+                ["ガ","・－・・／・・"], //が－48
+                ["ギ","－・－・・／・・"], //ぎ－49
+                ["グ","・・・－／・・"], //ぐ－50
+                ["ゲ","－・－－／・・"], //げ－51
+                ["ゴ","－－－－／・・"], //ご－52
+                ["ザ","－・－・－／・・"], //ざ－53
+                ["ジ","－－・－・／・・"], //じ－54
+                ["ズ","－－－・－／・・"], //ず－55
+                ["ゼ","・－－－・／・・"], //ぜ－56
+                ["ゾ","－－－・／・・"], //ぞ－57
+                ["ダ","－・／・・"], //だ－58
+                ["ヂ","・・－・／・・"], //ぢ－59
+                ["ヅ","・－－・／・・"], //づ－60
+                ["デ","・－・－－／・・"], //で－61
+                ["ド","・・－・・／・・"], //ど－62
+                ["バ","－・・・／・・"], //ば－63
+                ["ビ","－－・・－／・・"], //び－64
+                ["ブ","－－・・／・・"], //ぶ－65
+                ["ベ","・／・・"], //べ－66
+                ["ボ","－・・／・・"], //ぼ－67
+                ["パ","－・・・／・・－－・"], //ぱ－68
+                ["ピ","－－・・－／・・－－・"], //ぴ－69
+                ["プ","－－・・／・・－－・"], //ぷ－70
+                ["ペ","・／・・－－・"], //ぺ－71
+                ["ポ","－・・／・・－－・"] //ぽ－72
+                ["ｱ","－－・－－"], //あ－0
+                ["ｲ","・－"], //い－1
+                ["ｳ","・・－"], //う－2
+                ["ｴ","－・－－－"], //え－3
+                ["ｵ","・－・・・"], //お－4
+                ["ｶ","・－・・"], //か－5
+                ["ｷ","－・－・・"], //き－6
+                ["ｸ","・・・－"], //く－7
+                ["ｹ","－・－－"], //け－8
+                ["ｺ","－－－－"], //こ－9
+                ["ｻ","－・－・－"], //さ－10
+                ["ｼ","－－・－・"], //し－11
+                ["ｽ","－－－・－"], //す－12
+                ["ｾ","・－－－・"], //せ－13
+                ["ｿ","－－－・"], //そ－14
+                ["ﾀ","－・"], //た－15
+                ["ﾁ","・・－・"], //ち－16
+                ["ﾂ","・－－・"], //つ－17
+                ["ﾃ","・－・－－"], //て－18
+                ["ﾄ","・・－・・"], //と－19
+                ["ﾅ","・－・"], //な－20
+                ["ﾆ","－・－・"], //に－21
+                ["ﾇ","・・・・"], //ぬ－22
+                ["ﾈ","－－・－"], //ね－23
+                ["ﾉ","・・－－"], //の－24
+                ["ﾊ","－・・・"], //は－25
+                ["ﾋ","－－・・－"], //ひ－26
+                ["ﾌ","－－・・"], //ふ－27
+                ["ﾍ","・"], //へ－28
+                ["ﾎ","－・・"], //ほ－29
+                ["ﾏ","－・・－"], //ま－30
+                ["ﾐ","・・－・－"], //み－31
+                ["ﾑ","－"], //む－32
+                ["ﾒ","－・・・－"], //め－33
+                ["ﾓ","－・・－・"], //も－34
+                ["ﾔ","・－－"], //や－35
+                ["ﾕ","－・・－－"], //ゆ－37
+                ["ﾖ","－－"], //よ－39
+                ["ﾗ","・・・"], //ら－40
+                ["ﾘ","－－・"], //り－41
+                ["ﾙ","－・－－・"], //る－42
+                ["ﾚ","－－－"], //れ－43
+                ["ﾛ","・－・－"], //ろ－44
+                ["ﾜ","－・－"], //わ－45
+                ["ｦ","・－－－"], //を－46
+                ["ﾝ","・－・－・"], //ん－47
+                ["ｶﾞ","・－・・／・・"], //が－48
+                ["ｷﾞ","－・－・・／・・"], //ぎ－49
+                ["ｸﾞ","・・・－／・・"], //ぐ－50
+                ["ｹﾞ","－・－－／・・"], //げ－51
+                ["ｺﾞ","－－－－／・・"], //ご－52
+                ["ｻﾞ","－・－・－／・・"], //ざ－53
+                ["ｼﾞ","－－・－・／・・"], //じ－54
+                ["ｽﾞ","－－－・－／・・"], //ず－55
+                ["ｾﾞ","・－－－・／・・"], //ぜ－56
+                ["ｿﾞ","－－－・／・・"], //ぞ－57
+                ["ﾀﾞ","－・／・・"], //だ－58
+                ["ﾁﾞ","・・－・／・・"], //ぢ－59
+                ["ﾂﾞ","・－－・／・・"], //づ－60
+                ["ﾃﾞ","・－・－－／・・"], //で－61
+                ["ﾄﾞ","・・－・・／・・"], //ど－62
+                ["ﾊﾞ","－・・・／・・"], //ば－63
+                ["ﾋﾞ","－－・・－／・・"], //び－64
+                ["ﾌﾞ","－－・・／・・"], //ぶ－65
+                ["ﾍﾞ","・／・・"], //べ－66
+                ["ﾎﾞ","－・・／・・"], //ぼ－67
+                ["ﾊﾟ","－・・・／・・－－・"], //ぱ－68
+                ["ﾋﾟ","－－・・－／・・－－・"], //ぴ－69
+                ["ﾌﾟ","－－・・／・・－－・"], //ぷ－70
+                ["ﾍﾟ","・／・・－－・"], //ぺ－71
+                ["ﾎﾟ","－・・／・・－－・"], //ぽ－72
         ];
 
          const rome = [
@@ -330,7 +475,8 @@
                 ["ぴ","・－－・／・・"], //pi－69
                 ["ぷ","・－－・／・・－"], //pu－70
                 ["ぺ","・－－・／・"], //pe－71
-                ["ぽ","・－－・／－－－"] //po－72
+                ["ぽ","・－－・／－－－"], //po－72
+                ["。","・－・－・・"], //。 －98　改行を読点に
         ];
 
         let iroha_name = [];
@@ -1005,9 +1151,6 @@ async function analyzeAudioBuffer(arrayBuffer){
         }
     }
 
-    // 描画
-    drawAudioCanvas('audioCanvas', channelData, sampleRate, envelope, threshold, windowSize);
-
     // クリーンアップ（連続の区切りを1つに）
     morseStr = morseStr.replace(/／+/g,'／');
     // 先頭末尾の不要区切りを除去
@@ -1024,50 +1167,6 @@ function median(arr){
     return s[mid];
 }
 
-// draw waveform + envelope + threshold marker
-function drawAudioCanvas(canvasId, samples, sampleRate, envelope, threshold, windowSize){
-    const canvas = document.getElementById(canvasId);
-    if(!canvas) return;
-    const ctx = canvas.getContext('2d');
-    const w = canvas.width = canvas.clientWidth * (window.devicePixelRatio || 1);
-    const h = canvas.height = canvas.clientHeight * (window.devicePixelRatio || 1);
-    ctx.clearRect(0,0,w,h);
-    ctx.save();
-    // draw waveform in light gray
-    ctx.fillStyle = '#f8f8f8';
-    ctx.fillRect(0,0,w,h);
-    ctx.strokeStyle = '#999';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    const step = Math.ceil(samples.length / w);
-    for(let i = 0; i < w; i++){
-        const idx = i * step;
-        const v = samples[idx] || 0;
-        const y = (1 - (v + 1) / 2) * h; // normalize between -1..1
-        if(i === 0) ctx.moveTo(i, y);
-        else ctx.lineTo(i, y);
-    }
-    ctx.stroke();
-
-    // draw threshold and envelope as bars
-    const envStep = envelope.length / w;
-    for(let x = 0; x < w; x++){
-        const idx = Math.floor(x * envStep);
-        const val = envelope[idx] || 0;
-        const barH = Math.min(1, val / (threshold*3)) * h;
-        ctx.fillStyle = val >= threshold ? 'rgba(0,150,0,0.25)' : 'rgba(200,200,200,0.12)';
-        ctx.fillRect(x, h - barH, 1, barH);
-    }
-    // threshold line
-    ctx.strokeStyle = 'rgba(255,0,0,0.9)';
-    ctx.beginPath();
-    const thrY = h - Math.min(1, threshold / (threshold*3)) * h;
-    ctx.moveTo(0, thrY);
-    ctx.lineTo(w, thrY);
-    ctx.stroke();
-    ctx.restore();
-}
-
 // テキストのモールスを元に文字に変換して表示
 function showDecodedFromAnalyzed(){
     const morseStr = document.getElementById('analyzedMorse').value;
@@ -1082,18 +1181,125 @@ function showDecodedFromAnalyzed(){
     }
 }
 
+// Convert romaji string to hiragana (basic implementation)
+function romajiToHiragana(input){
+    if(!input) return '';
+    let s = input.toLowerCase();
+    // normalize spaces and slashes
+    s = s.replace(/[^a-z0-9\-\/\s]/g, '');
+    const map = {
+        "kya":"きゃ","kyu":"きゅ","kyo":"きょ",
+        "gya":"ぎゃ","gyu":"ぎゅ","gyo":"ぎょ",
+        "sha":"しゃ","shu":"しゅ","sho":"しょ","sha":"しゃ",
+        "ja":"じゃ","ju":"じゅ","jo":"じょ",
+        "cha":"ちゃ","chu":"ちゅ","cho":"ちょ",
+        "nya":"にゃ","nyu":"にゅ","nyo":"にょ",
+        "hya":"ひゃ","hyu":"ひゅ","hyo":"ひょ",
+        "bya":"びゃ","byu":"びゅ","byo":"びょ",
+        "pya":"ぴゃ","pyu":"ぴゅ","pyo":"ぴょ",
+        "mya":"みゃ","myu":"みゅ","myo":"みょ",
+        "rya":"りゃ","ryu":"りゅ","ryo":"りょ",
+        "tsu":"つ","shi":"し","chi":"ち","fu":"ふ","ji":"じ",
+        "a":"あ","i":"い","u":"う","e":"え","o":"お",
+        "ka":"か","ki":"き","ku":"く","ke":"け","ko":"こ",
+        "ga":"が","gi":"ぎ","gu":"ぐ","ge":"げ","go":"ご",
+        "sa":"さ","si":"し","su":"す","se":"せ","so":"そ",
+        "za":"ざ","zi":"じ","zu":"ず","ze":"ぜ","zo":"ぞ",
+        "ta":"た","ti":"ち","tu":"つ","te":"て","to":"と",
+        "da":"だ","di":"ぢ","du":"づ","de":"で","do":"ど",
+        "na":"な","ni":"に","nu":"ぬ","ne":"ね","no":"の",
+        "ha":"は","hi":"ひ","hu":"ふ","he":"へ","ho":"ほ",
+        "ba":"ば","bi":"び","bu":"ぶ","be":"べ","bo":"ぼ",
+        "pa":"ぱ","pi":"ぴ","pu":"ぷ","pe":"ぺ","po":"ぽ",
+        "ma":"ま","mi":"み","mu":"む","me":"め","mo":"も",
+        "ya":"や","yu":"ゆ","yo":"よ",
+        "la":"ら","ra":"ら","li":"り","ri":"り","lu":"る","ru":"る","le":"れ","re":"れ","lo":"ろ","ro":"ろ",
+        "n":"ん"
+    };
+    // Order keys by length desc to match longest first
+    const keys = Object.keys(map).sort((a,b)=>b.length-a.length);
+    let out = '';
+    const isVowel = ch => /[aeiou]/.test(ch);
+    const isConsonant = ch => /[bcdfghjklmnpqrstvwxyz]/.test(ch);
+
+    for(let i=0;i<s.length;){
+        // Special: 'nn' => ん
+        if(s.startsWith('nn', i)){
+            out += 'ん';
+            i += 2;
+            continue;
+        }
+        // handle double consonant -> small tsu (but NOT 'nn' which handled above)
+        if(i+1 < s.length && s[i] === s[i+1] && isConsonant(s[i]) && s[i] !== 'n'){
+            out += 'っ';
+            i++;
+            continue;
+        }
+
+        // handle single 'n': if next is vowel -> treat as part of next syllable
+        if(s[i] === 'n'){
+            const next = s[i+1];
+            if(!next || !isVowel(next)){
+                // next is not vowel -> ん
+                out += 'ん';
+                i++;
+                continue;
+            }
+            // next is vowel -> leave it to the syllable matching below (do not consume 'n' here)
+        }
+
+        let matched = false;
+        for(const k of keys){
+            if(s.startsWith(k, i)){
+                out += map[k];
+                i += k.length;
+                matched = true;
+                break;
+            }
+        }
+        if(!matched){
+            // skip hyphens/spaces
+            if(s[i] === ' ' || s[i] === '-' || s[i] === '/'){
+                out += s[i];
+                i++;
+            } else {
+                // unknown char, append raw and advance
+                out += s[i];
+                i++;
+            }
+        }
+    }
+    return out;
+}
+
+// Called by the new button: convert the decoded romaji (from analyzedMorse) to hiragana and show in textarea
+function convertRomajiAnalyzedToHiragana(){
+    const morseVal = document.getElementById('analyzedMorse').value;
+    if(!morseVal || !morseVal.trim()){
+        alert('解析されたモールスがありません。まず解析を実行してください。');
+        return;
+    }
+    const decoded = showDecodedFromAnalyzed();
+    if(!decoded){ alert('解析により文字列を取得できませんでした'); return; }
+    // Convert only if decoded looks like romaji (contains ASCII letters)
+    if(!/[a-zA-Z]/.test(decoded)){
+        alert('解析結果にローマ字が含まれていません');
+    }
+    const hira = romajiToHiragana(decoded);
+    const outEl = document.getElementById('romajiToHiraResult');
+    if(outEl) { outEl.value = hira; outEl.style.display = 'block'; }
+}
+
 
 window.addEventListener('DOMContentLoaded', () => {
     // ★ lang, lang2 の初期化をここで行う
     const lang = document.getElementById("language"); 
     const lang2 = document.getElementById("language2");
     let mode = "JP";
-
-    // ★ イベントリスナーの設定もここで行う
+    
     if(lang){ // 要素の存在チェックは必須
         lang.addEventListener("change", function (e) {
             changeLanguage(lang.value);
-            document.getElementById("span4").textContent = lang.value;
              // lang が存在しない場合もあるのでチェック
             if(lang2) lang.value = lang.value;
             if(lang.value === "日本語"){mode = "JP";}
@@ -1105,7 +1311,6 @@ window.addEventListener('DOMContentLoaded', () => {
     if(lang2){ // 要素の存在チェック
         lang2.addEventListener("change", function (e) {
             changeLanguage(lang2.value);
-            document.getElementById("span5").textContent = lang2.value;
             // lang が存在しない場合もあるのでチェック
             if(lang) lang.value = lang2.value;
             if(lang2.value === "日本語"){mode = "JP";}
@@ -1117,14 +1322,44 @@ window.addEventListener('DOMContentLoaded', () => {
     const audioInput = document.getElementById('audioFile');
     if(audioInput){
         audioInput.addEventListener('change', () => {
+            // Clear previous analysis results when a new file is selected
+            const analyzedEl = document.getElementById('analyzedMorse');
+            const analyzedToIrohaEl = document.getElementById('analyzedMorseToIroha');
+            const romajiResultEl = document.getElementById('romajiToHiraResult');
+            if(analyzedEl) analyzedEl.value = '';
+            if(analyzedToIrohaEl) analyzedToIrohaEl.value = '';
+            if(romajiResultEl) { romajiResultEl.value = ''; romajiResultEl.style.display = 'none'; }
             // optional: you can auto-analyze
             // analyzeUploadedFile();
             document.getElementById('analyzeInfo').textContent = 'ファイルが選択されました。解析ボタンを押してください';
         });
     }
+
+    // Apply stored language on load (if user previously chose a language)
+    try {
+        const storedLang = localStorage.getItem('ml_language');
+        const preferred = storedLang || (lang && lang.value) || (lang2 && lang2.value) || '日本語';
+        // set selects if present
+        if (lang) { lang.value = preferred; }
+        if (lang2) { lang2.value = preferred; }
+        const globalLang = document.getElementById('globalLanguage');
+        if (globalLang) globalLang.value = preferred;
+        // call changeLanguage to apply texts
+        if (typeof changeLanguage === 'function') changeLanguage(preferred);
+    } catch (e) {
+        console.warn('Failed to apply stored language', e);
+    }
 });
 
 function changeLanguage(languageName){
+    // Clear analyzed textareas when language changes
+    const analyzedEl = document.getElementById('analyzedMorse');
+    const analyzedToIrohaEl = document.getElementById('analyzedMorseToIroha');
+    const romajiResultEl = document.getElementById('romajiToHiraResult');
+    if(analyzedEl) analyzedEl.value = '';
+    if(analyzedToIrohaEl) analyzedToIrohaEl.value = '';
+    if(romajiResultEl) { romajiResultEl.value = ''; romajiResultEl.style.display = 'none'; }
+
     if(languageName === "日本語" || languageName === "ローマ字"){
         if(languageName === "日本語" ){current_language = iroha;}
         if(languageName === "ローマ字" ){current_language = rome;}
@@ -1135,17 +1370,83 @@ function changeLanguage(languageName){
         あなたの名前をモールス信号に変換したり、実際にモールス入力を体験してみましょう。";
         document.getElementById("h2").innerHTML = "あなたのお名前を教えてください";
         document.getElementById("volume").innerHTML = "音量";
-        document.getElementById("TestPlayback").innerHTML = "テスト再生";
         document.getElementById("start").innerHTML = "はじめる";
         document.getElementById("inputName").innerHTML = "名前入力";
         document.getElementById("change_playback").innerHTML = "変換・再生";
         document.getElementById("inputMores").innerHTML = "モールス入力";
         document.getElementById("finish").innerHTML = "完了";
         document.getElementById("input").innerHTML = "ひらがなで入力してね！";
-        document.getElementById("nameInput").placeholder = "お名前をひらがなで入力(最大20文字)";
+        document.getElementById("nameInput").placeholder = "お名前をひらがなで入力";
         document.getElementById("back").innerHTML = "戻る";
         document.getElementById("change").innerHTML = "変換する";
-        document.getElementById("marusu2").innerHTML = "変換する";
+        document.getElementById("GoToHenkan").innerHTML = "変換だけする";
+        document.getElementById("henkan-h2").innerHTML = "モールス信号に変換しました！";
+        document.getElementById("marusu2").innerHTML = "君の名前がモールスになった！";
+        document.getElementById("yourName").innerHTML = "<strong id='userName'></strong> さんのお名前は：";
+        document.getElementById("listen-first").innerHTML = "🔊 音で聞いてみる";
+        document.getElementById("MP3").innerHTML = "MP3変換";
+        document.getElementById("downloadBtn").innerHTML = "MP3をダウンロード";
+        document.getElementById("back2").innerHTML = "戻る";
+        document.getElementById("next2").innerHTML = "次へ進む";
+        document.getElementById("h2InputExp").innerHTML = "モールス入力を体験してみよう！";
+        document.getElementById("explainHow").innerHTML = "今度は自分の名前をモールス信号で入力してみましょう。<br>\
+        「・」（短音）と「－」（長音）と「／」(区切り) を組み合わせて文字を作ります。";
+        document.getElementById("morseInput").placeholder = "ボタンで入力してください";
+        document.getElementById("HowToPlay").innerHTML = "ボタンでモールス記号を入力できます。<br>\
+      DEL: 一文字消す<br>\
+      C: 全て消す<br>\
+      🔊: 現在のモールス信号再生・確認<br>";
+        document.getElementById("Tips").innerHTML = " ・直接の文字入力は無効<br>\
+        ・挿入位置を指定して削除可能<br>";
+        document.getElementById("checkMyAnswer").innerHTML = "✅答え合わせ";
+        document.getElementById("Tips2").innerHTML = "自分の名前が完成したら先に進めます。\
+        <br>「✅答え合わせ」で確認してみましょう！";
+        document.getElementById("back3").innerHTML = "戻る";
+        document.getElementById("next3").innerHTML = "終わりにする";
+        document.getElementById("otsukare").innerHTML = "🎉 おつかれさまでした！";
+        document.getElementById("thanksMessage").innerHTML = "モールス信号の体験はいかがでしたか？<br>\
+        昔の人たちはこの方法で遠くの人と<br>\
+        コミュニケーションを取っていたんですね。";
+        document.getElementById("suggest").innerHTML = "クイズに挑戦してみませんか？";
+        document.getElementById("back4").innerHTML = "最初から";
+        document.getElementById("next4").innerHTML = "簡単クイズ";
+        document.getElementById("quiz-question").innerHTML = "質問がここに表示されます";
+        document.getElementById("allFinish").innerHTML = "終了";
+        document.getElementById("quiz-next-btn").innerHTML = "次へ";
+        document.getElementById("settings").innerHTML = "設定";
+        document.getElementById("language").innerHTML = "使用言語";
+        document.getElementById("volume").innerHTML = "音量";
+        document.getElementById("frequency").innerHTML = "周波数";
+        document.getElementById("speed").innerHTML = "再生速度";
+        document.getElementById("resetSettings").innerHTML = "初期設定に戻す";
+        document.getElementById("closeSettings").innerHTML = "閉じる";
+        document.getElementById("mo-rusuhenkanjo").innerHTML = "モールス変換所";
+        document.getElementById("input_henkan").innerHTML = "モールスの解析や変換が出来るよ！";
+        document.getElementById("kaiseki").innerHTML = "解析 (Upload & Analyze)";
+        document.getElementById("kaiseki_help").innerHTML = "ファイルを選択して「解析する」を押すと、検出されたモールス記号が表示されます。";
+        document.getElementById("audiofile").innerHTML = "モールス音声(mp3)をアップロードして解析:";
+        document.getElementById("analyzeBtn").innerHTML = "解析する";
+        document.getElementById("analyzeInfo").innerHTML = "解析結果が表示されます ↑";
+        document.getElementById("h3_henkan").innerHTML = "変換 (Convert Text)";
+        document.getElementById("henkan_help").innerHTML = "ここに変換したい文字を入力してください。使用言語には注意してください。<br>\
+        現在の使用言語は日本語です。<br>(The current language in use is not English.)";
+        document.getElementById("WantToChange").placeholder = "変換したい文字を入力";
+        document.getElementById("hanken_help2").innerHTML = "入力したテキストは自動でモールスに変換されます。コピーや再生、MP3ダウンロードが可能です。";
+        document.getElementById("copyWantToChangeBtn").innerHTML = "コピー";
+        document.getElementById("playWantToChangeBtn").innerHTML = "🔊 再生";
+        document.getElementById("downloadWantToChangeBtn").innerHTML = "MP3ダウンロード";
+        document.getElementById("copyWantToChangeMsg").innerHTML = "コピーしました";
+        document.getElementById("Separator").innerHTML = "区切り記号:";
+        document.getElementById("／").innerHTML = "全角スラッシュ（／）";
+        document.getElementById("/").innerHTML = "半角スラッシュ（/）";
+        document.getElementById("space").innerHTML = "スペース";
+        document.getElementById("WantToChangeShowUnknowns").innerHTML = "未定義文字(？)を表示";
+        document.getElementById("backToFst").innerHTML = "最初の画面へ";
+        document.getElementById("morseTbl").innerHTML = "モールス信号表";
+        document.getElementById("moji").textContent = "文字";
+        document.getElementById("hugou").textContent = "モールス符号";
+        document.getElementById("morseTblBtn").textContent = "📖 モールス信号表";
+        
         
     }else{
         current_language = rome;
@@ -1156,17 +1457,79 @@ function changeLanguage(languageName){
         Convert your name into Morse code, and try experiencing Morse code input for yourself.";
         document.getElementById("h2").innerHTML = "Please tell me your name.";
         document.getElementById("volume").innerHTML = "Volume";
-        document.getElementById("TestPlayback").innerHTML = "Test Playback";
-        document.getElementById("start").innerHTML = "START";
-        document.getElementById("inputName").innerHTML = "Input your name";
+        document.getElementById("start").innerHTML = "Start";
+        document.getElementById("inputName").innerHTML = "Input your name.";
         document.getElementById("change_playback").innerHTML = "Conversion and Playback";
-        document.getElementById("inputMores").innerHTML = "モールス入力";
-        document.getElementById("finish").innerHTML = "完了";
-        document.getElementById("input").innerHTML = "ひらがなで入力してね！";
-        document.getElementById("nameInput").placeholder = "お名前をひらがなで入力(最大20文字)";
-        document.getElementById("back").innerHTML = "戻る";
-        document.getElementById("change").innerHTML = "変換する";
-        document.getElementById("marusu2").innerHTML = "Your name has changed to Morse!";
+        document.getElementById("inputMores").innerHTML = "Morse code input";
+        document.getElementById("finish").innerHTML = "Completed";
+        document.getElementById("input").innerHTML = "Please type inalphabet letters!";
+        document.getElementById("nameInput").placeholder = "Please enter your name in alphabetical characters.";
+        document.getElementById("back").innerHTML = "Back";
+        document.getElementById("change").innerHTML = "Convert";
+        document.getElementById("GoToHenkan").innerHTML = "Conversion only";
+        document.getElementById("henkan-h2").innerHTML = "Converted to Morse code!";
+        document.getElementById("marusu2").innerHTML = "Your name has become Morse code!";
+        document.getElementById("yourName").innerHTML = "<strong id=‘userName’></strong>'s name is:";
+        document.getElementById("listen-first").innerHTML = "🔊 Listen to it";
+        document.getElementById("MP3").innerHTML = "MP3 Conversion";
+        document.getElementById("downloadBtn").innerHTML = "Download MP3";
+        document.getElementById("back2").innerHTML = "Back";
+        document.getElementById("next2").innerHTML = "Next";
+        document.getElementById("h2InputExp").innerHTML = "Try out Morse code input!";
+        document.getElementById("explainHow").innerHTML = "Now let's try entering your name in Morse code.<br>\
+Combine dots (·), dashes (－), and slashes (/) to form letters.";
+        document.getElementById("morseInput").placeholder = "Please enter using the button.";
+        document.getElementById("HowToPlay").innerHTML = "You can input Morse code using the buttons.<br>\
+      DEL: Delete one character<br>\
+      C: Clear All<br>\
+      🔊: Current Morse code playback and verification<br>";
+        document.getElementById("Tips").innerHTML = " ・Direct text input is disabled<br>\
+        ・Deletion possible by specifying insertion position<br>";
+        document.getElementById("checkMyAnswer").innerHTML = "✅Check My Answer";
+        document.getElementById("Tips2").innerHTML = "Once your name is complete, you can proceed.\
+        <br>Check your answers with “✅ Check My Answer”!";
+        document.getElementById("back3").innerHTML = "Back";
+        document.getElementById("next3").innerHTML = "End it";
+        document.getElementById("otsukare").innerHTML = "🎉 Great job!";
+        document.getElementById("thanksMessage").innerHTML = "How was your experience with Morse code?<br>\
+        People in the old days used this method to communicate with those far away.";
+        document.getElementById("suggest").innerHTML = "Why not give the quiz a try?";
+        document.getElementById("back4").innerHTML = "Return to the first page";
+        document.getElementById("next4").innerHTML = "Simple Quiz";
+        document.getElementById("quiz-question").innerHTML = "Questions will appear here.";
+        document.getElementById("allFinish").innerHTML = "End";
+        document.getElementById("quiz-next-btn").innerHTML = "Next";
+        document.getElementById("settings").innerHTML = "Settings";
+        document.getElementById("language").innerHTML = "Language used";
+        document.getElementById("volume").innerHTML = "Volume";
+        document.getElementById("frequency").innerHTML = "Frequency";
+        document.getElementById("speed").innerHTML = "Playback speed";
+        document.getElementById("resetSettings").innerHTML = "Reset to factory settings";
+        document.getElementById("closeSettings").innerHTML = "Close";
+        document.getElementById("kaiseki").innerHTML = "解析 (Upload & Analyze)";
+        document.getElementById("kaiseki_help").innerHTML = "Select a file and press “Analyze” to display the detected Morse code.";
+        document.getElementById("audiofile").innerHTML = "Upload Morse code audio (mp3) for analysis:";
+        document.getElementById("analyzeBtn").innerHTML = "Analyze";
+        document.getElementById("analyzeInfo").innerHTML = "Analysis results will be displayed ↑";
+        document.getElementById("h3_henkan").innerHTML = "変換 (Convert Text)";
+        document.getElementById("henkan_help").innerHTML = "Enter the text you want to convert here. Please be mindful of the language used.<br>\
+        The current language in use is English.<br>(現在の使用言語は英語です。)";
+        document.getElementById("WantToChange").placeholder = "Enter the text you want to convert";
+        document.getElementById("hanken_help2").innerHTML = "The text you enter is automatically converted to Morse code. You can copy, play back, or download it as an MP3 file.";
+        document.getElementById("copyWantToChangeBtn").innerHTML = "Copy";
+        document.getElementById("playWantToChangeBtn").innerHTML = "🔊 Play";
+        document.getElementById("downloadWantToChangeBtn").innerHTML = "MP3 Download";
+        document.getElementById("copyWantToChangeMsg").innerHTML = "Copied";
+        document.getElementById("Separator").innerHTML = "Delimiter:";
+        document.getElementById("／").innerHTML = "Full-width slash (／)";
+        document.getElementById("/").innerHTML = "Half-width slash (/)";
+        document.getElementById("space").innerHTML = "Space";
+        document.getElementById("WantToChangeShowUnknowns").innerHTML = "Display undefined character (?)";
+        document.getElementById("backToFst").innerHTML = "Back to the first screen";
+        document.getElementById("morseTbl").innerHTML = "Morse Code Chart";
+        document.getElementById("moji").textContent = "Characters";
+        document.getElementById("hugou").textContent = "Morse code";
+        document.getElementById("morseTblBtn").textContent = "📖 Morse Code Chart";
     }
 }
 

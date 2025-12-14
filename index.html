@@ -23,38 +23,38 @@
       </button>
       <div id="settingsPanel" class="settings-panel" role="dialog" aria-modal="false" style="display:none;">
         <div class="settings-panel-content">
-          <div class="panel-header2"><h3>設定</h3></div>
+          <div class="panel-header2"><h3 id="settings">設定</h3></div>
           <div class="panel-content">
-            <label for="globalLanguage">使用言語:</label>
+            <label for="globalLanguage" id = "language">使用言語:</label>
             <select id="globalLanguage">
               <option value="日本語">日本語</option>
               <option value="ローマ字">ローマ字</option>
               <option value="English">English</option>
             </select>
             <div style="margin-top:8px;">
-              <label for="globalVolumeSlider">音量:</label>
+              <label for="globalVolumeSlider" id = "volume">音量:</label>
               <input type="range" id="globalVolumeSlider" min="0" max="1" step="0.01" value="0.8" />
               <span id="globalVolumeValue">80%</span>
             </div>
             <div style="margin-top:8px;">
-              <label for="globalFrequencySlider">周波数:</label>
-              <input type="range" id="globalFrequencySlider" min="200" max="4000" step="1" value="880" />
+              <label for="globalFrequencySlider" id = "frequency">周波数:</label>
+              <input type="range" id="globalFrequencySlider" min="200" max="2000" step="1" value="880" />
               <span id="globalFrequencyValue">880Hz</span>
             </div>
             <div style="margin-top:8px;">
-              <label for="globalSpeedSelect">再生速度:</label>
+              <label for="globalSpeedSelect" id = "speed">再生速度:</label>
               <select id="globalSpeedSelect">
-                <option value="3">3倍速</option>
-                <option value="2">2倍速</option>
-                <option value="1">1倍速</option>
-                <option value="0.75">0.75倍速</option>
-                <option value="0.5">0.5倍速</option>
+                <option value="3">×3</option>
+                <option value="2">×2</option>
+                <option value="1">×1</option>
+                <option value="0.75">×0.75</option>
+                <option value="0.5">×0.5</option>
               </select>
             </div>
             
             <div class="settings-actions" style="display:flex; justify-content:flex-end; gap:8px;">
-              <button id="resetSettings" class="reset-button" aria-label="初期設定" title="設定を初期値に戻します">初期設定に戻す</button>
-              <button id="closeSettings" class="main-button" aria-label="閉じる">閉じる</button>
+              <button id="resetSettings" class="reset-button" aria-label="初期設定に戻す" title="設定を初期値に戻します">初期設定に戻す</button>
+              <button id="closeSettings" class="main-button" aria-label="閉じる" font-size="0.85em">閉じる</button>
             </div>
           </div>
         </div>
@@ -80,20 +80,12 @@
         Press the ⚙️ in the upper right to open the settings screen.
         You can change the language and other settings.
        </div>
-      <!-- 音量スライダーUI（convert-screenやsound-rowなどに追加）
-      <div class="volume-row">
-        <label for="volumeSlider" id = "volume">音量</label>
-        <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.8">
-        <span id="volumeValue">80%</span>
-        <button type="button" onclick="playDash()" style="margin-left:10px;" id = "TestPlayback">テスト再生</button>
-      </div>
-      <p><span id="span4">確認用</span></p> -->
       <button class="main-button" onclick="goToStep(1)" id = "start">はじめる</button>
-      <button class="GoToHenkan-button" onclick="goToStep(7)">変換だけする</button>
+      <button class="GoToHenkan-button" onclick="goToStep(7)" id = "GoToHenkan">変換だけする</button>
       <select id="language" class="hide-inline-language">
       <option value="日本語">日本語</option>
       <option value="ローマ字">ローマ字</option>
-      <option value="English">Engulish</option>
+      <option value="English">English</option>
       </select>
     </div>
 
@@ -122,7 +114,7 @@
       <select id="language3" class="hide-inline-language">
       <option value="日本語">日本語</option>
       <option value="ローマ字">ローマ字</option>
-      <option value="English">Engulish</option>
+      <option value="English">English</option>
       </select>
       <div class="navigation">
         <button class="back-button" onclick="goToStep(0)" id = "back">戻る</button>
@@ -142,7 +134,7 @@
         <span class="step">完了</span>
       </div>
       
-      <h2>モールス信号に変換しました！</h2>
+      <h2 id = "henkan-h2">モールス信号に変換しました！</h2>
       <div class="inline-character-area">
         <img src="assets/png/マールス.png" alt="マールス" class="inline-character-img">
         <div class="inline-character-balloon" id ="marusu2">
@@ -150,7 +142,7 @@
         </div>
       </div>
       <div style="margin: 20px 0;">
-        <div style="font-size: 1.2em; margin: 10px 0;">
+        <div style="font-size: 1.2em; margin: 10px 0;" id = "yourName">
           <strong id="userName"></strong> さんのお名前は：
         </div>
         <textarea id="output" rows="3" readonly style="font-size: 1.5em; text-align: center;"></textarea>
@@ -164,27 +156,17 @@
       </div>
       <div class="sound-row">
         <div class="sound-buttons">
-          <button class="main-button" onclick="playMorse('output')">🔊 音で聞いてみる</button>
-        </div>
-        <div class="dropdown">
-          <!-- <button class="dropbtn" onclick="toggleDropdown(event)">操作メニュー</button>
-          <div class="dropdown-content">
-            <button onclick="ChangeSpeed(3)">3倍速</button>
-            <button onclick="ChangeSpeed(2)">2倍速</button>
-            <button onclick="ChangeSpeed(1)">1倍速</button>
-            <button onclick="ChangeSpeed(0.75)">0.75倍速</button>
-            <button onclick="ChangeSpeed(0.5)">0.5倍速</button>
-          </div> -->
+          <button class="main-button" onclick="playMorse('output')" id = "listen-first">🔊 音で聞いてみる</button>
         </div>
       </div>
       <div class="convert-buttons">
-        <button onclick="generateMorseMp3('output')">MP3変換</button>
+        <button onclick="generateMorseMp3('output')" id ="MP3">MP3変換</button>
         <button id="downloadBtn" style="display:none;">MP3をダウンロード</button>
       </div>
       
       <div class="navigation">
-        <button class="back-button" onclick="goToStep(1)">戻る</button>
-        <button class="main-button" onclick="goToStep(3)">次へ進む</button>
+        <button class="back-button" onclick="goToStep(1)" id ="back2">戻る</button>
+        <button class="main-button" onclick="goToStep(3)" id ="next2">次へ進む</button>
       </div>
     </div>
 
@@ -200,9 +182,9 @@
         <span class="step">完了</span>
       </div>
       
-      <h2>モールス入力を体験してみよう！</h2>
-      <div style="margin: 20px 0;">
-        <p>今度は自分の名前をモールス信号で入力してみましょう。<br>
+      <h2 id="h2InputExp">モールス入力を体験してみよう！</h2>
+      <div style="margin: 20px 0;" >
+        <p id="explainHow">今度は自分の名前をモールス信号で入力してみましょう。<br>
         「・」（短音）と「－」（長音）と「／」(区切り) を組み合わせて文字を作ります。</p>
       </div>
       
@@ -218,24 +200,26 @@
         <button class="control-btn clear" onclick="clearText('morseInput')" aria-label="全削除">C</button>
         <button class="control-btn play" onclick="playMorse('morseInput');ChangeMorse('morseInput')" aria-label="確認">🔊</button>
       </div>
+      <p id ="HowToPlay">
       ボタンでモールス記号を入力できます。<br>
       DEL: 一文字消す<br>
       C: 全て消す<br>
       🔊: 現在のモールス信号再生・確認<br>
-        <div class="help-text" style="display:block; margin-top:8px; font-size:0.95em;">
+      </p>
+        <div class="help-text" style="display:block; margin-top:8px; font-size:0.95em;" id ="Tips">
         ・直接の文字入力は無効<br>
         ・挿入位置を指定して削除可能<br>
         </div>
       <!-- HINTボタン -->
       <button id="hintBtn" onclick="playHintAudio()">💡 HINT</button>
-        <button class="play-btn" onclick="playMorse('morseInput');ChangeMorse('morseInput')">✅答え合わせ</button>
-       <div class="help-text" style="font-size:0.95em; color:#5c6b73;">自分の名前が完成したら先に進めます。
+        <button class="play-btn" onclick="playMorse('morseInput');ChangeMorse('morseInput')" id ="checkMyAnswer">✅答え合わせ</button>
+       <div class="help-text" style="font-size:0.95em; color:#5c6b73;" id ="Tips2">自分の名前が完成したら先に進めます。
         <br>「✅答え合わせ」で確認してみましょう！
        </div>
 
       <div class="navigation">
-        <button class="back-button" onclick="location.reload()">最初から</button>
-        <button class="main-button" onclick="goToStep(4)">終わりにする</button>
+        <button class="back-button" onclick="goToStep(2)" id="back3">戻る</button>
+        <button class="main-button" onclick="goToStep(4)" id="next3">終わりにする</button>
       </div>
     </div>
 
@@ -251,43 +235,22 @@
         <span class="step active">完了</span>
       </div>
       
-      <h2>🎉 おつかれさまでした！</h2>
-      <div class="welcome-text">
+      <h2 id = "otsukare">🎉 おつかれさまでした！</h2>
+      <div class="welcome-text" id = "thanksMessage">
         モールス信号の体験はいかがでしたか？<br>
         昔の人たちはこの方法で遠くの人と<br>
         コミュニケーションを取っていたんですね。
       </div>
       
-      <h3>クイズに挑戦してみませんか？</h3>
+      <h3 id ="suggest">クイズに挑戦してみませんか？</h3>
       <!-- クイズ画面の質問の上などに追加 -->
       <div class="quiz-character-area">
         <img src="assets/png/マールス.png" alt="マールス" class="quiz-character-img">
       </div>
-      <!-- <button onclick="ShowQuestion('complete-question')" class="main-button">クイズを表示</button> -->
-      <!-- 完了画面 -->
-      <!-- <span id="complete-question" style="display: block; margin: 20px 0; font-size: 1.1em;">クイズやっていかない？</span>
-            
-      <textarea id="answerInput" rows="3" cols="70" readonly placeholder="クイズの答えをモールス信号で入力してください"></textarea> -->
-      
-       <!-- <div class="morse-buttons" id="morse-section" style="display: none;">
-        <div class="morse-row">
-          <button class="morse-btn dot" onclick="appendText('・','answerInput')">・（短音）</button>
-          <button class="morse-btn dash" onclick="appendText('－','answerInput')">－（長音）</button>
-          <button class="morse-btn slash" onclick="appendText('／','answerInput')">／ (区切り)</button>
-        </div>
-        <div class="delete-row">
-          <button class="delete-btn" onclick="deleteLast('answerInput')">1文字削除</button>
-          <button class="delete-btn" onclick="clearText('answerInput')">全削除</button>
-        </div>
-        <div class="play-row">
-        <button class="play-btn" onclick="playMorse('answerInput')">🔊 再生</button>
-        <button class="check-btn" onclick="ChangeMorse('answerInput')">✅確認</button>
-        </div>
-      </div> -->
       
       <div class="navigation">
-        <button class="back-button" onclick="location.reload()">最初から</button>
-        <button class="main-button" onclick="startQuiz()">簡単クイズ</button>
+        <button class="back-button" onclick="location.reload()" id="back4">最初から</button>
+        <button class="main-button" onclick="startQuiz()" id = "next4">簡単クイズ</button>
       </div>
     </div>
     <!-- 追加：クイズ画面 -->
@@ -312,7 +275,7 @@
       <audio id="incorrectSound" src="assets/mp3/決定ボタンを押す44.mp3" preload="auto"></audio>
 
       <div class="navigation">
-        <button class="back-button" onclick="prevQuiz()">終了</button>
+        <button class="back-button" onclick="prevQuiz()" id="allFinish">終了</button>
         <button class="main-button" id="quiz-next-btn" onclick="nextQuiz()" disabled>次へ</button>
       </div>
       </div>
@@ -323,48 +286,47 @@
        <div class="screen" id="henkan-screen">
 
 
-      <h2 id = "h2">モールス変換所</h2>
+      <h2 id = "mo-rusuhenkanjo">モールス変換所</h2>
       <div class="inline-character-area">
         <img src="assets/png/マールス.png" alt="マールス" class="inline-character-img">
-        <div class="inline-character-balloon" id = "input">
+        <div class="inline-character-balloon" id = "input_henkan">
           モールスの解析や変換が出来るよ！
         </div>
       </div>
-      <label id="Input">使用言語: </label>
-      <select id="language2" class="hide-inline-language">
-      <option value="日本語">日本語</option>
-      <option value="ローマ字">ローマ字</option>
-      <option value="English">Engulish</option>
-      </select><br>
           <!-- 追加: MP3解析用UI -->
           <div class="henkan-grid" style="margin-top: 16px;">
             <div class="panel" id="analyze-panel">
-              <div class="panel-header"><h3>解析 (Upload & Analyze)</h3></div>
+              <div class="panel-header" id = "kaiseki"><h3>解析 (Upload & Analyze)</h3></div>
               <div class="panel-content">
-                 <div class="help-text" style="font-size:0.95em; color:#5c6b73;">ファイルを選択して「解析する」を押すと、検出されたモールス記号が表示されます。</div>
+                 <div class="help-text" style="font-size:0.95em; color:#5c6b73;" id = "kaiseki_help">ファイルを選択して「解析する」を押すと、検出されたモールス記号が表示されます。</div>
                   <div class="analyze-row">
-        <label for="audioFile">モールス音声(mp3)をアップロードして解析:</label>
+        <label for="audioFile" id ="audiofile">モールス音声(mp3)をアップロードして解析:</label>
 
         <input type="file" id="audioFile" accept="audio/*" />
         <button class="main-button" id="analyzeBtn" onclick="analyzeUploadedFile()">解析する</button>
                 </div>
                 <div class="analysis-area" style="margin-top: 10px; display:flex; flex-direction:column; gap:8px;">
-          <textarea id="analyzedMorse" rows="5" readonly style="font-size:1.1em; width:100%;"></textarea>
-          <textarea id="analyzedMorseToIroha" rows="5" readonly style="font-size:1.1em; width:100%;"></textarea>
-          <div id="analyzeInfo" style="font-size:0.9em; color:#444;">解析結果が表示されます ↑</div>
-            <!-- <button onclick="showDecodedFromAnalyzed() style="display:none;">ローマ字をひらがなに変換</button> -->
-          <!-- </div> -->
-        <!-- </div> -->
+                <textarea id="analyzedMorse" rows="5" readonly style="font-size:1.1em; width:100%;"></textarea>
+                <textarea id="analyzedMorseToIroha" rows="5" readonly style="font-size:1.1em; width:100%;"></textarea>
+                <div id="analyzeInfo" style="font-size:0.9em; color:#444;">解析結果が表示されます ↑</div>
+                  <div style="display:flex; gap:8px; align-items:center;">
+                    <button id="convertRomajiToHiraBtn" class="main-button" style="display:none;" onclick="convertRomajiAnalyzedToHiragana()">ローマ字をひらがなに変換</button>
+                  </div>
+                  <textarea id="romajiToHiraResult" rows="3" readonly style="font-size:1.05em; width:100%; display:none;" placeholder="変換結果（ひらがな）"></textarea>
+          <!-- </div>
+        </div> -->
                 </div>
               </div>
             </div>
 
         <div class="panel" id="convert-panel">
-          <div class="panel-header"><h3>変換 (Convert Text)</h3></div>
+          <div class="panel-header" id = "h3_henkan"><h3>変換 (Convert Text)</h3></div>
           <div class="panel-content">
-            <div class="help-text" style="font-size:0.95em; color:#5c6b73;">ここに変換したい文字を入力してください。使用言語には注意してください。</div>
+            <div class="help-text" style="font-size:0.95em; color:#5c6b73;" id ="henkan_help">ここに変換したい文字を入力してください。使用言語には注意してください。
+              現在の使用言語は日本語です。<br>(The current language in use is not English.)
+            </div>
             <input type="text" id="WantToChange" placeholder="変換したい文字を入力" value="">
-            <div class="help-text" style="font-size:0.95em; color:#5c6b73;">入力したテキストは自動でモールスに変換されます。コピーや再生、MP3ダウンロードが可能です。</div>
+            <div class="help-text" style="font-size:0.95em; color:#5c6b73;" id = "hanken_help2">入力したテキストは自動でモールスに変換されます。コピーや再生、MP3ダウンロードが可能です。</div>
       <!-- 追加: 入力に合わせて変換結果を表示するエリア -->
         <textarea id="WantToChangeOutput" rows="2" readonly style="font-size:1.2em; flex:1;"></textarea>
       <div class="want-to-change-row" style="margin-top: 8px; display:flex; gap:8px; align-items:center;">
@@ -386,18 +348,18 @@
       <textarea id="WantToChangeOutputHidden" style="display:none;" readonly></textarea>
       <!-- 変換のフォーマットオプション -->
       <div style="margin-top:6px; display:flex; gap:8px; align-items:center;">
-        <label for="WantToChangeSeparator">区切り記号:</label>
+        <label for="WantToChangeSeparator" id = "Separator">区切り記号:</label>
         <select id="WantToChangeSeparator">
-          <option value="／">全角スラッシュ（／）</option>
-          <option value="/">半角スラッシュ（/）</option>
-          <option value=" ">スペース</option>
+          <option value="／" id = "／">全角スラッシュ（／）</option>
+          <option value="/" id = "/">半角スラッシュ（/）</option>
+          <option value=" " id = "space">スペース</option>
         </select>
         <label style="margin-left:12px;">
           <input type="checkbox" id="WantToChangeShowUnknowns" checked> 未定義文字(？)を表示
         </label>
       </div>
       <div class="navigation">
-        <button class="back-button" onclick="goToStep(0)" id = "back">最初の画面へ</button>
+        <button class="back-button" onclick="goToStep(0)" id = "backToFst">最初の画面へ</button>
       </div>
     </div>
 
@@ -526,66 +488,66 @@
     <div id="morseModal2" class="modal" style="display:none;">
     <div class="modal-content">
       <span class="close" onclick="closeMorseModal(document.getElementById('language').value)">&times;</span>
-      <h3>モールス信号表</h3>
+      <h3 id ="morseTbl">モールス信号表</h3>
       <div style="overflow-x:auto; max-height:500px;">
         <table class="morse-table" border="1" style="width:100%; border-collapse:collapse;">
           <thead>
             <tr>
-              <th>文字</th>
-              <th>モールス符号</th>
+              <th id ="moji">文字</th>
+              <th id ="hugou">モールス符号</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td>A</td><td>・－</td><td>
-            <tr><td>B</td><td>－・・・</td><td>
-            <tr><td>C</td><td>－・－・</td><td>
-            <tr><td>D</td><td>－・・</td><td>
-            <tr><td>E</td><td>・</td><td>
-            <tr><td>F</td><td>・・－・</td><td>
-            <tr><td>G</td><td>－－・</td><td>
-            <tr><td>H</td><td>・・・・</td><td>
-            <tr><td>I</td><td>・・</td><td>
-            <tr><td>J</td><td>・－－－</td><td>
-            <tr><td>K</td><td>－・－</td><td>
-            <tr><td>L</td><td>・－・・</td><td>
-            <tr><td>M</td><td>－－</td><td>
-            <tr><td>N</td><td>－・</td><td>
-            <tr><td>O</td><td>－－－</td><td>
-            <tr><td>P</td><td>・－－・</td><td>
-            <tr><td>Q</td><td>－－・－</td><td>
-            <tr><td>R</td><td>・－・</td><td>
-            <tr><td>S</td><td>・・・</td><td>
-            <tr><td>T</td><td>－</td><td>
-            <tr><td>U</td><td>・・－</td><td>
-            <tr><td>V</td><td>・・・－</td><td>
-            <tr><td>W</td><td>・－－</td><td>
-            <tr><td>X</td><td>－・・－</td><td>
-            <tr><td>Y</td><td>－・－－</td><td>
-            <tr><td>Z</td><td>－－・・</td><td>
-            <tr><td>0</td><td>－－－－－</td><td> 
-            <tr><td>1</td><td>・－－－－</td><td> 
-            <tr><td>2</td><td>・・－－－</td><td> 
-            <tr><td>3</td><td>・・・－－</td><td>
-            <tr><td>4</td><td>・・・・－</td><td> 
-            <tr><td>5</td><td>・・・・・</td><td> 
-            <tr><td>6</td><td>－・・・・</td><td>
-            <tr><td>7</td><td>－－・・・</td><td> 
-            <tr><td>8</td><td>－－－・・</td><td> 
-            <tr><td>9</td><td>－－－－・</td><td> 
-            <tr><td>.</td><td>・－・－・－</td><td>
-            <tr><td>,</td><td>－－・・－－</td><td>
-            <tr><td>:</td><td>－－－・・・</td><td>
-            <tr><td>?</td><td>・・－－・・</td><td>
-            <tr><td>'</td><td>・－－－－・</td><td>
-            <tr><td>－</td><td>－・・・・－</td><td>
-            <tr><td>(</td><td>－・－－・</td><td>
-            <tr><td>)</td><td>－・－－・－</td><td>
-            <tr><td>/</td><td>－・・－・</td><td>
-            <tr><td>=</td><td>－・・・－</td><td>
-            <tr><td>+</td><td>・－・－・</td><td>
-            <tr><td>"</td><td>・－・・－・</td><td>
-            <tr><td>×</td><td>－・・－</td><td>
-            <tr><td>@</td><td>・－－・－・</td><td>
+            <tr><td>A</td><td>・－</td></tr>
+            <tr><td>B</td><td>－・・・</td></tr>
+            <tr><td>C</td><td>－・－・</td></tr>
+            <tr><td>D</td><td>－・・</td></tr>
+            <tr><td>E</td><td>・</td></tr>
+            <tr><td>F</td><td>・・－・</td></tr>
+            <tr><td>G</td><td>－－・</td></tr>
+            <tr><td>H</td><td>・・・・</td></tr>
+            <tr><td>I</td><td>・・</td></tr>
+            <tr><td>J</td><td>・－－－</td></tr>
+            <tr><td>K</td><td>－・－</td></tr>
+            <tr><td>L</td><td>・－・・</td></tr>
+            <tr><td>M</td><td>－－</td></tr>
+            <tr><td>N</td><td>－・</td></tr>
+            <tr><td>O</td><td>－－－</td></tr>
+            <tr><td>P</td><td>・－－・</td></tr>
+            <tr><td>Q</td><td>－－・－</td></tr>
+            <tr><td>R</td><td>・－・</td></tr>
+            <tr><td>S</td><td>・・・</td></tr>
+            <tr><td>T</td><td>－</td></tr>
+            <tr><td>U</td><td>・・－</td></tr>
+            <tr><td>V</td><td>・・・－</td></tr>
+            <tr><td>W</td><td>・－－</td></tr>
+            <tr><td>X</td><td>－・・－</td></tr>
+            <tr><td>Y</td><td>－・－－</td></tr>
+            <tr><td>Z</td><td>－－・・</td></tr>
+            <tr><td>0</td><td>－－－－－</td></tr>
+            <tr><td>1</td><td>・－－－－</td></tr> 
+            <tr><td>2</td><td>・・－－－</td> </tr>
+            <tr><td>3</td><td>・・・－－</td></tr>
+            <tr><td>4</td><td>・・・・－</td> </tr>
+            <tr><td>5</td><td>・・・・・</td> </tr>
+            <tr><td>6</td><td>－・・・・</td></tr>
+            <tr><td>7</td><td>－－・・・</td> </tr>
+            <tr><td>8</td><td>－－－・・</td> </tr>
+            <tr><td>9</td><td>－－－－・</td> </tr>
+            <tr><td>.</td><td>・－・－・－</td></tr>
+            <tr><td>,</td><td>－－・・－－</td></tr>
+            <tr><td>:</td><td>－－－・・・</td></tr>
+            <tr><td>?</td><td>・・－－・・</td></tr>
+            <tr><td>'</td><td>・－－－－・</td></tr>
+            <tr><td>－</td><td>－・・・・－</td></tr>
+            <tr><td>(</td><td>－・－－・</td></tr>
+            <tr><td>)</td><td>－・－－・－</td></tr>
+            <tr><td>/</td><td>－・・－・</td></tr>
+            <tr><td>=</td><td>－・・・－</td></tr>
+            <tr><td>+</td><td>・－・－・</td></tr>
+            <tr><td>"</td><td>・－・・－・</td></tr>
+            <tr><td>×</td><td>－・・－</td></tr>
+            <tr><td>@</td><td>・－－・－・</td></tr>
           </tbody>
         </table>
       </div>
@@ -593,7 +555,7 @@
   </div>
 
  <footer class="footer">
-  <button class="footer-button" onclick="openMorseModal(document.getElementById('language').value)">📖 モールス信号表</button>
+  <button class="footer-button" onclick="openMorseModal(document.getElementById('language').value)" id = "morseTblBtn">📖 モールス信号表</button>
 </footer>
 
 

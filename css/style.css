@@ -165,10 +165,10 @@ body::before {
   padding: 8px 4px 4px 4px;
 }
 /* settings: inline controls */
-.settings-panel label { display: block; font-weight: 600; margin-bottom: 6px; }
+.settings-panel label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.95em; }
 .settings-panel input[type="range"] { width: 100%; display: inline-block; margin-top: 6px; }
-.settings-panel select { width: 100%; padding: 8px 8px; border-radius: 8px; border: 1px solid var(--text-border); }
-.settings-panel span { display: inline-block; margin-left: 8px; }
+.settings-panel select { width: 100%; padding: 6px 6px; border-radius: 6px; border: 1px solid var(--text-border); font-size: 0.9em; }
+.settings-panel span { display: inline-block; margin-left: 6px; font-size: 0.9em; }
 /* Hide inline individual language selects - we'll centralize control */
 .hide-inline-language { display: none !important; }
 
@@ -692,12 +692,15 @@ button:active {
   background: linear-gradient(135deg, var(--danger-light), var(--danger-dark));
   color: var(--white);
   border: none;
-  padding: 8px 8px;
-  font-size: 12px;
-  border-radius: 100px;
+  padding: 6px 12px;
+  font-size: 0.85em;
+  border-radius: 8px;
   cursor: pointer;
-  font-weight: 300;
-  margin-right: 8px;
+  font-weight: 600;
+  margin-right: 6px;
+  flex: 1;
+  min-width: 80px;
+  white-space: nowrap;
 }
 .reset-button:hover { filter: brightness(0.95); }
 
@@ -1054,6 +1057,12 @@ button:active {
   /* settings panel responsiveness */
   .settings-panel { right: 8px; top: 56px; width: 90vw; max-width: 320px; min-width: 200px; }
   .settings-btn { font-size: 1.1em; }
+  .settings-panel label { font-size: 0.85em; margin-bottom: 4px; }
+  .settings-panel select { padding: 5px 4px; font-size: 0.8em; }
+  .settings-panel span { font-size: 0.8em; margin-left: 4px; }
+  .settings-actions { flex-wrap: wrap; gap: 6px !important; }
+  .reset-button { padding: 6px 8px; font-size: 0.75em; margin-right: 0; flex: 1 1 auto; min-width: 70px; }
+  #closeSettings { padding: 6px 12px; font-size: 0.85em; flex: 1 1 auto; min-width: 70px; }
 }
 
 @media (max-width: 768px) and (orientation: landscape) {
