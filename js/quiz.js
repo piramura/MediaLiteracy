@@ -6,6 +6,15 @@ function shuffle(array) {
     .map(({ value }) => value);
 }
 
+// 言語を取得
+function getQuizLanguage() {
+  const globalLang = document.getElementById('globalLanguage');
+  if (globalLang) return globalLang.value;
+  const lang = document.getElementById('language');
+  if (lang) return lang.value;
+  return localStorage.getItem('ml_language') || '日本語';
+}
+
 // クイズ候補（選択肢となる語）を用意
 const wordPool = [
   /* 食べ物 */
@@ -158,10 +167,15 @@ const EnglishWordPool = [
 
 // ランダムに問題を生成
 function generateQuizData() {
-  const data = wordPool.map(options => {
+  // 使用言語を参考にクイズを設定
+  const currentLang = getQuizLanguage();
+  const activeWordPool = (currentLang === 'English') ? EnglishWordPool : wordPool;
+  const conversionFunction = (currentLang === 'English') ? DirectChangeIroha : DirectChangeIroha;
+  
+  const data = activeWordPool.map(options => {
     const shuffled = shuffle(options);
     const answer = shuffled[Math.floor(Math.random() * shuffled.length)];
-    const question = DirectChangeIroha(answer); // モールス信号に変換
+    const question = conversionFunction(answer); // モールス信号に変換
 
     return {
       question,

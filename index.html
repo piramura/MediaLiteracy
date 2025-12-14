@@ -51,6 +51,13 @@
                 <option value="0.5">×0.5</option>
               </select>
             </div>
+            <div style="margin-top:8px;">
+              <label for="globalFilenameFormat" id="filenameFormatLabel">保存ファイル名:</label>
+              <select id="globalFilenameFormat">
+                <option value="input">入力単語を利用</option>
+                <option value="timestamp">現在時刻を利用</option>
+              </select>
+            </div>
             
             <div class="settings-actions" style="display:flex; justify-content:flex-end; gap:8px;">
               <button id="resetSettings" class="reset-button" aria-label="初期設定に戻す" title="設定を初期値に戻します">初期設定に戻す</button>
@@ -219,7 +226,7 @@
 
       <div class="navigation">
         <button class="back-button" onclick="goToStep(2)" id="back3">戻る</button>
-        <button class="main-button" onclick="goToStep(4)" id="next3">終わりにする</button>
+        <button class="main-button" onclick="goToStep(4)" id="next3" style="display:none;">終わりにする</button>
       </div>
     </div>
 
@@ -355,7 +362,7 @@
           <option value=" " id = "space">スペース</option>
         </select>
         <label style="margin-left:12px;">
-          <input type="checkbox" id="WantToChangeShowUnknowns" checked> 未定義文字(？)を表示
+          <input type="checkbox" checked> <span id="WantToChangeShowUnknowns">未定義文字(？)を表示</span>
         </label>
       </div>
       <div class="navigation">
