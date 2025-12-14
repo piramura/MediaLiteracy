@@ -1519,7 +1519,8 @@ Combine dots (·), dashes (－), and slashes (/) to form letters.";
         document.getElementById("mo-rusuhenkanjo").innerHTML = "Morse Code Station";
         document.getElementById("input_henkan").innerHTML = "You can analyze and convert Morse code!";
         document.getElementById("kaiseki").innerHTML = "解析 (Upload & Analyze)";
-        document.getElementById("kaiseki_help").innerHTML = "Select a file and press “Analyze” to display the detected Morse code.";
+        document.getElementById("kaiseki_help").innerHTML = "Select a file and press “Analyze” to display the detected Morse code.<br>\
+        <b>The current language in use is English.</b><br>(現在の使用言語は英語です。)";
         document.getElementById("audiofile").innerHTML = "Upload Morse code audio (mp3) for analysis:";
         document.getElementById("analyzeInfo").innerHTML = "Analysis results will be displayed ↑";
         document.getElementById("h3_henkan").innerHTML = "変換 (Convert Text)";
