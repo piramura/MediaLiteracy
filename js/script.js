@@ -1428,8 +1428,13 @@ function changeLanguage(languageName){
         document.getElementById("analyzeBtn").innerHTML = "解析する";
         document.getElementById("analyzeInfo").innerHTML = "解析結果が表示されます ↑";
         document.getElementById("h3_henkan").innerHTML = "変換 (Convert Text)";
-        document.getElementById("henkan_help").innerHTML = "ここに変換したい文字を入力してください。使用言語には注意してください。<br>\
-        現在の使用言語は日本語です。<br>(The current language in use is not English.)";
+        if(languageName === "日本語" ){
+            document.getElementById("henkan_help").innerHTML = "ここに変換したい文字を入力してください。使用言語には注意してください。<br>\
+            <b>現在の使用言語は日本語(かな)です。</b><br>(The current language in use is not English.)";
+        }else{
+            document.getElementById("henkan_help").innerHTML = "ここに変換したい文字を入力してください。使用言語には注意してください。<br>\
+            <b>現在の使用言語は日本語(ローマ字)です。</b><br>(The current language in use is not English.)";
+        }
         document.getElementById("WantToChange").placeholder = "変換したい文字を入力";
         document.getElementById("hanken_help2").innerHTML = "入力したテキストは自動でモールスに変換されます。コピーや再生、MP3ダウンロードが可能です。";
         document.getElementById("copyWantToChangeBtn").innerHTML = "コピー";
@@ -1515,7 +1520,7 @@ Combine dots (·), dashes (－), and slashes (/) to form letters.";
         document.getElementById("analyzeInfo").innerHTML = "Analysis results will be displayed ↑";
         document.getElementById("h3_henkan").innerHTML = "変換 (Convert Text)";
         document.getElementById("henkan_help").innerHTML = "Enter the text you want to convert here. Please be mindful of the language used.<br>\
-        The current language in use is English.<br>(現在の使用言語は英語です。)";
+        <b>The current language in use is English.</b><br>(現在の使用言語は英語です。)";
         document.getElementById("WantToChange").placeholder = "Enter the text you want to convert";
         document.getElementById("hanken_help2").innerHTML = "The text you enter is automatically converted to Morse code. You can copy, play back, or download it as an MP3 file.";
         document.getElementById("copyWantToChangeBtn").innerHTML = "Copy";
