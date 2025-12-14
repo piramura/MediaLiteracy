@@ -39,11 +39,6 @@ const scriptAlertMessages = {
     'ローマ字': '解析により文字列を取得できませんでした',
     'English': 'Failed to get string from analysis.'
   },
-  noRomajiInResult: {
-    '日本語': '解析結果にローマ字が含まれていません',
-    'ローマ字': '解析結果にローマ字が含まれていません',
-    'English': 'Analysis result contains no romaji.'
-  }
 };
 
 function getScriptLanguage() {
@@ -1076,6 +1071,7 @@ async function analyzeUploadedFile(){
             const morse = await analyzeAudioBuffer(arrayBuffer);
             document.getElementById('analyzedMorse').value = morse;
             document.getElementById('analyzedMorseToIroha').value = Conversion(showDecodedFromAnalyzed());
+            convertRomajiAnalyzedToHiragana();
             document.getElementById('analyzeInfo').textContent = '解析完了';
         }catch(err){
             console.error(err);
@@ -1301,12 +1297,18 @@ function convertRomajiAnalyzedToHiragana(){
     }
     const decoded = showDecodedFromAnalyzed();
     if(!decoded){ alert(getScriptAlertMessage('noDecodedString', 'Failed to get string.')); return; }
-    if(!/[a-zA-Z]/.test(decoded)){
-        alert(getScriptAlertMessage('noRomajiInResult', 'Analysis result contains no romaji.'));
-    }
     const hira = romajiToHiragana(decoded);
     const outEl = document.getElementById('romajiToHiraResult');
-    if(outEl) { outEl.value = hira; outEl.style.display = 'block'; }
+    const currentLang = getScriptLanguage();
+    if(outEl) { 
+        outEl.value = hira; 
+        // 言語が「ローマ字」の時だけ表示し、それ以外は非表示にする
+        if (currentLang === 'ローマ字') {
+            outEl.style.display = 'block';
+        } else {
+            outEl.style.display = 'none';
+        }
+    }
 }
 
 

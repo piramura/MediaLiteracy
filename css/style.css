@@ -1079,10 +1079,10 @@ button:active {
   }
 }
 
-/* 更に広い画面ではコンテナを広げる: 2カラムをゆったり表示 */
 @media (min-width: 900px) {
   .container { max-width: 900px; }
 }
+
 /* =====================================
    SNSシェアボタン
    ===================================== */
@@ -1232,6 +1232,6 @@ button:active {
 /* 横並び(PC) */
 @media (min-width: 900px) {
   .henkan-grid {
-    flex-direction: row;
+    flex-direction: column;
   }
 }

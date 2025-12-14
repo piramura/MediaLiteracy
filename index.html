@@ -313,10 +313,7 @@
                 <textarea id="analyzedMorse" rows="5" readonly style="font-size:1.1em; width:100%;"></textarea>
                 <textarea id="analyzedMorseToIroha" rows="5" readonly style="font-size:1.1em; width:100%;"></textarea>
                 <div id="analyzeInfo" style="font-size:0.9em; color:#444;">解析結果が表示されます ↑</div>
-                  <div style="display:flex; gap:8px; align-items:center;">
-                    <button id="convertRomajiToHiraBtn" class="main-button" style="display:none;" onclick="convertRomajiAnalyzedToHiragana()">ローマ字をひらがなに変換</button>
-                  </div>
-                  <textarea id="romajiToHiraResult" rows="3" readonly style="font-size:1.05em; width:100%; display:none;" placeholder="変換結果（ひらがな）"></textarea>
+                <textarea id="romajiToHiraResult" rows="3" readonly style="font-size:1.05em; width:100%; display:none;" placeholder="変換結果（ひらがな）"></textarea>
           <!-- </div>
         </div> -->
                 </div>
@@ -332,38 +329,47 @@
             <input type="text" id="WantToChange" placeholder="変換したい文字を入力" value="">
             <div class="help-text" style="font-size:0.95em; color:#5c6b73;" id = "hanken_help2">入力したテキストは自動でモールスに変換されます。コピーや再生、MP3ダウンロードが可能です。</div>
         <textarea id="WantToChangeOutput" rows="2" readonly style="font-size:1.2em; flex:1;"></textarea>
-      <div class="want-to-change-row" style="margin-top: 8px; display:flex; gap:8px; align-items:center;">
+      <div class="want-to-change-row" style="margin-top: 16px; display:flex; justify-content:center; width:100%;">
        
-        <div style="display:flex; flex-direction:column; gap:6px; margin-left:6px; align-items:center;">
-          <div style="display:flex; gap:8px; flex-direction:column;">
-            <button class="convert-buttons" id="copyWantToChangeBtn" style="white-space:nowrap;">コピー</button>
+        <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">
+          <div style="display:flex; gap:8px; flex-direction:column; align-items:center;">
+            
+            <button class="convert-buttons" id="copyWantToChangeBtn" style="width: 240px;">コピー</button>
+            
             <div style="display:flex; gap:8px; align-items:center;">
-              <button class="convert-buttons" id="playWantToChangeBtn" style="white-space:nowrap;">🔊 再生</button>
-              <button class="convert-buttons" id="downloadWantToChangeBtn" style="white-space:nowrap;">MP3ダウンロード</button>
+              <button class="convert-buttons" id="playWantToChangeBtn" style="min-width: 100px;">🔊 再生</button>
+              <button class="convert-buttons" id="downloadWantToChangeBtn" style="min-width: 130px;">MP3ダウンロード</button>
             </div>
+            
           </div>
           <span id="copyWantToChangeMsg" style="display:none; font-size:0.85em; color:#2b8a3e;">コピーしました</span>
         </div>
-          </div>
+      </div>
         </div>
       </div>
       <textarea id="WantToChangeOutputHidden" style="display:none;" readonly></textarea>
       <!-- 変換のフォーマットオプション -->
-      <div style="margin-top:6px; display:flex; gap:8px; align-items:center;">
-        <label for="WantToChangeSeparator" id = "Separator">区切り記号:</label>
-        <select id="WantToChangeSeparator">
-          <option value="／" id = "／">全角スラッシュ（／）</option>
-          <option value="/" id = "/">半角スラッシュ（/）</option>
-          <option value=" " id = "space">スペース</option>
-        </select>
-        <label style="margin-left:12px;">
-          <input type="checkbox" checked> <span id="WantToChangeShowUnknowns">未定義文字(？)を表示</span>
+     <div style="margin-top:16px; display:flex; flex-direction: column; gap:12px; align-items:center;">
+        
+        <div style="display:flex; align-items:center; gap:8px;">
+          <label for="WantToChangeSeparator" id="Separator">区切り記号:</label>
+          <select id="WantToChangeSeparator" style="padding: 4px; border-radius: 4px;">
+            <option value="／" id="／">全角スラッシュ（／）</option>
+            <option value="/" id="/">半角スラッシュ（/）</option>
+            <option value=" " id="space">スペース</option>
+          </select>
+        </div>
+
+        <label style="cursor:pointer;">
+          <input type="checkbox" id="WantToChangeShowUnknowns" checked> 
+          <span id="chkLabelText">未定義文字(？)を表示</span>
         </label>
+
+        <div class="navigation" style="margin:0; display:flex; justify-content:center;">
+          <button class="back-button" onclick="goToStep(0)" id="backToFst" style="min-width: 160px;">最初の画面へ</button>
+        </div>
+
       </div>
-      <div class="navigation">
-        <button class="back-button" onclick="goToStep(0)" id = "backToFst">最初の画面へ</button>
-      </div>
-    </div>
 
   </div>
 
