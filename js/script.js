@@ -1423,15 +1423,20 @@ function changeLanguage(languageName){
         document.getElementById("mo-rusuhenkanjo").innerHTML = "モールス変換所";
         document.getElementById("input_henkan").innerHTML = "モールスの解析や変換が出来るよ！";
         document.getElementById("kaiseki").innerHTML = "解析 (Upload & Analyze)";
-        document.getElementById("kaiseki_help").innerHTML = "ファイルを選択して「解析する」を押すと、検出されたモールス記号が表示されます。";
+        if(languageName === "日本語" ){
+            document.getElementById("kaiseki_help").innerHTML = "ファイルを選択して「解析する」を押すと、検出されたモールス記号が表示されます。<br>\
+            <b>現在の使用言語は日本語(かな)です。</b><br>(The current language in use is not English.)";
+        }else if(languageName === "ローマ字" ){
+            document.getElementById("kaiseki_help").innerHTML = "ファイルを選択して「解析する」を押すと、検出されたモールス記号が表示されます。<br>\
+            <b>現在の使用言語は日本語(ローマ字)です。</b><br>(The current language in use is not English.)";
+        }
         document.getElementById("audiofile").innerHTML = "モールス音声(mp3)をアップロードして解析:";
-        document.getElementById("analyzeBtn").innerHTML = "解析する";
         document.getElementById("analyzeInfo").innerHTML = "解析結果が表示されます ↑";
         document.getElementById("h3_henkan").innerHTML = "変換 (Convert Text)";
         if(languageName === "日本語" ){
             document.getElementById("henkan_help").innerHTML = "ここに変換したい文字を入力してください。使用言語には注意してください。<br>\
             <b>現在の使用言語は日本語(かな)です。</b><br>(The current language in use is not English.)";
-        }else{
+        }else if(languageName === "ローマ字" ){
             document.getElementById("henkan_help").innerHTML = "ここに変換したい文字を入力してください。使用言語には注意してください。<br>\
             <b>現在の使用言語は日本語(ローマ字)です。</b><br>(The current language in use is not English.)";
         }
@@ -1516,7 +1521,6 @@ Combine dots (·), dashes (－), and slashes (/) to form letters.";
         document.getElementById("kaiseki").innerHTML = "解析 (Upload & Analyze)";
         document.getElementById("kaiseki_help").innerHTML = "Select a file and press “Analyze” to display the detected Morse code.";
         document.getElementById("audiofile").innerHTML = "Upload Morse code audio (mp3) for analysis:";
-        document.getElementById("analyzeBtn").innerHTML = "Analyze";
         document.getElementById("analyzeInfo").innerHTML = "Analysis results will be displayed ↑";
         document.getElementById("h3_henkan").innerHTML = "変換 (Convert Text)";
         document.getElementById("henkan_help").innerHTML = "Enter the text you want to convert here. Please be mindful of the language used.<br>\
