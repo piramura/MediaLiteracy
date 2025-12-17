@@ -86,13 +86,10 @@ function getDownloadFilename(originalText){
   if (text.length > 20) text = text.substring(0,20) + (isEnglish ? '...' : '・・・');
 
   // language code
-  const langEl = document.getElementById('language');
   let langCode = 'JP';
-  if (langEl && langEl.value) {
-    if (langEl.value === '日本語') langCode = 'JP';
-    else if (langEl.value === 'ローマ字') langCode = 'RO';
-    else langCode = 'EN';
-  }
+  if (lang === '日本語') langCode = 'JP';
+  else if (lang === 'ローマ字') langCode = 'RO';
+  else if (lang === 'English') langCode = 'EN';
 
   // format choice: 'input' or 'timestamp'
   const format = localStorage.getItem('ml_filename_format') || 'input';
@@ -250,15 +247,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let originalText = wantToChangeInput.value || 'morse';
         originalText = originalText.replace(/[\\/:*?"<>|]/g, '_');
         if (originalText.length > 20) originalText = originalText.substring(0, 20) + '・・・';
-        const langEl = document.getElementById('language');
-        let langCode = 'JP';
-        if (langEl && langEl.value) {
-          if (langEl.value === '日本語') langCode = 'JP';
-          else if (langEl.value === 'ローマ字') langCode = 'RO';
-          else langCode = 'EN';
-        }
-        const filename = `モールス信号${langCode}_${originalText}.mp3`;
-          const filenameToUse = getDownloadFilename(originalText);
+        const filenameToUse = getDownloadFilename(originalText);
           if (typeof downloadBlob === 'function') {
             downloadBlob(blob, filenameToUse);
             window.alert(`${getAlertMessage('downloadCompleted','Download completed!')}\nファイル名: ${filenameToUse}`);
