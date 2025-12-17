@@ -1077,10 +1077,26 @@ button:active {
   .character-area {
     right: var(--spacing-md);
   }
+  .settings-panel { right: 8px; top: 56px; width: 90vw; max-width: 320px; min-width: 200px; }
+  .settings-btn { font-size: 1.1em; }
+  .settings-panel label { font-size: 0.85em; margin-bottom: 4px; }
+  .settings-panel select { padding: 5px 4px; font-size: 0.8em; }
+  .settings-panel span { font-size: 0.8em; margin-left: 4px; }
+  .settings-actions { flex-wrap: wrap; gap: 6px !important; }
+  .reset-button { padding: 6px 8px; font-size: 0.75em; margin-right: 0; flex: 1 1 auto; min-width: 70px; }
+  #closeSettings { padding: 6px 12px; font-size: 0.85em; flex: 1 1 auto; min-width: 70px; }
 }
 
 @media (min-width: 900px) {
   .container { max-width: 900px; }
+  .settings-panel { right: 8px; top: 56px; width: 90vw; max-width: 320px; min-width: 200px; }
+  .settings-btn { font-size: 1.1em; }
+  .settings-panel label { font-size: 0.85em; margin-bottom: 4px; }
+  .settings-panel select { padding: 5px 4px; font-size: 0.8em; }
+  .settings-panel span { font-size: 0.8em; margin-left: 4px; }
+  .settings-actions { flex-wrap: wrap; gap: 6px !important; }
+  .reset-button { padding: 6px 8px; font-size: 0.75em; margin-right: 0; flex: 1 1 auto; min-width: 70px; }
+  #closeSettings { padding: 6px 12px; font-size: 0.85em; flex: 1 1 auto; min-width: 70px; }
 }
 
 /* =====================================

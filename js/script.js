@@ -548,7 +548,6 @@ function getScriptAlertMessage(key, defaultMsg = '') {
         let invalidChars = [];
         let speedRatio = 1;
         let SPEED = 0.15; // モールス信号の速さ(前の3倍遅い)
-        let DIFFICULTY = 'normal'; //文字と文字の間隔 normalがスタンダート
         let frequency = 880; //モールスの音の高さ
         let currentMp3Blob = null; // 一番新しいmp3(Binary Large Object)
         const channels = 1; //チャンネル数
@@ -674,12 +673,12 @@ function getScriptAlertMessage(key, defaultMsg = '') {
                 } else if(char === "－" || char === "-"){
                     ring(audioCtx, time, dot * 3);
                     time += dot * 3 + dot; // 「－」 + 「空白」 ((3点 + 1点
-                } else if(char === "／" && DIFFICULTY === 'normal'){
+                } else if(char === "／"){
                     time += dot * 2; // 文字と文字の間 3点(上の空白分 + 2点)
-                } else if(char === "／" && DIFFICULTY === 'easy'){
-                    time += dot * 5; // 文字と文字の間 6点(上の空白分 + 5点)
+                } else if(char === " "){
+                    time += dot * 6; // 単語間 7点
                 } else if(char === "？"){ //  ?の処理どうしよう
-                    time += dot ;
+                    time += dot * 6;
                 }
             }
         }
@@ -761,6 +760,7 @@ function getScriptAlertMessage(key, defaultMsg = '') {
                 if (char === "・"){totalDuration += unit + unit;}
                 else if (char === "－"){totalDuration += unit * 3 + unit;}
                 else if (char === "／"){totalDuration += unit * 2;}
+                else if (char === " "){totalDuration += unit * 6;}
             }
 
 
@@ -776,6 +776,8 @@ function getScriptAlertMessage(key, defaultMsg = '') {
                     time += unit * 3 + unit;
                 } else if (char === "／") {
                     time += unit * 2;
+                } else if (char === " ") {
+                    time += unit * 6;
                 }
             }
 
@@ -884,7 +886,6 @@ function getScriptAlertMessage(key, defaultMsg = '') {
         function appendText(char,id) {
             const textbox = document.getElementById(id);
             if(!textbox) return;
-            // Insert at caret position (replace selection if any)
             const start = textbox.selectionStart || 0;
             const end = textbox.selectionEnd || 0;
             const before = textbox.value.slice(0, start);
@@ -901,13 +902,11 @@ function getScriptAlertMessage(key, defaultMsg = '') {
             const start = textbox.selectionStart || 0;
             const end = textbox.selectionEnd || 0;
             if(start !== end){
-                // Delete selected range
                 const before = textbox.value.slice(0, start);
                 const after = textbox.value.slice(end);
                 textbox.value = before + after;
                 textbox.selectionStart = textbox.selectionEnd = start;
             } else {
-                // delete one char before caret
                 const deleteStart = Math.max(0, start - 1);
                 const before = textbox.value.slice(0, deleteStart);
                 const after = textbox.value.slice(end);
@@ -953,7 +952,7 @@ function animateMorseFlow(morseStr) {
 
     for (let i = 0; i < morseStr.length; i++) {
         const ch = morseStr[i];
-        if (!'・－／'.includes(ch)) continue;
+        if (!'・－／ '.includes(ch)) continue;
 
         const span = document.createElement('span');
         span.className = 'morse-flow-char';
@@ -967,6 +966,7 @@ function animateMorseFlow(morseStr) {
         if (ch === "・"){baseDelay += dot + dot;}
         else if (ch === "－" || ch === "-"){baseDelay += dot*2 + dot;}
         else if (ch === "／"){baseDelay += dot * 2;}
+        else if (ch === " "){baseDelay += dot * 6;}
     }
 
 }
@@ -1153,7 +1153,7 @@ async function analyzeAudioBuffer(arrayBuffer){
             const dur = seg.frames * unitSec;
             // silence 判定
             if(dur > dotUnit * 5){ // word間
-                morseStr += '／'; // 区切り文字
+                morseStr += ' '; // 区切り文字
             }else if(dur > dotUnit * 2.5){ // letter間
                 morseStr += '／';
             }else{
@@ -1198,25 +1198,54 @@ function romajiToHiragana(input){
     // 区切り文字をなくす
     s = s.replace(/[^a-z0-9\-\/\s]/g, '');
     const map = {
-        "kya":"きゃ","kyu":"きゅ","kyo":"きょ",
-        "gya":"ぎゃ","gyu":"ぎゅ","gyo":"ぎょ",
-        "sha":"しゃ","shu":"しゅ","sho":"しょ",
-        "ja":"じゃ","ju":"じゅ","jo":"じょ",
-        "cha":"ちゃ","chu":"ちゅ","cho":"ちょ",
-        "nya":"にゃ","nyu":"にゅ","nyo":"にょ",
-        "hya":"ひゃ","hyu":"ひゅ","hyo":"ひょ",
-        "bya":"びゃ","byu":"びゅ","byo":"びょ",
-        "pya":"ぴゃ","pyu":"ぴゅ","pyo":"ぴょ",
-        "mya":"みゃ","myu":"みゅ","myo":"みょ",
-        "rya":"りゃ","ryu":"りゅ","ryo":"りょ",
-        "tsu":"つ","shi":"し","chi":"ち","fu":"ふ","ji":"じ",
+        "qya":"くゃ","qyi":"くぃ","qyu":"くゅ","qye":"くぇ","qyo":"くょ",
+        "wha":"うぁ","whi":"うぃ","whu":"う","whe":"うぇ","who":"うぉ",
+        "rya":"りゃ","ryi":"りぃ","ryu":"りゅ","rye":"りぇ","ryo":"りょ",
+        "tya":"ちゃ","tyi":"ちぃ","tyu":"ちゅ","tye":"ちぇ","tyo":"ちょ",
+        "tha":"てゃ","thi":"てぃ","thu":"てゅ","the":"てぇ","tho":"てょ",
+        "pya":"ぴゃ","pyi":"ぴぃ","pyu":"ぴゅ","pye":"ぴぇ","pyo":"ぴょ",
+        "sha":"しゃ","shi":"し","shu":"しゅ","she":"しぇ","sho":"しょ",
+        "sya":"しゃ","syi":"しぃ","syu":"しゅ","sye":"しぇ","syo":"しょ",
+        "dya":"ぢゃ","dyi":"ぢぃ","dyu":"ぢゅ","dye":"ぢぇ","dyo":"ぢょ",
+        "dha":"でゃ","dhi":"でぃ","dhu":"でゅ","dhe":"でぇ","dho":"でょ",
+        "fya":"ふゃ","fyi":"ふぃ","fyu":"ふゅ","fye":"ふぇ","fyo":"ふょ",
+        "gya":"ぎゃ","gyi":"ぎぃ","gyu":"ぎゅ","gye":"ぎぇ","gyo":"ぎょ",
+        "kya":"きゃ","kyi":"きぃ","kyu":"きゅ","kye":"きぇ","kyo":"きょ",
+        "hya":"ひゃ","hyi":"ひぃ","hyu":"ひゅ","hye":"ひぇ","hyo":"ひょ",
+        "jya":"じゃ","jyi":"じぃ","jyu":"じゅ","jye":"じぇ","jyo":"じょ",
+        "lya":"ゃ","lyi":"ぃ","lyu":"ゅ","lye":"ぇ","lyo":"ょ",
+        "zya":"じゃ","zyi":"じぃ","zyu":"じゅ","zye":"じぇ","zyo":"じょ",
+        "xya":"ゃ","xyi":"ぃ","xyu":"ゅ","xye":"ぇ","xyo":"ょ",
+        "cha":"ちゃ","chi":"ち","chu":"ちゅ","che":"ちぇ","cho":"ちょ",
+        "cya":"ちゃ","cyi":"ちぃ","cyu":"ちゅ","cye":"ちぇ","cyo":"ちょ",
+        "vya":"ヴゃ","vyi":"ヴぃ","vyu":"ヴゅ","vye":"ヴぇ","vyo":"ヴょ",
+        "bya":"びゃ","byi":"びぃ","byu":"びゅ","bye":"びぇ","byo":"びょ",
+        "nya":"にゃ","nyi":"にぃ","nyu":"にゅ","nye":"にぇ","nyo":"にょ", 
+        "mya":"みゃ","myi":"みぃ","myu":"みゅ","mye":"みぇ","myo":"みょ",
+        "gwa":"ぐぁ","gwi":"ぐぃ","gwu":"ぐぅ","gwe":"ぐぇ","gwo":"ぐぉ",
+        "swa":"すぁ","swi":"すぃ","swu":"すぅ","swe":"すぇ","swo":"すぉ",
+        "kwa":"くぁ",
+        
+        "tsa":"つぁ","tsi":"つぃ","tsu":"つ","tse":"つぇ","tso":"つぉ", 
+        "ja":"じゃ","ji":"じ","ju":"じゅ","je":"じぇ","jo":"じょ",
+        
+        
         "la":"ぁ","li":"ぃ","lu":"ぅ","le":"ぇ","lo":"ぉ",
-        "xa":"ぁ","xi":"ぃ","xu":"ぅ","xe":"ぇ","xo":"ぉ",
-        "we":"ゑ","wi":"ゐ",
+        "xa":"ぁ","xi":"ぃ","xu":"ぅ","xe":"ぇ","xo":"ぉ","xn":"ん",
+        "xtu":"っ","ltu":"っ",
+        
+        
+        "xka":"ゕ","xke":"ゖ","xwa":"ゎ",
+        "lka":"ゕ","lke":"ゖ","lwa":"ゎ",
+        
+        
         "ca":"か","ci":"し","cu":"く","ce":"せ","co":"こ",
         "qa":"くぁ","qi":"くぃ","qu":"く","qe":"くぇ","qo":"くぉ",
-        "fa":"ふぁ","fi":"ふぃ","fe":"ふぇ","fo":"ふぉ",
+        "fa":"ふぁ","fi":"ふぃ","fu":"ふ","fe":"ふぇ","fo":"ふぉ",
         "va":"ゔぁ","vi":"ゔぃ","vu":"ゔ","ve":"ゔぇ","vo":"ゔぉ",
+        
+        
+        
         "a":"あ","i":"い","u":"う","e":"え","o":"お",
         "ka":"か","ki":"き","ku":"く","ke":"け","ko":"こ",
         "ga":"が","gi":"ぎ","gu":"ぐ","ge":"げ","go":"ご",
@@ -1229,9 +1258,10 @@ function romajiToHiragana(input){
         "ba":"ば","bi":"び","bu":"ぶ","be":"べ","bo":"ぼ",
         "pa":"ぱ","pi":"ぴ","pu":"ぷ","pe":"ぺ","po":"ぽ",
         "ma":"ま","mi":"み","mu":"む","me":"め","mo":"も",
-        "ya":"や","yu":"ゆ","yo":"よ",
+        "ya":"や","yi":"い","yu":"ゆ","ye":"いぇ","yo":"よ",
         "ra":"ら","ri":"り","ru":"る","re":"れ","ro":"ろ",
-        "wa":"わ","wo":"を","n":"ん"
+        "wa":"わ","wi":"ゐ","wu":"う","we":"ゑ","wo":"を",
+        "n":"ん"
     };
     const keys = Object.keys(map).sort((a,b)=>b.length-a.length);
     let out = '';
@@ -1274,7 +1304,6 @@ function romajiToHiragana(input){
             }
         }
         if(!matched){
-            // スキップする文字
             if(s[i] === ' ' || s[i] === '-' || s[i] === '/'){
                 out += s[i];
                 i++;
@@ -1316,10 +1345,9 @@ window.addEventListener('DOMContentLoaded', () => {
     const lang = document.getElementById("language"); 
     let mode = "JP";
 
-    if(lang){ // 要素の存在チェックは必須
+    if(lang){
         lang.addEventListener("change", function (e) {
             changeLanguage(lang.value);
-             // lang が存在しない場合もあるのでチェック
             if(lang.value === "日本語"){mode = "JP";}
             else if(lang.value === "ローマ字"){mode = "RO";}
             else{mode = "EN";}
@@ -1354,7 +1382,6 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 function changeLanguage(languageName){
-    // Clear analyzed textareas when language changes
     const analyzedEl = document.getElementById('analyzedMorse');
     const analyzedToIrohaEl = document.getElementById('analyzedMorseToIroha');
     const romajiResultEl = document.getElementById('romajiToHiraResult');

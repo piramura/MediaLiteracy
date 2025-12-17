@@ -78,7 +78,7 @@ function getDownloadFilename(originalText){
   // determine base name by language
   const lang = getCurrentLanguage();
   const isEnglish = (lang === 'English');
-  const base = isEnglish ? 'morse' : 'モールス信号';
+  const base = isEnglish ? 'Morse' : 'モールス信号';
 
   // sanitize originalText
   let text = (originalText || '').toString();
@@ -100,12 +100,12 @@ function getDownloadFilename(originalText){
   if (format === 'timestamp'){
     const now = new Date();
     const timestamp = now.toISOString().replace(/[:.]/g, '-');
-    return `${langCode}${base}_${timestamp}.mp3`;
+    return `${langCode}_${base}_${timestamp}.mp3`;
   }
 
   // default: input-based
   const word = text || (isEnglish ? 'morse' : 'morse');
-  return `${langCode}${base}_${word}.mp3`;
+  return `${langCode}_${base}_${word}.mp3`;
 }
 
 // ========================
