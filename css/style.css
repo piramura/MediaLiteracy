@@ -27,6 +27,7 @@
   --danger-dark: #dc2626;
   --success-light: #10b981;
   --success-dark: #059669;
+  --black: #000;
 
   
   /* 背景色 */
@@ -85,6 +86,46 @@
   --transition-normal: 0.3s;
   --transition-slow: 0.5s;
 }
+
+/* ======================
+   子ども向けUI（やさしい表記）
+   body.kid-ui を付与して切替
+   ======================
+*/
+.kid-ui .container {
+  max-width: 900px;
+  border-radius: 20px;
+}
+.kid-ui body, .kid-ui .container, .kid-ui .inline-character-balloon, .kid-ui .welcome-text, .kid-ui h1, .kid-ui h2, .kid-ui h3 {
+  font-size: 1.15rem;
+  line-height: 1.4;
+}
+.kid-ui .inline-character-img {
+  width: 120px;
+}
+.kid-ui .inline-character-balloon {
+  background: #fff7e6;
+  border-radius: 18px;
+  padding: 14px 20px;
+  font-size: 1.05rem;
+  
+}
+.kid-ui .main-button, .kid-ui .play-btn {
+  background: var(--pink);
+  border-radius: 14px;
+  padding: 12px 18px;
+  font-size: 1.05rem;
+  box-shadow: var(--shadow-sm);
+  color: var(--black);
+}
+.kid-ui .morse-pad .morse-btn, .kid-ui .control-btn {
+  border-radius: 12px;
+  font-size: 1.05rem;
+  padding: 10px 12px;
+}
+.kid-ui .inline-character-balloon::before { left: -12px; top: 18px; }
+.kid-ui .settings-panel { min-width: 240px; }
+
 
 /* =====================================
    リセット・ベーススタイル
@@ -941,6 +982,27 @@ button:active {
   float: right;
   font-size: 1.5em;
   cursor: pointer;
+}
+
+/* モールス信号表の再生ボタン */
+.morse-play-btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+  min-width: 40px;
+  transition: background-color 0.2s;
+}
+
+.morse-play-btn:hover {
+  background-color: #45a049;
+}
+
+.morse-play-btn:active {
+  background-color: #3d8b40;
 }
 
 /* =====================================

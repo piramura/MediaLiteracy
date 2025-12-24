@@ -25,12 +25,16 @@
         <div class="settings-panel-content">
           <div class="panel-header2"><h3 id="settings">設定</h3></div>
           <div class="panel-content">
-            <label for="globalLanguage" id = "language">使用言語:</label>
+            <label for="globalLanguage" id = "label_language">使用言語:</label>
             <select id="globalLanguage">
               <option value="日本語">日本語(かな)</option>
               <option value="ローマ字">日本語(ローマ字)</option>
               <option value="English">English</option>
             </select>
+            <div style="margin-top:8px;">
+              <label for="kidModeToggle" id="kidModeLabel">子ども表示:</label>
+              <input type="checkbox" id="kidModeToggle" /> <span style="font-size:0.95em;">ひらがな中心のやさしい表記に切替</span>
+            </div>
             <div style="margin-top:8px;">
               <label for="globalVolumeSlider" id = "volume">音量:</label>
               <input type="range" id="globalVolumeSlider" min="0" max="1" step="0.01" value="0.8" />
@@ -377,7 +381,7 @@
   <!-- モーダル: モールス信号表 -->
   <div id="morseModal" class="modal" style="display:none;">
     <div class="modal-content">
-      <span class="close" onclick="closeMorseModal(document.getElementById('language').value)">&times;</span>
+      <span class="close" onclick="closeMorseModal(getScriptLanguage())">&times;</span>
       <h3>モールス信号表</h3>
       <div style="overflow-x:auto; max-height:500px;">
         <table class="morse-table" border="1" style="width:100%; border-collapse:collapse;">
@@ -496,7 +500,7 @@
 
     <div id="morseModal2" class="modal" style="display:none;">
     <div class="modal-content">
-      <span class="close" onclick="closeMorseModal(document.getElementById('language').value)">&times;</span>
+      <span class="close" onclick="closeMorseModal(getScriptLanguage())">&times;</span>
       <h3 id ="morseTbl">モールス信号表</h3>
       <div style="overflow-x:auto; max-height:500px;">
         <table class="morse-table" border="1" style="width:100%; border-collapse:collapse;">
@@ -504,6 +508,7 @@
             <tr>
               <th id ="moji">文字</th>
               <th id ="hugou">モールス符号</th>
+              <th id = "play" style ="width: 50px;">再生</th>
             </tr>
           </thead>
           <tbody>
@@ -564,7 +569,7 @@
   </div>
 
  <footer class="footer">
-  <button class="footer-button" onclick="openMorseModal(document.getElementById('language').value)" id = "morseTblBtn">📖 モールス信号表</button>
+  <button class="footer-button" onclick="openMorseModal()" id = "morseTblBtn">📖 モールス信号表</button>
 </footer>
 
 

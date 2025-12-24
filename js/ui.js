@@ -345,8 +345,40 @@ document.addEventListener('DOMContentLoaded', function() {
       const romajiResult = document.getElementById('romajiToHiraResult');
       if (convertBtn) convertBtn.style.display = (val === 'ローマ字') ? 'inline-block' : 'none';
       if (romajiResult) romajiResult.style.display = (val === 'ローマ字') ? 'block' : 'none';
+      // 子ども表示が有効な場合は、言語切替後に子ども表示を再適用（優先度を上げる）
+      const kidToggle = document.getElementById('kidModeToggle');
+      if (kidToggle && kidToggle.checked) {
+        setTimeout(() => window.applyKidModeGlobal(true), 50);
+      }
     });
     globalLanguage.dispatchEvent(new Event('change'));
+    // --- キッズ（やさしい表記）モードの初期化 ---
+    const kidToggle = document.getElementById('kidModeToggle');
+    // applyKidModeをグローバルスコープで定義
+    window.applyKidModeGlobal = function applyKidMode(enabled){
+      try{
+        if (enabled) {
+          document.body.classList.add('kid-ui');
+          changeKidsMode();
+        } else {
+          document.body.classList.remove('kid-ui');
+          // オフにしたら現在の言語で再描画
+          if (typeof changeLanguage === 'function') changeLanguage(getCurrentLanguage());
+        }
+      }catch(e){ console.error('applyKidMode error', e); }
+    }; // applyKidModeGlobal の終了
+    // 初期値をローカルストレージから読み込む
+    if (kidToggle) {
+      const storedKid = localStorage.getItem('ml_kid_mode');
+      const enabled = storedKid === '1' || storedKid === 'true';
+      kidToggle.checked = enabled;
+      window.applyKidModeGlobal(enabled);
+      kidToggle.addEventListener('change', function(){
+        const on = this.checked;
+        localStorage.setItem('ml_kid_mode', on ? '1' : '0');
+        window.applyKidModeGlobal(on);
+      });
+    }
   }
 
   const globalFilenameFormat = document.getElementById('globalFilenameFormat');
@@ -484,6 +516,22 @@ document.addEventListener('DOMContentLoaded', function() {
       else if (e.key === '/') { e.preventDefault(); appendText('／','morseInput'); }
     });
   }
+
+  // DOMContentLoaded終了直前：kid mode再確認＆再適用
+  // script.jsなどの他のスクリプトで言語設定が変更される可能性があるため、
+  // kid modeが有効な場合は最後に再度適用する
+  setTimeout(() => {
+    const kidToggle = document.getElementById('kidModeToggle');
+    if (kidToggle && kidToggle.checked) {
+      const storedKid = localStorage.getItem('ml_kid_mode');
+      if (storedKid === '1' || storedKid === 'true') {
+        // applyKidModeが定義されているスコープを使う
+        if (typeof window.applyKidModeGlobal === 'function') {
+          window.applyKidModeGlobal(true);
+        }
+      }
+    }
+  }, 100);
 });
 
 // ========================
@@ -515,13 +563,27 @@ function playHintAudio() {
 // ========================
 // モーダル処理
 // ========================
-function openMorseModal(lang) {
-  if(lang === "日本語"){
+function openMorseModal() {
+  const currentLang = getCurrentLanguage(); 
+  console.log("openMorseModal", currentLang);
+
+  if(currentLang === "日本語"){
+    // 日本語用のモーダルを表示
     const modal = document.getElementById('morseModal');
     if (modal) modal.style.display = (modal.style.display === 'block') ? 'none' : 'block';
+    
+    // 念のため英語版が開いていたら閉じる
+    const modal2 = document.getElementById('morseModal2');
+    if (modal2) modal2.style.display = 'none';
+
   }else{
-      const modal = document.getElementById('morseModal2');
-     if (modal) modal.style.display = (modal.style.display === 'block') ? 'none' : 'block';
+    // 英語・ローマ字用のモーダルを表示
+    const modal2 = document.getElementById('morseModal2');
+    if (modal2) modal2.style.display = (modal2.style.display === 'block') ? 'none' : 'block';
+
+    // 念のため日本語版が開いていたら閉じる
+    const modal = document.getElementById('morseModal');
+    if (modal) modal.style.display = 'none';
   }
 }
 
@@ -603,3 +665,90 @@ function showQuizResult() {
   document.getElementById("quiz-result").innerHTML = html;
   goToStep(6);
 }
+
+// ======== MP4 再生ボタン
+(function setupMorsePlayButtons(){
+  function createVideoModal(){
+    if (document.getElementById('morseVideoModal')) return;
+    const modal = document.createElement('div');
+    modal.id = 'morseVideoModal';
+    modal.className = 'modal';
+    modal.style.display = 'none';
+    modal.innerHTML = '<div class="modal-content" style="max-width:640px;"><span class="close" id="morseVideoClose">&times;</span><video id="morseVideo" controls style="width:100%; height:auto;"></video></div>';
+    document.body.appendChild(modal);
+    modal.querySelector('#morseVideoClose').addEventListener('click', ()=>{ modal.style.display='none'; const v = document.getElementById('morseVideo'); if(v){ v.pause(); v.src=''; } });
+    modal.addEventListener('click', (e)=>{ if (e.target===modal) { modal.style.display='none'; const v=document.getElementById('morseVideo'); if(v){ v.pause(); v.src=''; } }});
+  }
+
+  function playMp4ForChar(ch, btn){
+    createVideoModal();
+    const modal = document.getElementById('morseVideoModal');
+    const video = document.getElementById('morseVideo');
+    if (!video || !modal) return;
+    const filename = encodeURIComponent(ch) + '.mp4';
+    const path = 'assets/mp4/各アルファベット/' + filename;
+    // 再生準備
+    let played = false;
+    function onError(){
+      btn.disabled = true;
+      btn.title = '動画が見つかりません';
+      if (modal) modal.style.display = 'none';
+      video.removeEventListener('error', onError);
+      video.removeEventListener('loadedmetadata', onLoaded);
+      video.pause(); video.src = '';
+    }
+    function onLoaded(){
+      video.play().catch(()=>{});
+      modal.style.display = 'block';
+      video.removeEventListener('error', onError);
+      video.removeEventListener('loadedmetadata', onLoaded);
+    }
+    video.addEventListener('error', onError);
+    video.addEventListener('loadedmetadata', onLoaded);
+    // set src (これがトリガーとなりロードが始まる)
+    video.src = path;
+    // safety timeout: 1500msでまだ再生開始していない場合はエラー扱いにしない（ネットワーク環境により必要に応じ調整）
+    setTimeout(()=>{ /* no-op; rely on error handler if fired */ }, 1500);
+  }
+
+  function isAlphaNum(ch){
+    return /^[A-Z]$/.test(ch); // 音声追加時は[]内に追加。現在はA-Zのみ対応。
+  }
+
+  function init(){
+    const modal2 = document.getElementById('morseModal2');
+    if (!modal2) return;
+    const tbody = modal2.querySelector('table.morse-table tbody');
+    if (!tbody) return;
+    Array.from(tbody.querySelectorAll('tr')).forEach(tr=>{
+      const tds = tr.querySelectorAll('td');
+      if (tds.length < 2) return;
+      const ch = (tds[0].textContent || '').trim();
+      // 既に3カラムなら何もしない
+      if (tds.length >= 3) return;
+      const td = document.createElement('td');
+      td.style.textAlign = 'center';
+      if (isAlphaNum(ch)){
+        const btn = document.createElement('button');
+        btn.className = 'morse-play-btn';
+        btn.type = 'button';
+        btn.textContent = '▶';
+        btn.title = '再生';
+        btn.addEventListener('click', function(e){
+          playMp4ForChar(ch.toUpperCase(), btn);
+        });
+        td.appendChild(btn);
+      } else {
+        td.innerHTML = ''; // 空セルで整列を維持
+      }
+      tr.appendChild(td);
+    });
+  }
+
+  // DOMContentLoaded 後に初期化
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
