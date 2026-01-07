@@ -564,7 +564,10 @@ function getScriptAlertMessage(key, defaultMsg = '') {
         //入力元と出力先を引数に渡すといろはをモールスに変えて出力する
         function ChangeIroha(inputID,outputID){
             quiz_morse = [];
-            const getname = document.getElementById(inputID).value;        
+            let getname = document.getElementById(inputID).value; 
+            console.log("1\n");  
+            console.log("Current: " + getCurrentLanguage());
+            if(getCurrentLanguage() === 'ローマ字'){getname = hiraganaToRomaji(getname);console.log("Direct"+getname);}
             quiz_iroha = getname.split("");
             for(let char of quiz_iroha){
                 const found = current_language.find(data => data[0] === char); //探索
@@ -583,7 +586,10 @@ function getScriptAlertMessage(key, defaultMsg = '') {
         // ダウンロードボタンの消去が上と違う
         function ChangeIrohaNAME(inputID,outputID){
             morse_name = []; //初期化
-            const getname = document.getElementById(inputID).value;        
+            let getname = document.getElementById(inputID).value;
+            console.log("2\n");  
+            console.log("Current: " + getCurrentLanguage());
+            if(getCurrentLanguage() === 'ローマ字'){getname = hiraganaToRomaji(getname);console.log(getname);}    
             iroha_name = getname.split("");
             for(let char of iroha_name){
                 const found = current_language.find(data => data[0] === char); //探索
@@ -603,6 +609,7 @@ function getScriptAlertMessage(key, defaultMsg = '') {
         //いろはを直接入れると対応するモールスを返す
         function DirectChangeIroha(IROHA){
              quiz_morse = []; //初期化
+             if(getCurrentLanguage() === 'ローマ字'){IROHA = hiraganaToRomaji(IROHA);}
              IROHA = IROHA.split("");
               for(let char of IROHA){
                 const found = current_language.find(data => data[0] === char); //探索
@@ -665,7 +672,6 @@ function getScriptAlertMessage(key, defaultMsg = '') {
             const dot = SPEED * speedRatio; 
             let time = audioCtx.currentTime; // 再生開始時刻
 
-            animateMorseFlow(morse);
 
             for(let char of morse){
                 if(char === "・"){
@@ -1341,6 +1347,91 @@ function convertRomajiAnalyzedToHiragana(){
     }
 }
 
+function hiraganaToRomaji(input) {
+    if (!input) return '';
+    const map = {
+        "あ":"a", "い":"i", "う":"u", "え":"e", "お":"o",
+        "か":"ka", "き":"ki", "く":"ku", "け":"ke", "こ":"ko",
+        "さ":"sa", "し":"shi", "す":"su", "せ":"se", "そ":"so",
+        "た":"ta", "ち":"chi", "つ":"tsu", "て":"te", "と":"to",
+        "な":"na", "に":"ni", "ぬ":"nu", "ね":"ne", "の":"no",
+        "は":"ha", "ひ":"hi", "ふ":"fu", "へ":"he", "ほ":"ho",
+        "ま":"ma", "み":"mi", "む":"mu", "め":"me", "も":"mo",
+        "や":"ya", "ゆ":"yu", "よ":"yo",
+        "ら":"ra", "り":"ri", "る":"ru", "れ":"re", "ろ":"ro",
+        "わ":"wa", "を":"wo", "ん":"nn",
+        
+        "が":"ga", "ぎ":"gi", "ぐ":"gu", "げ":"ge", "ご":"go",
+        "ざ":"za", "じ":"ji", "ず":"zu", "ぜ":"ze", "ぞ":"zo",
+        "だ":"da", "ぢ":"ji", "づ":"zu", "で":"de", "ど":"do",
+        "ば":"ba", "び":"bi", "ぶ":"bu", "べ":"be", "ぼ":"bo",
+        "ぱ":"pa", "ぴ":"pi", "ぷ":"pu", "ぺ":"pe", "ぽ":"po",
+        
+        "きゃ":"kya", "きゅ":"kyu", "きょ":"kyo",
+        "しゃ":"sha", "しゅ":"shu", "しょ":"sho",
+        "ちゃ":"cha", "ちゅ":"chu", "ちょ":"cho",
+        "にゃ":"nya", "にゅ":"nyu", "にょ":"nyo",
+        "ひゃ":"hya", "ひゅ":"hyu", "ひょ":"hyo",
+        "みゃ":"mya", "みゅ":"myu", "みょ":"myo",
+        "りゃ":"rya", "りゅ":"ryu", "りょ":"ryo",
+        "ぎゃ":"gya", "ぎゅ":"gyu", "ぎょ":"gyo",
+        "じゃ":"ja", "じゅ":"ju", "じょ":"jo",
+        "ぢゃ":"dya", "ぢゅ":"dyu", "ぢょ":"dyo",
+        "びゃ":"bya", "びゅ":"byu", "びょ":"byo",
+        "ぴゃ":"pya", "ぴゅ":"pyu", "ぴょ":"pyo",
+        
+        "ぁ":"xa", "ぃ":"xi", "ぅ":"xu", "ぇ":"xe", "ぉ":"xo",
+        "ゃ":"xya", "ゅ":"xyu", "ょ":"xyo", "っ":"xtu",
+        "ゎ":"xwa",
+
+        "ー": "-", "、": ",", "。": "."
+    };
+
+    // キーを文字数の長い順にソート（"きゃ" を "き" より先に判定するため）
+    const keys = Object.keys(map).sort((a, b) => b.length - a.length);
+
+    let output = '';
+    let i = 0;
+
+    while (i < input.length) {
+        if (input[i] === 'っ' && i + 1 < input.length) {
+            let nextRomaji = null;
+            let nextHiraganaLen = 0;
+
+            for (const key of keys) {
+                if (input.substring(i + 1).startsWith(key)) {
+                    nextRomaji = map[key];
+                    nextHiraganaLen = key.length;
+                    break;
+                }
+            }
+
+            if (nextRomaji && !/^[aiueo]/.test(nextRomaji)) {
+                output += nextRomaji[0]; // 最初の一文字を追加
+                output += nextRomaji;    // 変換後のローマ字を追加
+                i += 1 + nextHiraganaLen; // 「っ」 + 「次の文字分」進める
+                continue;
+            }
+        }
+
+        let matched = false;
+        for (const key of keys) {
+            if (input.substring(i).startsWith(key)) {
+                output += map[key];
+                i += key.length;
+                matched = true;
+                break;
+            }
+        }
+
+        if (!matched) {
+            output += input[i];
+            i++;
+        }
+    }
+
+    return output;
+}
 
 window.addEventListener('DOMContentLoaded', () => {
     const lang = document.getElementById("language"); 
@@ -1637,7 +1728,7 @@ function changeKidsMode(){
           document.getElementById("resetSettings").innerHTML = "せっていをもとにもどす";
           document.getElementById("closeSettings").innerHTML = "とじる";
           document.getElementById("mo-rusuhenkanjo").innerHTML = "もーるすへんかんじょ";
-          document.getElementById("input_henkan").innerHTML = "もーるすの「かいせき」や「へんかん」ができるよ！";
+          document.getElementById("input_henkan").innerHTML = "もーるすの「かいせき(しらべる)」や「へんかん(つくる)」ができるよ！";
           document.getElementById("kaiseki").innerHTML = "かいせき";
           if(lang === "日本語" ){
               document.getElementById("kaiseki_help").innerHTML = "「かいせき」したいおとのふぁいるをえらんでね！<br>\
@@ -1651,10 +1742,10 @@ function changeKidsMode(){
           document.getElementById("h3_henkan").innerHTML = "へんかん";
           if(lang === "日本語" ){
               document.getElementById("henkan_help").innerHTML = "「へんかん」したいもじをにゅうりょくしてね！<br>\
-              <b>いまのしようげんごは日本語(かな)だよ。</b><br>(The current language in use is not English.)";
+              <b>いまつかっていることばは、にほんご(かな)だよ。</b><br>(The current language in use is not English.)";
           }else if(lang === "ローマ字" ){
               document.getElementById("henkan_help").innerHTML = "「へんかん」したいもじをにゅうりょくしてね！<br>\
-              <b>いまのしようげんごは日本語(ローマ字)だよ。</b><br>(The current language in use is not English.)";
+              <b>いまつかっていることばは、にほんご(ローマ字)だよ。</b><br>(The current language in use is not English.)";
           }
           document.getElementById("WantToChange").placeholder = "「へんかん」したいもじをここににゅうりょくしてね！";
           document.getElementById("hanken_help2").innerHTML = "にゅうりょくしたもじはもーるすしんごうにへんかんされて、したのばしょにひょうじされるよ！<br>\

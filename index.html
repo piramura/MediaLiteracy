@@ -41,7 +41,7 @@
               <span id="globalVolumeValue">80%</span>
             </div>
             <div style="margin-top:8px;">
-              <label for="globalFrequencySlider" id = "frequency">周波数:</label>
+              <label for="globalFrequencySlider" id = "frequency">音の高さ(周波数):</label>
               <input type="range" id="globalFrequencySlider" min="200" max="2000" step="1" value="880" />
               <span id="globalFrequencyValue">880Hz</span>
             </div>
@@ -167,7 +167,7 @@
       </div>
       <div class="sound-row">
         <div class="sound-buttons">
-          <button class="main-button" onclick="playMorse('output')" id = "listen-first">🔊 音で聞いてみる</button>
+          <button class="main-button" onclick="animateMorseFlow(document.getElementById('output').value);playMorse('output')" id = "listen-first">🔊 音で聞いてみる</button>
         </div>
       </div>
       <div class="convert-buttons">
@@ -220,9 +220,10 @@
         <div class="help-text" style="display:block; margin-top:8px; font-size:0.95em;" id ="Tips">
         ・直接の文字入力は無効<br>
         ・挿入位置を指定して削除可能<br>
+        ・「💡 ヒント」で答えとなる音を聞けます。
         </div>
       <!-- HINTボタン -->
-      <button id="hintBtn" onclick="playHintAudio()">💡 HINT</button>
+      <button id="hintBtn" onclick="playHintAudio()">💡 ヒント</button>
         <button class="play-btn" onclick="playMorse('morseInput');ChangeMorse('morseInput')" id ="checkMyAnswer">✅答え合わせ</button>
        <div class="help-text" style="font-size:0.95em; color:#5c6b73;" id ="Tips2">自分の名前が完成したら先に進めます。
         <br>「✅答え合わせ」で確認してみましょう！
@@ -333,6 +334,7 @@
             <input type="text" id="WantToChange" placeholder="変換したい文字を入力" value="">
             <div class="help-text" style="font-size:0.95em; color:#5c6b73;" id = "hanken_help2">入力したテキストは自動でモールスに変換されます。コピーや再生、MP3ダウンロードが可能です。</div>
         <textarea id="WantToChangeOutput" rows="2" readonly style="font-size:1.2em; flex:1;"></textarea>
+        <textarea id="CorrespondWantToChangeOutput" rows="10" readonly style="font-size:1.2em; flex:1;"></textarea>
       <div class="want-to-change-row" style="margin-top: 16px; display:flex; justify-content:center; width:100%;">
        
         <div style="display:flex; flex-direction:column; gap:8px; align-items:center;">

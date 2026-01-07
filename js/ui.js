@@ -183,6 +183,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // WantToChange: テキスト入力に応じてモールスに即時変換し、表示／コピーする
   const wantToChangeInput = document.getElementById('WantToChange');
   const wantToChangeOutput = document.getElementById('WantToChangeOutput');
+  const correspondWantToChangeOutput = document.getElementById('CorrespondWantToChangeOutput');
   const wantToChangeOutputHidden = document.getElementById('WantToChangeOutputHidden');
   const copyBtn = document.getElementById('copyWantToChangeBtn');
   const playBtn = document.getElementById('playWantToChangeBtn');
@@ -282,7 +283,43 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     if (wantToChangeOutput) wantToChangeOutput.value = result;
     if (wantToChangeOutputHidden) wantToChangeOutputHidden.value = raw || '';
+    
+    // 対応表を生成して表示
+    if (correspondWantToChangeOutput) {
+      generateCorrespondenceTable(wantToChangeInput.value || '');
+    }
   }
+  
+  // 対応表を生成する関数
+  function generateCorrespondenceTable(inputText) {
+    if (!correspondWantToChangeOutput) return;
+    if (!inputText.trim()) {
+      correspondWantToChangeOutput.value = '';
+      return;
+    }
+    
+    // 入力テキストを文字単位に分割
+    let textChars = (getCurrentLanguage() === 'ローマ字') 
+      ? (typeof hiraganaToRomaji === 'function') ? hiraganaToRomaji(inputText).split('') : inputText.split('')
+      : inputText.split('');
+    
+    const correspondenceLines = [];
+    for (let char of textChars) {
+      // current_languageから該当する文字を探す
+      const found = (typeof current_language !== 'undefined' && Array.isArray(current_language))
+        ? current_language.find(data => data[0] === char)
+        : null;
+      
+      if (found) {
+        correspondenceLines.push(`${char} ${found[1]}`);
+      } else if (showUnknowns && showUnknowns.checked) {
+        correspondenceLines.push(`${char} ？`);
+      }
+    }
+    
+    correspondWantToChangeOutput.value = correspondenceLines.join('／\n');
+  }
+  
   formatAndShowWantToChange();
 
   const settingsBtn = document.getElementById('settingsBtn');
@@ -352,9 +389,8 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
     globalLanguage.dispatchEvent(new Event('change'));
-    // --- キッズ（やさしい表記）モードの初期化 ---
+    // --- キッズモードの初期化 ---
     const kidToggle = document.getElementById('kidModeToggle');
-    // applyKidModeをグローバルスコープで定義
     window.applyKidModeGlobal = function applyKidMode(enabled){
       try{
         if (enabled) {
@@ -517,8 +553,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // DOMContentLoaded終了直前：kid mode再確認＆再適用
-  // script.jsなどの他のスクリプトで言語設定が変更される可能性があるため、
   // kid modeが有効な場合は最後に再度適用する
   setTimeout(() => {
     const kidToggle = document.getElementById('kidModeToggle');
@@ -640,7 +674,7 @@ function showQuizResult() {
 
   const shareMessage = isEnglish 
     ? `Challenge the Morse Code Quiz!\nLearned words [${quizData.map(q => q.answer).join(',')}] \n #MorseCodeQuiz\n#UECCommunicationMuseum`
-    : `モールス信号クイズに挑戦！\n覚えた単語 [${quizData.map(q => q.answer).join(',')}] \n #モールス信号クイズ\n#UECコミュニケーションミュージアム`;
+    : `モールス信号クイズに挑戦したよ！\n正解した単語は [${quizData.map(q => q.answer).join(',')}] \nみんなはこのモールス信号分かる？\n #モールス信号クイズ\n#UECコミュニケーションミュージアム`;
   
   const shareText = encodeURIComponent(shareMessage);
   const shareUrl = encodeURIComponent(location.href);
@@ -707,8 +741,6 @@ function showQuizResult() {
     video.addEventListener('loadedmetadata', onLoaded);
     // set src (これがトリガーとなりロードが始まる)
     video.src = path;
-    // safety timeout: 1500msでまだ再生開始していない場合はエラー扱いにしない（ネットワーク環境により必要に応じ調整）
-    setTimeout(()=>{ /* no-op; rely on error handler if fired */ }, 1500);
   }
 
   function isAlphaNum(ch){
