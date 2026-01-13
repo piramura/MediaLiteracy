@@ -73,11 +73,16 @@
     </div>
     <!-- スタート画面 -->
     <div class="screen active" id="start-screen">
-      <h1 id = "h1">🎵 モールス信号体験アプリ 📡</h1>
+      <h1 id = "h1">モールス信号体験アプリ</h1>
+      <h2 id = "h1sub" style="color: var(--primary-color);">Morse Code Experience App🎵</h2>
       <div class="welcome-text" id = "welcome-text">
         モールス信号の世界へようこそ！<br>
         あなたの名前をモールス信号に変換したり、
         実際にモールス入力を体験してみましょう。
+      </div>
+      <div class="welcome-text" id = "welcome-text2">
+        Welcome to the world of Morse code!<br>
+        Convert your name into Morse code, and try experiencing Morse code input for yourself.
       </div>
       <div class="inline-character-area">
         <img src="assets/png/マールス2.png" alt="マールス" class="inline-character-img">
@@ -85,7 +90,7 @@
           僕と一緒にモールス信号を学ぼう！
         </div>
       </div>
-       <div class="help-text" style="font-size:0.95em; color:#5c6b73;">右上の⚙️を押すと設定画面が開けます。使用言語などが変更可能です。<br>
+       <div class="help-text" style="font-size:0.95em; color:#5c6b73;">右上の⚙️を押すと設定画面が開けます。使用言語などが変更可能です。小さいお子さん用にひらがなのみの設定も可能です。<br>
        </div>
        <div class="help-text" style="font-size:0.95em; color:#5c6b73; margin-top: 10px;">
         Press the ⚙️ in the upper right to open the settings screen.
@@ -93,11 +98,6 @@
        </div>
       <button class="main-button" onclick="goToStep(1)" id = "start">はじめる</button>
       <button class="GoToHenkan-button" onclick="goToStep(7)" id = "GoToHenkan">変換だけする</button>
-      <select id="language" class="hide-inline-language">
-      <option value="日本語">日本語</option>
-      <option value="ローマ字">ローマ字</option>
-      <option value="English">English</option>
-      </select>
     </div>
 
     <!-- 名前入力画面 -->
@@ -125,11 +125,7 @@
         <div id = "tellToMarse">マールスに自分の名前を教えてみよう！</div>
         <input type="text" id="nameInput" placeholder="お名前をひらがなで入力" value="">
       </div>
-      <select id="language3" class="hide-inline-language">
-      <option value="日本語">日本語</option>
-      <option value="ローマ字">ローマ字</option>
-      <option value="English">English</option>
-      </select>
+
       <div class="navigation">
         <button class="main-button" onclick="convertName()" id = "change">変換する</button>
         <button class="back-button" onclick="goToStep(0)" id = "back">戻る</button>
@@ -143,17 +139,17 @@
         <div class="progress-fill" style="width: 50%"></div>
       </div>
       <div class="step-indicator">
-        <span class="step">名前入力</span>
-        <span class="step active">変換・再生</span>
-        <span class="step">モールス入力</span>
-        <span class="step">完了</span>
+        <span class="step active" id = "inputName1">名前入力</span>
+        <span class="step" id = "change_playback1">変換・再生</span>
+        <span class="step" id = "inputMores1">モールス入力</span>
+        <span class="step" id = "finish1">完了</span>
       </div>
       
       <h2 id = "henkan-h2">モールス信号に変換しました！</h2>
       <div class="inline-character-area">
         <img src="assets/png/にこにこマールス.png" alt="マールス" class="inline-character-img">
         <div class="inline-character-balloon" id ="marusu2">
-          君の名前をモールスにしたよ！
+          君の名前がモールスになった！<br>「・」と「ー」だけを使って文字を表現しているんだ！すごいでしょ！"
         </div>
       </div>
       <div style="margin: 20px 0;">
@@ -210,11 +206,11 @@
       <div class="progress-bar">
         <div class="progress-fill" style="width: 75%"></div>
       </div>
-      <div class="step-indicator">
-        <span class="step">名前入力</span>
-        <span class="step">変換・再生</span>
-        <span class="step active">モールス入力</span>
-        <span class="step">完了</span>
+    <div class="step-indicator">
+        <span class="step active" id = "inputName2">名前入力</span>
+        <span class="step" id = "change_playback2">変換・再生</span>
+        <span class="step" id = "inputMores2">モールス入力</span>
+        <span class="step" id = "finish2">完了</span>
       </div>
       
       <h2 id="h2InputExp">自分の名前を入力してみよう！</h2>
@@ -252,12 +248,12 @@
       DEL: 一文字消す<br>
       C: 全て消す<br>
       🔊: 現在の入力を再生・確認<br>
-      あと、区切りの「／」も忘れずにね！下の注意事項も見ておこう！
         </div>
         </div>
         <div class="help-text" style="display:block; margin-top:8px; font-size:0.95em;" id ="Tips">
         ・直接の文字入力は無効<br>
-        ・挿入位置を指定して削除可能
+        ・挿入位置を指定して削除可能<br>
+        ・区切りの「／」も忘れずに
         </div>
         <br><br>
         <div class="inline-character-area">
@@ -291,10 +287,10 @@
         <div class="progress-fill" style="width: 100%"></div>
       </div>
       <div class="step-indicator">
-        <span class="step">名前入力</span>
-        <span class="step">変換・再生</span>
-        <span class="step">モールス入力</span>
-        <span class="step active">完了</span>
+        <span class="step active" id = "inputName3">名前入力</span>
+        <span class="step" id = "change_playback3">変換・再生</span>
+        <span class="step" id = "inputMores3">モールス入力</span>
+        <span class="step" id = "finish3">完了</span>
       </div>
       
       <h2 id = "otsukare">🎉 おつかれさまでした！</h2>

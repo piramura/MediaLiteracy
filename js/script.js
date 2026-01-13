@@ -1566,7 +1566,7 @@ function changeLanguage(languageName){
         if(languageName === "日本語" ){current_language = iroha;}
         if(languageName === "ローマ字" ){current_language = rome;}
         console.log("日本語選択\n");
-        document.getElementById("h1").innerHTML = "🎵 モールス信号体験アプリ 📡";
+        document.getElementById("h1").innerHTML = "モールス信号体験アプリ";
         document.getElementById("inline-character-balloon").innerHTML = "僕と一緒にモールス信号を学ぼう！";
         document.getElementById("welcome-text").innerHTML = "モールス信号の世界へようこそ！<br>\
         あなたの名前をモールス信号に変換したり、実際にモールス入力を体験してみましょう。";
@@ -1579,6 +1579,7 @@ function changeLanguage(languageName){
         document.getElementById("finish").innerHTML = "完了";
         document.getElementById("input").innerHTML = "僕の名前は「まーるす」！<br>特技はモールス信号を打つこと！<br>君の名前もモールス信号にしてあげるよ！";
         document.getElementById("nameInput").placeholder = "ひらがなで入力してね";
+        document.getElementById("tellToMarse").innerHTML = "マールスに自分の名前を教えてみよう！";
         document.getElementById("back").innerHTML = "戻る";
         document.getElementById("change").innerHTML = "名前を確定！";
         document.getElementById("GoToHenkan").innerHTML = "変換だけする";
@@ -1592,12 +1593,9 @@ function changeLanguage(languageName){
         document.getElementById("next2").innerHTML = "モールスを入力してみる！";
         document.getElementById("h2InputExp").innerHTML = "自分の名前を入力してみよう！";
         document.getElementById("morseInput").placeholder = "ボタンで入力してください";
-        document.getElementById("HowToPlay").innerHTML = "ボタンでモールス記号を入力できます。<br>\
-      DEL: 一文字消す<br>\
-      C: 全て消す<br>\
-      🔊: 現在のモールス信号再生・確認<br>";
         document.getElementById("Tips").innerHTML = " ・直接の文字入力は無効<br>\
-        ・挿入位置を指定して削除可能<br>";
+        ・挿入位置を指定して削除可能<br>・「／」で文字を区切るのを忘れずに";
+        document.getElementById("hintBtn").innerHTML = "💡 ヒント";
         document.getElementById("checkMyAnswer").innerHTML = "✅答え合わせ";
         document.getElementById("back3").innerHTML = "戻る";
         document.getElementById("next3").innerHTML = "終わりにする";
@@ -1610,9 +1608,15 @@ function changeLanguage(languageName){
         document.getElementById("quiz-next-btn").innerHTML = "次へ";
         document.getElementById("settings").innerHTML = "設定";
         document.getElementById("label_language").innerHTML = "使用言語";
+        document.getElementById("globalLanguage").options[0].innerHTML = "日本語(かな)";
+        document.getElementById("globalLanguage").options[1].innerHTML = "日本語(ローマ字)";
+        document.getElementById("volume").innerHTML = "Volume";
         document.getElementById("volume").innerHTML = "音量";
-        document.getElementById("frequency").innerHTML = "周波数";
+        document.getElementById("frequency").innerHTML = "音の高さ（周波数）";
         document.getElementById("speed").innerHTML = "再生速度";
+        document.getElementById("filenameFormatLabel").innerHTML = "保存ファイル名:";
+        document.getElementById("globalFilenameFormat").options[0].innerHTML = "入力単語を利用";
+        document.getElementById("globalFilenameFormat").options[1].innerHTML = "現在時刻を利用";
         document.getElementById("resetSettings").innerHTML = "初期設定に戻す";
         document.getElementById("closeSettings").innerHTML = "閉じる";
         document.getElementById("mo-rusuhenkanjo").innerHTML = "モールス変換所";
@@ -1653,7 +1657,22 @@ function changeLanguage(languageName){
         document.getElementById("morseTblBtn").textContent = "📖 モールス信号表";
         document.getElementById("play").textContent = "再生";
         
-        
+        document.getElementById("marusu3").innerHTML = "それぞれの文字はこんな感じで対応しているよ！";
+        document.getElementById("marusu4").innerHTML = "実際にモールスを聞いてみよう！音をダウンロードすることもできるよ！";
+        document.getElementById("marusu5").innerHTML = "今度は君がモールスをうってみてよ！<br>下のボタンから移動しよう！";
+        document.getElementById("marusu6").innerHTML = "「・」（短音）と「－」（長音）と「／」(区切り) を組み合わせて文字を作るんだ！";
+        document.getElementById("marusu7").innerHTML = "本当はボタンを押している長さで区別するけど、今回は簡単にボタンで入力しちゃおう！";
+        document.getElementById("marusu8").innerHTML = "見慣れないボタンの説明をするね！<br>\
+      DEL: 一文字消す<br>\
+      C: 全て消す<br>\
+      🔊: 現在の入力を再生・確認<br>";
+        document.getElementById("marusu9").innerHTML = "困ったときは、「💡 ヒント」でさっきの音を聞けるよ！下のモールス信号表をクリックして対応を確認してみるのもいいね！";
+        document.getElementById("marusu10").innerHTML = "自分の名前が完成したら「✅答え合わせ」を押してね！難しいけど、がんばって！";
+        document.getElementById("marusu11").innerHTML = "モールス信号の体験はどうだった？おもしろかったかな？\
+        昔の人たちはこの方法で遠くの人と連絡を取っていたりしたんだよ！詳しく知りたかったらぜひミュージアムで調べてみてね！";
+        document.getElementById("marusu12").innerHTML = "3択クイズもあるんだけど、挑戦してみない？\
+        きっとモールス信号の理解が深まるよ！";
+
     }else{
         current_language = rome;
         console.log("English\n");
@@ -1668,8 +1687,21 @@ function changeLanguage(languageName){
         document.getElementById("change_playback").innerHTML = "Conversion and Playback";
         document.getElementById("inputMores").innerHTML = "Morse code input";
         document.getElementById("finish").innerHTML = "Completed";
+        document.getElementById("inputName1").innerHTML = "Input your name.";
+        document.getElementById("change_playback1").innerHTML = "Conversion and Playback";
+        document.getElementById("inputMores1").innerHTML = "Morse code input";
+        document.getElementById("finish1").innerHTML = "Completed";
+        document.getElementById("inputName2").innerHTML = "Input your name.";
+        document.getElementById("change_playback2").innerHTML = "Conversion and Playback";
+        document.getElementById("inputMores2").innerHTML = "Morse code input";
+        document.getElementById("finish2").innerHTML = "Completed";
+        document.getElementById("inputName3").innerHTML = "Input your name.";
+        document.getElementById("change_playback3").innerHTML = "Conversion and Playback";
+        document.getElementById("inputMores3").innerHTML = "Morse code input";
+        document.getElementById("finish").innerHTML = "Completed";
         document.getElementById("input").innerHTML = "Please type in alphabet letters!";
         document.getElementById("nameInput").placeholder = "Please enter your name.";
+        document.getElementById("tellToMarse").innerHTML = "Let's tell Marus your name!";
         document.getElementById("back").innerHTML = "Back";
         document.getElementById("change").innerHTML = "Convert";
         document.getElementById("GoToHenkan").innerHTML = "Conversion only";
@@ -1683,13 +1715,10 @@ function changeLanguage(languageName){
         document.getElementById("next2").innerHTML = "Next";
         document.getElementById("h2InputExp").innerHTML = "Try out Morse code input!";
         document.getElementById("morseInput").placeholder = "Please enter using the button.";
-        document.getElementById("HowToPlay").innerHTML = "You can input Morse code using the buttons.<br>\
-      DEL: Delete one character<br>\
-      C: Clear All<br>\
-      🔊: Current Morse code playback and verification<br>";
         document.getElementById("Tips").innerHTML = " ・Direct text input is disabled<br>\
         ・Deletion possible by specifying insertion position<br>";
-        document.getElementById("checkMyAnswer").innerHTML = "✅Check My Answer";
+        document.getElementById("hintBtn").innerHTML = "💡 Hint";
+        document.getElementById("checkMyAnswer").innerHTML = "✅Check The Answer";
         document.getElementById("back3").innerHTML = "Back";
         document.getElementById("next3").innerHTML = "End it";
         document.getElementById("otsukare").innerHTML = "🎉 Great job!";
@@ -1701,9 +1730,14 @@ function changeLanguage(languageName){
         document.getElementById("quiz-next-btn").innerHTML = "Next";
         document.getElementById("settings").innerHTML = "Settings";
         document.getElementById("label_language").innerHTML = "Language used";
+        document.getElementById("globalLanguage").options[0].innerHTML = "日本語(かな)";
+        document.getElementById("globalLanguage").options[1].innerHTML = "日本語(ローマ字)";
         document.getElementById("volume").innerHTML = "Volume";
         document.getElementById("frequency").innerHTML = "Frequency";
         document.getElementById("speed").innerHTML = "Playback speed";
+        document.getElementById("filenameFormatLabel").innerHTML = "Saved file name:";
+        document.getElementById("globalFilenameFormat").options[0].innerHTML = "Use the input word";
+        document.getElementById("globalFilenameFormat").options[1].innerHTML = "Use the current time";
         document.getElementById("resetSettings").innerHTML = "Reset to factory settings";
         document.getElementById("closeSettings").innerHTML = "Close";
         document.getElementById("mo-rusuhenkanjo").innerHTML = "Morse Code Station";
@@ -1733,7 +1767,24 @@ function changeLanguage(languageName){
         document.getElementById("hugou").textContent = "Morse code";
         document.getElementById("morseTblBtn").textContent = "📖 Morse Code Chart";
         document.getElementById("play").textContent = "play";
+
+        document.getElementById("marusu3").innerHTML = "This is how each character corresponds to the code!";
+        document.getElementById("marusu4").innerHTML = "Let's listen to actual Morse code! You can also download the audio!";
+        document.getElementById("marusu5").innerHTML = "Now it's your turn to tap out some Morse code!<br>Move to the next screen using the button below!";
+        document.getElementById("marusu6").innerHTML = "You create characters by combining '.' (dots), '-' (dashes), and '/' (separators)!";
+        document.getElementById("marusu7").innerHTML = "Normally, you distinguish them by how long you hold the button, but this time let's make it easy and use simple buttons!";
+        document.getElementById("marusu8").innerHTML = "Let me explain the buttons!<br>\
+            DEL: Delete one character<br>\
+            C: Clear all<br>\
+            🔊: Play and check your current input<br>";
+        document.getElementById("marusu9").innerHTML = "If you get stuck, use '💡 Hint' to hear the sound again! You can also click '📖 Morse Code Chart' to check the characters.";
+        document.getElementById("marusu10").innerHTML = "When you've finished your name, press '✅ Check The Answer'! It's tricky, but good luck!";
+        document.getElementById("marusu11").innerHTML = "How did you like the Morse code experience? Was it fun?\
+            A long time ago, people used this method to communicate over long distances! If you want to learn more, be sure to look it up at the museum!";
+        document.getElementById("marusu12").innerHTML = "We also have a 3-choice quiz! Why not give it a try?\
+            I'm sure it will help you understand Morse code even better!";
     }
+    
     const currentName = document.getElementById('nameInput').value;
     const userNameEl = document.getElementById('userName');
     if (userNameEl) {
@@ -1744,21 +1795,34 @@ function changeLanguage(languageName){
 function changeKidsMode(){
     const lang = getCurrentLanguage();
      console.log(lang);
-        document.getElementById("h1").innerHTML = "🎵 もーるすしんごうであそぼう！ 📡";
+        document.getElementById("h1").innerHTML = "🎵 もーるすしんごうであそぼう！📡";
           document.getElementById("inline-character-balloon").innerHTML = "ぼくといっしょにやってみない？";
           document.getElementById("welcome-text").innerHTML = "もーるすしんごうのせかいへようこそ！<br>\
-          もーるすっていったいなんだろう。<br>きみのなまえをもーるすにへんかんしてみよう。<br>";
+          もーるすっていったいなんだろう。<br>じつは「・」と「ー」だけで、ひらがなををあらわせるんだ！きみのなまえをもーるすにかえてみよう。<br>";
           document.getElementById("h2").innerHTML = "あなたのなまえをおしえてね！<br>（れい：まーるす）";
-          document.getElementById("volume").innerHTML = "おんりょう";
+          document.getElementById("volume").innerHTML = "おとのおおきさ";
         document.getElementById("start").innerHTML = "はじめてみる！";
           document.getElementById("inputName").innerHTML = "なまえをにゅうりょく";
           document.getElementById("change_playback").innerHTML = "へんかん・さいせい";
           document.getElementById("inputMores").innerHTML = "もーるすにゅうりょく";
           document.getElementById("finish").innerHTML = "おわり";
+          document.getElementById("inputName1").innerHTML = "なまえをにゅうりょく";
+          document.getElementById("change_playback1").innerHTML = "へんかん・さいせい";
+          document.getElementById("inputMores1").innerHTML = "もーるすにゅうりょく";
+          document.getElementById("finish1").innerHTML = "おわり";
+          document.getElementById("inputName2").innerHTML = "なまえをにゅうりょく";
+          document.getElementById("change_playback2").innerHTML = "へんかん・さいせい";
+          document.getElementById("inputMores2").innerHTML = "もーるすにゅうりょく";
+          document.getElementById("finish2").innerHTML = "おわり";
+          document.getElementById("inputName3").innerHTML = "なまえをにゅうりょく";
+          document.getElementById("change_playback3").innerHTML = "へんかん・さいせい";
+          document.getElementById("inputMores3").innerHTML = "もーるすにゅうりょく";
+          document.getElementById("finish").innerHTML = "おわり";
           document.getElementById("input").innerHTML = "ぼくのなまえは「まーるす」！<br>きみのなまえはなあに？";
           document.getElementById("nameInput").placeholder = "なまえをひらがなでにゅうりょく";
+          document.getElementById("tellToMarse").innerHTML = "まーるすにじぶんのなまえをおしえてみよう！";
           document.getElementById("back").innerHTML = "もどる";
-          document.getElementById("change").innerHTML = "へんかんする！";
+          document.getElementById("change").innerHTML = "なまえをけってい！";
           document.getElementById("GoToHenkan").innerHTML = "へんかんだけする！";
           document.getElementById("henkan-h2").innerHTML = "もーるすしんごうになったよ！";
           document.getElementById("marusu2").innerHTML = "きみのなまえがもーるすになってるよ！すごい！";
@@ -1766,53 +1830,59 @@ function changeKidsMode(){
           document.getElementById("listen-first").innerHTML = "🔊 おとできく";
           document.getElementById("MP3").innerHTML = "MP3（おと）をだうんろーど";
           document.getElementById("downloadBtn").innerHTML = "MP3（おと）をダウンロード";
-          document.getElementById("back2").innerHTML = "もどる";
-          document.getElementById("next2").innerHTML = "つぎにすすむ";
+          document.getElementById("back2").innerHTML = "なまえをいれなおす";
+          document.getElementById("next2").innerHTML = "もーるすをうってみる！";
           document.getElementById("h2InputExp").innerHTML = "こんどはもーるすにゅうりょくをたいけんしてみよう！";
 
           document.getElementById("morseInput").placeholder = "ぼたんでもーるすしんごうをにゅうりょくしてね";
           document.getElementById("Tips").innerHTML = " ・ちょくせつもじはにゅうりょくできないよ<br>\
-          ・じぶんで文字をけすいちはえらべるよ<br>";
+          ・じぶんでもじをけすいちはえらべるよ<br>・「／」くぎりのもじをわすれずにね";
+          document.getElementById("hintBtn").innerHTML = "💡 ひんと";
           document.getElementById("checkMyAnswer").innerHTML = "✅こたえあわせ！";
           document.getElementById("back3").innerHTML = "もどる";
           document.getElementById("next3").innerHTML = "おわりにする";
           document.getElementById("otsukare").innerHTML = "🎉 おつかれさま！";
           document.getElementById("suggest").innerHTML = "くいずもやっていかない？";
-          document.getElementById("back4").innerHTML = "さいしょにもどる";
-          document.getElementById("next4").innerHTML = "くいずにすすむ";
+          document.getElementById("back4").innerHTML = "はじめにもどる";
+          document.getElementById("next4").innerHTML = "くいずをする！";
           document.getElementById("quiz-question").innerHTML = "";
           document.getElementById("allFinish").innerHTML = "やめる";
           document.getElementById("quiz-next-btn").innerHTML = "つぎへ";
           document.getElementById("settings").innerHTML = "せってい";
-          document.getElementById("label_language").innerHTML = "しようげんご";
+          document.getElementById("label_language").innerHTML = "つかうことば";
+          document.getElementById("globalLanguage").options[0].innerHTML = "にほんご(ひらがな)";
+          document.getElementById("globalLanguage").options[1].innerHTML = "にほんご(ろーまじ)";
           document.getElementById("volume").innerHTML = "おとのおおきさ";
           document.getElementById("frequency").innerHTML = "おとのたかさ";
           document.getElementById("speed").innerHTML = "おとのはやさ";
+          document.getElementById("filenameFormatLabel").innerHTML = "ほぞんするふぁいるのなまえ:";
+          document.getElementById("globalFilenameFormat").options[0].innerHTML = "いれたことばをつかう";
+        document.getElementById("globalFilenameFormat").options[1].innerHTML = "いまのじかんをつかう";
           document.getElementById("resetSettings").innerHTML = "せっていをもとにもどす";
           document.getElementById("closeSettings").innerHTML = "とじる";
           document.getElementById("mo-rusuhenkanjo").innerHTML = "もーるすへんかんじょ";
           document.getElementById("input_henkan").innerHTML = "もーるすの「かいせき(しらべる)」や「へんかん(つくる)」ができるよ！";
           document.getElementById("kaiseki").innerHTML = "かいせき";
           if(lang === "日本語" ){
-              document.getElementById("kaiseki_help").innerHTML = "「かいせき」したいおとのふぁいるをえらんでね！<br>\
-              <b>いまのしようげんごは日本語(かな)だよ。</b><br>(The current language in use is not English.)";
+              document.getElementById("kaiseki_help").innerHTML = "「かいせき」したい（しらべたい）おとのふぁいるをえらんでね！<br>\
+              <b>いまつかっていることばは、にほんご（かな）だよ。</b><br>(The current language in use is not English.)";
           }else if(lang === "ローマ字" ){
               document.getElementById("kaiseki_help").innerHTML = "「かいせき」したいおとのふぁいるをえらんでね！<br>\
-              <b>いまのしようげんごは日本語(ローマ字)だよ。</b><br>(The current language in use is not English.)";
+              <b>いまつかっていることばは、にほんご（ろーまじ）だよ。</b><br>(The current language in use is not English.)";
           }
           document.getElementById("audiofile").innerHTML = "おとのふぁいるをえらんで「かいせき」:";
-          document.getElementById("analyzeInfo").innerHTML = "かいせきけっかがひょうじされるよ！ ↑";
+          document.getElementById("analyzeInfo").innerHTML = "かいせきけっかがみれるよ！ ↑";
           document.getElementById("h3_henkan").innerHTML = "へんかん";
           if(lang === "日本語" ){
               document.getElementById("henkan_help").innerHTML = "「へんかん」したいもじをにゅうりょくしてね！<br>\
-              <b>いまつかっていることばは、にほんご(かな)だよ。</b><br>(The current language in use is not English.)";
+              <b>いまつかっていることばは、にほんご（かな）だよ。</b><br>(The current language in use is not English.)";
           }else if(lang === "ローマ字" ){
               document.getElementById("henkan_help").innerHTML = "「へんかん」したいもじをにゅうりょくしてね！<br>\
-              <b>いまつかっていることばは、にほんご(ローマ字)だよ。</b><br>(The current language in use is not English.)";
+              <b>いまつかっていることばは、にほんご（ろーまじ）だよ。</b><br>(The current language in use is not English.)";
           }
           document.getElementById("WantToChange").placeholder = "「へんかん」したいもじをここににゅうりょくしてね！";
-          document.getElementById("hanken_help2").innerHTML = "にゅうりょくしたもじはもーるすしんごうにへんかんされて、したのばしょにひょうじされるよ！<br>\
-          へんかんされたもーるすしんごうは「こぴー」したり「さいせい」したり「MP3（おとの）だうんろーど」したりできるよ！";
+          document.getElementById("hanken_help2").innerHTML = "にゅうりょくしたもじは、もーるすしんごうにへんかんされて、したのばしょでみれるよ！<br>\
+          へんかんされたもーるすしんごうは「こぴー」したり「さいせい（おとをきく）」したり「MP3（おとの）だうんろーど」ができるよ！";
           document.getElementById("copyWantToChangeBtn").innerHTML = "こぴーする";
           document.getElementById("playWantToChangeBtn").innerHTML = "🔊 さいせいする";
           document.getElementById("downloadWantToChangeBtn").innerHTML = "MP3（おとの）だうんろーど";
@@ -1828,6 +1898,22 @@ function changeKidsMode(){
           document.getElementById("hugou").textContent = "もーるすふごう";
           document.getElementById("morseTblBtn").textContent = "📖 もーるすしんごうひょう";
           document.getElementById("play").textContent = "おとをきく";
+          document.getElementById("marusu3").innerHTML = "それぞれのおとはこんなかんじだよ！<br>\
+          たとえば「あ」は「・－」ってかくんだ！いちばんみぎにある「／」はもじをくぎってるよ！";
+        document.getElementById("marusu4").innerHTML = "この「・」とか「ー」がどんなおとをしているのか、きになるね！したのぼたんをおしてきいてみよう！おとをだうんろーどすることもできるよ。";
+        document.getElementById("marusu5").innerHTML = "こんどはきみがもーるすをうってみるばんだ！<br>まずしたのぼたんをおしてね！";
+        document.getElementById("marusu6").innerHTML = "「・」（みじかいおと）と「－」（ながいおと）と「／」(くぎり) をくみあわせてもじをつくるんだ！";
+        document.getElementById("marusu7").innerHTML = "ほんとうはぼたんをおしているながさで、みじかいおとと、ながいおとをききわけるんだ。けど、こんかいはかんたんにぼたんをおしてつくってみよう！";
+        document.getElementById("marusu8").innerHTML = "へんなぼたんのせつめいをするよ！<br>\
+      DEL: ひともじけせるよ<br>\
+      C: ぜんぶのもじをけせるよ<br>\
+      🔊: いまつくったもーるすをかくにんできるよ<br>";
+        document.getElementById("marusu9").innerHTML = "こまったときは、「💡 ひんと」でなまえのおとをきけるよ！したの「もーるすしんごうひょう」をたっちしてみるのもいいよ！";
+        document.getElementById("marusu10").innerHTML = "じぶんのなまえがかんせいしたら「✅こたえあわせ」をおしてね！むずかしいけど、がんばって！";
+        document.getElementById("marusu11").innerHTML = "もーるすしんごうのたいけんはどうだった？おもしろかったかな？\
+        むかしのひとたちはこのほうほうでとおくのひととれんらくをとっていたりしたんだよ！くわしくしりたかったらぜひみゅーじあむでしらべてみてね！";
+        document.getElementById("marusu12").innerHTML = "3たくくいずもあるんだけど、やってみない？\
+        きっともーるすしんごうのりかいがふかまるよ！";
     const currentName = document.getElementById('nameInput').value;
     const userNameEl = document.getElementById('userName');
     if (userNameEl) {

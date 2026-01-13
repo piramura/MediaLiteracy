@@ -530,7 +530,7 @@ body::before {
 h1 {
   color: var(--primary-color);
   margin-bottom: var(--spacing-xl);
-  font-size: 2.2em;
+  font-size: 1.8em;
   line-height: 1.2;
 }
 
