@@ -87,6 +87,7 @@
   --transition-slow: 0.5s;
 }
 
+
 /* ======================
    子ども向けUI（やさしい表記）
    body.kid-ui を付与して切替
@@ -158,6 +159,7 @@ body {
   align-items: center;
   padding: var(--spacing-sm);
   padding-bottom: 100px;
+  touch-action: manipulation;
 }
 
 body::before {

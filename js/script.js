@@ -1602,9 +1602,6 @@ function changeLanguage(languageName){
         document.getElementById("back3").innerHTML = "戻る";
         document.getElementById("next3").innerHTML = "終わりにする";
         document.getElementById("otsukare").innerHTML = "🎉 おつかれさまでした！";
-        document.getElementById("thanksMessage").innerHTML = "モールス信号の体験はいかがでしたか？<br>\
-        昔の人たちはこの方法で遠くの人と<br>\
-        コミュニケーションを取っていたんですね。";
         document.getElementById("suggest").innerHTML = "クイズに挑戦してみませんか？";
         document.getElementById("back4").innerHTML = "タイトルに戻る";
         document.getElementById("next4").innerHTML = "クイズに挑戦してみる！";
@@ -1696,8 +1693,6 @@ function changeLanguage(languageName){
         document.getElementById("back3").innerHTML = "Back";
         document.getElementById("next3").innerHTML = "End it";
         document.getElementById("otsukare").innerHTML = "🎉 Great job!";
-        document.getElementById("thanksMessage").innerHTML = "How was your experience with Morse code?<br>\
-        People in the old days used this method to communicate with those far away.";
         document.getElementById("suggest").innerHTML = "Why not give the quiz a try?";
         document.getElementById("back4").innerHTML = "Return to the first page";
         document.getElementById("next4").innerHTML = "Simple Quiz";
@@ -1782,9 +1777,6 @@ function changeKidsMode(){
           document.getElementById("back3").innerHTML = "もどる";
           document.getElementById("next3").innerHTML = "おわりにする";
           document.getElementById("otsukare").innerHTML = "🎉 おつかれさま！";
-        //   document.getElementById("thanksMessage").innerHTML = "もーるすしんごうはどうだった？<br>\
-        //   おもしろかったかな？<br>\
-        //   もっともーるすしんごうであそびたいときは、またあそびにきてね！";
           document.getElementById("suggest").innerHTML = "くいずもやっていかない？";
           document.getElementById("back4").innerHTML = "さいしょにもどる";
           document.getElementById("next4").innerHTML = "くいずにすすむ";

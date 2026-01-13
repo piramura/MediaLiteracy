@@ -131,8 +131,9 @@
       <option value="English">English</option>
       </select>
       <div class="navigation">
-        <button class="back-button" onclick="goToStep(0)" id = "back">戻る</button>
         <button class="main-button" onclick="convertName()" id = "change">変換する</button>
+        <button class="back-button" onclick="goToStep(0)" id = "back">戻る</button>
+        
       </div>
     </div>
 
@@ -199,8 +200,8 @@
         </div>
       </div>
       <div class="navigation">
-        <button class="back-button" onclick="goToStep(1)" id ="back2">戻る</button>
         <button class="main-button" onclick="goToStep(3)" id ="next2">モールスを入力してみる！</button>
+        <button class="back-button" onclick="goToStep(1)" id ="back2">戻る</button>
       </div>
     </div>
 
@@ -254,9 +255,6 @@
       あと、区切りの「／」も忘れずにね！下の注意事項も見ておこう！
         </div>
         </div>
-      <p id ="HowToPlay">
-      
-      </p>
         <div class="help-text" style="display:block; margin-top:8px; font-size:0.95em;" id ="Tips">
         ・直接の文字入力は無効<br>
         ・挿入位置を指定して削除可能
@@ -282,8 +280,8 @@
        </div> -->
 
       <div class="navigation">
-        <button class="back-button" onclick="goToStep(2)" id="back3">戻る</button>
         <button class="main-button" onclick="goToStep(4)" id="next3" style="display:none;">終わりにする</button>
+        <button class="back-button" onclick="goToStep(2)" id="back3">戻る</button>
       </div>
     </div>
 
@@ -301,20 +299,14 @@
       
       <h2 id = "otsukare">🎉 おつかれさまでした！</h2>
       <div class="inline-character-area">
-           <img src="assets/png/マールス2.png" alt="マールス" class="inline-character-img">
+        <img src="assets/png/マールス2.png" alt="マールス" class="inline-character-img">
         <div class="inline-character-balloon" id ="marusu11">
           モールス信号の体験はどうだった？おもしろかったかな？
         昔の人たちはこの方法で遠くの人と連絡を取っていたりしたんだよ！詳しく知りたかったらぜひミュージアムで調べてみてね！
         </div>
         </div>
-      <!-- <div class="welcome-text" id = "thanksMessage">
-        モールス信号の体験はいかがでしたか？<br>
-        昔の人たちはこの方法で遠くの人と<br>
-        コミュニケーションを取っていたんですね。
-      </div> -->
       
       <h3 id ="suggest">クイズに挑戦してみませんか？</h3>
-      <!-- クイズ画面の質問の上などに追加 -->
         <div class="inline-character-area">
            <img src="assets/png/喜びのマールス.png" alt="マールス" class="inline-character-img">
         <div class="inline-character-balloon" id ="marusu12">
@@ -324,8 +316,8 @@
         </div>
       
       <div class="navigation">
-        <button class="back-button" onclick="location.reload()" id="back4">タイトルに戻る</button>
         <button class="main-button" onclick="startQuiz()" id = "next4">クイズに挑戦する</button>
+        <button class="back-button" onclick="location.reload()" id="back4">タイトルに戻る</button>
       </div>
     </div>
     <!-- 追加：クイズ画面 -->
@@ -374,7 +366,6 @@
                 <b>現在の使用言語は日本語(かな)です。</b><br>(The current language in use is not English.)</div>
                   <div class="analyze-row">
         <label for="audioFile" id ="audiofile">モールス音声(mp3)をアップロードして解析:</label>
-
         <input type="file" id="audioFile" accept="audio/*" />
                 </div>
                 <div class="analysis-area" style="margin-top: 10px; display:flex; flex-direction:column; gap:8px;">
