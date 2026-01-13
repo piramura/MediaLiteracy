@@ -1591,8 +1591,6 @@ function changeLanguage(languageName){
         document.getElementById("back2").innerHTML = "戻る";
         document.getElementById("next2").innerHTML = "モールスを入力してみる！";
         document.getElementById("h2InputExp").innerHTML = "自分の名前を入力してみよう！";
-        document.getElementById("explainHow").innerHTML = "今度は自分の名前をモールス信号で入力してみましょう。<br>\
-        「・」（短音）と「－」（長音）と「／」(区切り) を組み合わせて文字を作ります。";
         document.getElementById("morseInput").placeholder = "ボタンで入力してください";
         document.getElementById("HowToPlay").innerHTML = "ボタンでモールス記号を入力できます。<br>\
       DEL: 一文字消す<br>\
@@ -1601,8 +1599,6 @@ function changeLanguage(languageName){
         document.getElementById("Tips").innerHTML = " ・直接の文字入力は無効<br>\
         ・挿入位置を指定して削除可能<br>";
         document.getElementById("checkMyAnswer").innerHTML = "✅答え合わせ";
-        document.getElementById("Tips2").innerHTML = "自分の名前が完成したら先に進めます。\
-        <br>「✅答え合わせ」で確認してみましょう！";
         document.getElementById("back3").innerHTML = "戻る";
         document.getElementById("next3").innerHTML = "終わりにする";
         document.getElementById("otsukare").innerHTML = "🎉 おつかれさまでした！";
@@ -1689,8 +1685,6 @@ function changeLanguage(languageName){
         document.getElementById("back2").innerHTML = "Back";
         document.getElementById("next2").innerHTML = "Next";
         document.getElementById("h2InputExp").innerHTML = "Try out Morse code input!";
-        document.getElementById("explainHow").innerHTML = "Now let's try entering your name in Morse code.<br>\
-Combine dots (·), dashes (－), and slashes (/) to form letters.";
         document.getElementById("morseInput").placeholder = "Please enter using the button.";
         document.getElementById("HowToPlay").innerHTML = "You can input Morse code using the buttons.<br>\
       DEL: Delete one character<br>\
@@ -1699,8 +1693,6 @@ Combine dots (·), dashes (－), and slashes (/) to form letters.";
         document.getElementById("Tips").innerHTML = " ・Direct text input is disabled<br>\
         ・Deletion possible by specifying insertion position<br>";
         document.getElementById("checkMyAnswer").innerHTML = "✅Check My Answer";
-        document.getElementById("Tips2").innerHTML = "Once your name is complete, you can proceed.\
-        <br>Check your answers with “✅ Check My Answer”!";
         document.getElementById("back3").innerHTML = "Back";
         document.getElementById("next3").innerHTML = "End it";
         document.getElementById("otsukare").innerHTML = "🎉 Great job!";
@@ -1782,24 +1774,17 @@ function changeKidsMode(){
           document.getElementById("back2").innerHTML = "もどる";
           document.getElementById("next2").innerHTML = "つぎにすすむ";
           document.getElementById("h2InputExp").innerHTML = "こんどはもーるすにゅうりょくをたいけんしてみよう！";
-          document.getElementById("explainHow").innerHTML = "さっきつくられたじぶんのなまえをもーるすでにゅうりょくしてみよう！<br>\
-          「・」（みじかいおと）と「－」（ながいおと）と「／」(くぎり) をくみあわせてもじをつくるんだ。";
+
           document.getElementById("morseInput").placeholder = "ぼたんでもーるすしんごうをにゅうりょくしてね";
-          document.getElementById("HowToPlay").innerHTML = "ぼたんをおすともーるすをにゅうりょくできるよ！<br>\
-        DEL: もじをひとつけす<br>\
-        C: もじをぜんぶけす<br>\
-        🔊: いまの「おと」をかくにん<br>";
           document.getElementById("Tips").innerHTML = " ・ちょくせつもじはにゅうりょくできないよ<br>\
           ・じぶんで文字をけすいちはえらべるよ<br>";
           document.getElementById("checkMyAnswer").innerHTML = "✅こたえあわせ！";
-          document.getElementById("Tips2").innerHTML = "じぶんのなまえがかんせいしたらさきにすすめるよ！\
-          <br>「✅こたえあわせ！」でかくにんしてみよう！";
           document.getElementById("back3").innerHTML = "もどる";
           document.getElementById("next3").innerHTML = "おわりにする";
           document.getElementById("otsukare").innerHTML = "🎉 おつかれさま！";
-          document.getElementById("thanksMessage").innerHTML = "もーるすしんごうはどうだった？<br>\
-          おもしろかったかな？<br>\
-          もっともーるすしんごうであそびたいときは、またあそびにきてね！";
+        //   document.getElementById("thanksMessage").innerHTML = "もーるすしんごうはどうだった？<br>\
+        //   おもしろかったかな？<br>\
+        //   もっともーるすしんごうであそびたいときは、またあそびにきてね！";
           document.getElementById("suggest").innerHTML = "くいずもやっていかない？";
           document.getElementById("back4").innerHTML = "さいしょにもどる";
           document.getElementById("next4").innerHTML = "くいずにすすむ";
