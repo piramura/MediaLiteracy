@@ -247,7 +247,7 @@ function getScriptAlertMessage(key, defaultMsg = '') {
                 ["ピ","－－・・－／・・－－・"], //ぴ－69
                 ["プ","－－・・／・・－－・"], //ぷ－70
                 ["ペ","・／・・－－・"], //ぺ－71
-                ["ポ","－・・／・・－－・"] //ぽ－72
+                ["ポ","－・・／・・－－・"], //ぽ－72
                 ["ｱ","－－・－－"], //あ－0
                 ["ｲ","・－"], //い－1
                 ["ｳ","・・－"], //う－2
@@ -666,7 +666,10 @@ function getScriptAlertMessage(key, defaultMsg = '') {
             currentOscillators = [];
 
             // コンテキストをリセット（音が途中で残らないように）
-            audioCtx.close();
+            // audioCtx.close();
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
 
             audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             const dot = SPEED * speedRatio; 
@@ -708,7 +711,7 @@ function getScriptAlertMessage(key, defaultMsg = '') {
         }
 
         //モールス信号の書かれている場所を指定するといろはに変更
-        function ChangeMorse(inputID){
+        function ChangeMorse(inputID, checkAnswer){
             const morseInput = document.getElementById(inputID).value;
             const getMorse = morseInput.split("／");
             let result = "";
@@ -723,7 +726,7 @@ function getScriptAlertMessage(key, defaultMsg = '') {
                 }
             }
             result = Conversion(result);
-            if(morseInput === morse_name.join('／')){
+            if(morseInput === morse_name.join('／') && checkAnswer === 1){
                 showFloatingResult(result,1,invalidChars);
             }
             else{
@@ -1042,7 +1045,9 @@ function playDot(){
         try { osc.stop(); } catch (e) {}
     });
     currentOscillators = [];
-    audioCtx.close();
+    if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+    }
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     const dot = SPEED * speedRatio; 
     let time = audioCtx.currentTime; // 再生開始時刻
@@ -1054,7 +1059,9 @@ function playDash(){
         try { osc.stop(); } catch (e) {}
     });
     currentOscillators = [];
-    audioCtx.close();
+    if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+    }
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     const dot = SPEED * speedRatio; 
     let time = audioCtx.currentTime; // 再生開始時刻
@@ -1384,7 +1391,75 @@ function hiraganaToRomaji(input) {
         "ゃ":"xya", "ゅ":"xyu", "ょ":"xyo", "っ":"xtu",
         "ゎ":"xwa",
 
-        "ー": "-", "、": ",", "。": "."
+        "ー": "-", "、": ",", "。": ".","？":"?","！":"!","＠":"@","＃":"#","$":"$","％":"%","＾":"^","＆":"&","＊":"*",
+        "（":"(", "）":")", "「":"\"", "」":"\"", "『":"'", "』":"'", "：":":", "；":";", "＋":"+","－":"-","＝":"=","＜":"<","＞":">","／":"/","＼":"\\","｜":"|","〜":"~",
+
+        //カタカナからローマ字も対応
+        "ア":"a", "イ":"i", "ウ":"u", "エ":"e", "オ":"o",
+        "カ":"ka", "キ":"ki", "ク":"ku", "ケ":"ke", "コ":"ko",
+        "サ":"sa", "シ":"shi", "ス":"su", "セ":"se", "ソ":"so", 
+        "タ":"ta", "チ":"chi", "ツ":"tsu", "テ":"te", "ト":"to",
+        "ナ":"na", "ニ":"ni", "ヌ":"nu", "ネ":"ne", "ノ":"no",
+        "ハ":"ha", "ヒ":"hi", "フ":"fu", "ヘ":"he", "ホ":"ho",
+        "マ":"ma", "ミ":"mi", "ム":"mu", "メ":"me", "モ":"mo",
+        "ヤ":"ya", "ユ":"yu", "ヨ":"yo",
+        "ラ":"ra", "リ":"ri", "ル":"ru", "レ":"re", "ロ":"ro",
+        "ワ":"wa", "ヲ":"wo", "ン":"nn",
+
+        "ガ":"ga", "ギ":"gi", "グ":"gu", "ゲ":"ge", "ゴ":"go",
+        "ザ":"za", "ジ":"ji", "ズ":"zu", "ゼ":"ze", "ゾ":"zo",
+        "ダ":"da", "ヂ":"ji", "ヅ":"zu", "デ":"de", "ド":"do",
+        "バ":"ba", "ビ":"bi", "ブ":"bu", "ベ":"be", "ボ":"bo",
+        "パ":"pa", "ピ":"pi", "プ":"pu", "ペ":"pe", "ポ":"po",
+
+        "キャ":"kya", "キュ":"kyu", "キョ":"kyo",
+        "シャ":"sha", "シュ":"shu", "ショ":"sho",
+        "チャ":"cha", "チュ":"chu", "チョ":"cho",
+        "ニャ":"nya", "ニュ":"nyu", "ニョ":"nyo",
+        "ヒャ":"hya", "ヒュ":"hyu", "ヒョ":"hyo",
+        "ミャ":"mya", "ミュ":"myu", "ミョ":"myo",
+        "リャ":"rya", "リュ":"ryu", "リョ":"ryo",
+        "ギャ":"gya", "ギュ":"gyu", "ギョ":"gyo",
+        "ジャ":"ja", "ジュ":"ju", "ジョ":"jo",
+        "ヂャ":"dya", "ヂュ":"dyu", "ヂョ":"dyo",
+        "ビャ":"bya", "ビュ":"byu", "ビョ":"byo",
+        "ピャ":"pya", "ピュ":"pyu", "ピョ":"pyo",
+
+        "ァ":"xa", "ィ":"xi", "ゥ":"xu", "ェ":"xe", "ォ":"xo",
+        "ャ":"xya", "ュ":"xyu", "ョ":"xyo", "ッ":"xtu",
+        "ヮ":"xwa",
+
+        // 半角カタカナからローマ字も対応
+        "ｱ":"a", "ｲ":"i", "ｳ":"u", "ｴ":"e", "ｵ":"o",
+        "ｶ":"ka", "ｷ":"ki", "ｸ":"ku", "ｹ":"ke", "ｺ":"ko",
+        "ｻ":"sa", "ｼ":"shi", "ｽ":"su", "ｾ":"se", "ｿ":"so",
+        "ﾀ":"ta", "ﾁ":"chi", "ﾂ":"tsu", "ﾃ":"te", "ﾄ":"to",
+        "ﾅ":"na", "ﾆ":"ni", "ﾇ":"nu", "ﾈ":"ne", "ﾉ":"no",
+        "ﾊ":"ha", "ﾋ":"hi", "ﾌ":"fu", "ﾍ":"he", "ﾎ":"ho",
+        "ﾏ":"ma", "ﾐ":"mi", "ﾑ":"mu", "ﾒ":"me", "ﾓ":"mo",
+        "ﾔ":"ya", "ﾕ":"yu", "ﾖ":"yo",
+        "ﾗ":"ra", "ﾘ":"ri", "ﾙ":"ru", "ﾚ":"re", "ﾛ":"ro",
+        "ﾜ":"wa", "ｦ":"wo", "ﾝ":"nn",
+
+        "ｶﾞ":"ga", "ｷﾞ":"gi", "ｸﾞ":"gu", "ｹﾞ":"ge", "ｺﾞ":"go",
+        "ｻﾞ":"za", "ｼﾞ":"ji", "ｽﾞ":"zu", "ｾﾞ":"ze", "ｿﾞ":"zo",
+        "ﾀﾞ":"da", "ﾁﾞ":"ji", "ﾂﾞ":"zu", "ﾃﾞ":"de", "ﾄﾞ":"do",
+        "ﾊﾞ":"ba", "ﾋﾞ":"bi", "ﾌﾞ":"bu", "ﾍﾞ":"be", "ﾎﾞ":"bo",
+        "ﾊﾟ":"pa", "ﾋﾟ":"pi", "ﾌﾟ":"pu", "ﾍﾟ":"pe", "ﾎﾟ":"po",
+
+        "ｷｬ":"kya", "ｷｭ":"kyu", "ｷｮ":"kyo",
+        "ｼｬ":"sha", "ｼｭ":"shu", "ｼｮ":"sho",
+        "ﾁｬ":"cha", "ﾁｭ":"chu", "ﾁｮ":"cho",
+        "ﾆｬ":"nya", "ﾆｭ":"nyu", "ﾆｮ":"nyo",
+        "ﾋｬ":"hya", "ﾋｭ":"hyu", "ﾋｮ":"hyo",
+        "ﾐｬ":"mya", "ﾐｭ":"myu", "ﾐｮ":"myo",
+        "ﾘｬ":"rya", "ﾘｭ":"ryu", "ﾘｮ":"ryo",
+        "ｷﾞｬ":"gya", "ｷﾞｭ":"gyu", "ｷﾞｮ":"gyo",
+        "ｼﾞｬ":"ja", "ｼﾞｭ":"ju", "ｼﾞｮ":"jo",
+        "ﾁﾞｬ":"dya", "ﾁﾞｭ":"dyu", "ﾁﾞｮ":"dyo",
+        "ﾋﾞｬ":"bya", "ﾋﾞｭ":"byu", "ﾋﾞｮ":"byo",
+        "ﾋﾟｬ":"pya", "ﾋﾟｭ":"pyu", "ﾋﾟｮ":"pyo",
+
     };
 
     // キーを文字数の長い順にソート（"きゃ" を "き" より先に判定するため）
@@ -1461,6 +1536,12 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    const correctSound = document.getElementById('correctSound');
+    if(correctSound){
+        console.log("Setting correctSound volume to 0.1");
+        correctSound.volume = 0.15; 
+    }
+
     try {
         const storedLang = localStorage.getItem('ml_language');
         const preferred = storedLang || (lang && lang.value) || '日本語';
@@ -1489,27 +1570,27 @@ function changeLanguage(languageName){
         document.getElementById("inline-character-balloon").innerHTML = "僕と一緒にモールス信号を学ぼう！";
         document.getElementById("welcome-text").innerHTML = "モールス信号の世界へようこそ！<br>\
         あなたの名前をモールス信号に変換したり、実際にモールス入力を体験してみましょう。";
-        document.getElementById("h2").innerHTML = "あなたのお名前を教えてください";
+        document.getElementById("h2").innerHTML = "自分の名前を入力してみよう！<br>(例：まーるす)";
         document.getElementById("volume").innerHTML = "音量";
         document.getElementById("start").innerHTML = "はじめる";
         document.getElementById("inputName").innerHTML = "名前入力";
         document.getElementById("change_playback").innerHTML = "変換・再生";
         document.getElementById("inputMores").innerHTML = "モールス入力";
         document.getElementById("finish").innerHTML = "完了";
-        document.getElementById("input").innerHTML = "ひらがなで入力してね！";
-        document.getElementById("nameInput").placeholder = "お名前をひらがなで入力";
+        document.getElementById("input").innerHTML = "僕の名前は「まーるす」！<br>特技はモールス信号を打つこと！<br>君の名前もモールス信号にしてあげるよ！";
+        document.getElementById("nameInput").placeholder = "ひらがなで入力してね";
         document.getElementById("back").innerHTML = "戻る";
-        document.getElementById("change").innerHTML = "変換する";
+        document.getElementById("change").innerHTML = "名前を確定！";
         document.getElementById("GoToHenkan").innerHTML = "変換だけする";
         document.getElementById("henkan-h2").innerHTML = "モールス信号に変換しました！";
-        document.getElementById("marusu2").innerHTML = "君の名前がモールスになった！";
+        document.getElementById("marusu2").innerHTML = "君の名前がモールスになった！<br>「・」と「ー」だけを使って文字を表現しているんだ！すごいでしょ！";
         document.getElementById("yourName").innerHTML = "<strong id='userName'></strong> さんのお名前は：";
         document.getElementById("listen-first").innerHTML = "🔊 音で聞いてみる";
         document.getElementById("MP3").innerHTML = "MP3変換";
         document.getElementById("downloadBtn").innerHTML = "MP3をダウンロード";
         document.getElementById("back2").innerHTML = "戻る";
-        document.getElementById("next2").innerHTML = "次へ進む";
-        document.getElementById("h2InputExp").innerHTML = "モールス入力を体験してみよう！";
+        document.getElementById("next2").innerHTML = "モールスを入力してみる！";
+        document.getElementById("h2InputExp").innerHTML = "自分の名前を入力してみよう！";
         document.getElementById("explainHow").innerHTML = "今度は自分の名前をモールス信号で入力してみましょう。<br>\
         「・」（短音）と「－」（長音）と「／」(区切り) を組み合わせて文字を作ります。";
         document.getElementById("morseInput").placeholder = "ボタンで入力してください";
@@ -1529,8 +1610,8 @@ function changeLanguage(languageName){
         昔の人たちはこの方法で遠くの人と<br>\
         コミュニケーションを取っていたんですね。";
         document.getElementById("suggest").innerHTML = "クイズに挑戦してみませんか？";
-        document.getElementById("back4").innerHTML = "最初から";
-        document.getElementById("next4").innerHTML = "簡単クイズ";
+        document.getElementById("back4").innerHTML = "タイトルに戻る";
+        document.getElementById("next4").innerHTML = "クイズに挑戦してみる！";
         document.getElementById("quiz-question").innerHTML = "質問がここに表示されます";
         document.getElementById("allFinish").innerHTML = "終了";
         document.getElementById("quiz-next-btn").innerHTML = "次へ";
@@ -1587,21 +1668,21 @@ function changeLanguage(languageName){
         document.getElementById("inline-character-balloon").innerHTML = "Let's learn Morse code together!";
         document.getElementById("welcome-text").innerHTML = "Welcome to the world of Morse code!<br>\
         Convert your name into Morse code, and try experiencing Morse code input for yourself.";
-        document.getElementById("h2").innerHTML = "Please tell me your name.";
+        document.getElementById("h2").innerHTML = "Please tell me your name.<br>(ex: Marse)";
         document.getElementById("volume").innerHTML = "Volume";
         document.getElementById("start").innerHTML = "Start";
         document.getElementById("inputName").innerHTML = "Input your name.";
         document.getElementById("change_playback").innerHTML = "Conversion and Playback";
         document.getElementById("inputMores").innerHTML = "Morse code input";
         document.getElementById("finish").innerHTML = "Completed";
-        document.getElementById("input").innerHTML = "Please type inalphabet letters!";
+        document.getElementById("input").innerHTML = "Please type in alphabet letters!";
         document.getElementById("nameInput").placeholder = "Please enter your name.";
         document.getElementById("back").innerHTML = "Back";
         document.getElementById("change").innerHTML = "Convert";
         document.getElementById("GoToHenkan").innerHTML = "Conversion only";
         document.getElementById("henkan-h2").innerHTML = "Converted to Morse code!";
         document.getElementById("marusu2").innerHTML = "Your name has become Morse code!";
-        document.getElementById("yourName").innerHTML = "<strong id=‘userName’></strong>'s name is:";
+        document.getElementById("yourName").innerHTML = "<strong id='userName'></strong>'s name is:";
         document.getElementById("listen-first").innerHTML = "🔊 Listen to it";
         document.getElementById("MP3").innerHTML = "MP3 Conversion";
         document.getElementById("downloadBtn").innerHTML = "Download MP3";
@@ -1666,6 +1747,11 @@ Combine dots (·), dashes (－), and slashes (/) to form letters.";
         document.getElementById("morseTblBtn").textContent = "📖 Morse Code Chart";
         document.getElementById("play").textContent = "play";
     }
+    const currentName = document.getElementById('nameInput').value;
+    const userNameEl = document.getElementById('userName');
+    if (userNameEl) {
+        userNameEl.textContent = currentName;
+    }
 }
 
 function changeKidsMode(){
@@ -1675,7 +1761,7 @@ function changeKidsMode(){
           document.getElementById("inline-character-balloon").innerHTML = "ぼくといっしょにやってみない？";
           document.getElementById("welcome-text").innerHTML = "もーるすしんごうのせかいへようこそ！<br>\
           もーるすっていったいなんだろう。<br>きみのなまえをもーるすにへんかんしてみよう。<br>";
-          document.getElementById("h2").innerHTML = "あなたのなまえをおしえてね！（れい：まーるす）";
+          document.getElementById("h2").innerHTML = "あなたのなまえをおしえてね！<br>（れい：まーるす）";
           document.getElementById("volume").innerHTML = "おんりょう";
         document.getElementById("start").innerHTML = "はじめてみる！";
           document.getElementById("inputName").innerHTML = "なまえをにゅうりょく";
@@ -1765,5 +1851,10 @@ function changeKidsMode(){
           document.getElementById("hugou").textContent = "もーるすふごう";
           document.getElementById("morseTblBtn").textContent = "📖 もーるすしんごうひょう";
           document.getElementById("play").textContent = "おとをきく";
+    const currentName = document.getElementById('nameInput').value;
+    const userNameEl = document.getElementById('userName');
+    if (userNameEl) {
+        userNameEl.textContent = currentName;
+    }
 }
 

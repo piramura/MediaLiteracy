@@ -53,7 +53,17 @@ const alertMessages = {
     'English': 'Please convert to Morse code on the previous screen.'
   }
 };
-
+  const wantToChangeInput = document.getElementById('WantToChange');
+  const wantToChangeOutput = document.getElementById('WantToChangeOutput');
+  const correspondWantToChangeOutput = document.getElementById('CorrespondWantToChangeOutput');
+  const wantToChangeOutputHidden = document.getElementById('WantToChangeOutputHidden');
+  const copyBtn = document.getElementById('copyWantToChangeBtn');
+  const playBtn = document.getElementById('playWantToChangeBtn');
+  const downloadWantBtn = document.getElementById('downloadWantToChangeBtn');
+  const copyMsg = document.getElementById('copyWantToChangeMsg');
+  const sepSelect = document.getElementById('WantToChangeSeparator');
+  const showUnknowns = document.getElementById('WantToChangeShowUnknowns');
+  
 // Get current language for alerts
 function getCurrentLanguage() {
   const globalLang = document.getElementById('globalLanguage');
@@ -120,6 +130,10 @@ const SCREEN_IDS = [
 ];
 
 function goToStep(step) {
+  window.scrollTo({
+  top: 0,
+  behavior: 'smooth'
+});
   setTimeout(() => {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     const targetId = SCREEN_IDS[step];
@@ -140,8 +154,41 @@ function hideDownloadAndLongPress() {
 // ========================
 // 名前変換機能
 // ========================
+const correspondOutput = document.getElementById('CorrespondOutput');
+const nameInput = document.getElementById('nameInput');
+
+  // 対応表を生成する関数
+  function generateCorrespondenceTable(inputText, outputID) {
+    if (!outputID) return;
+    if (!inputText.trim()) {
+      outputID.value = '';
+      return;
+    }
+    
+    // 入力テキストを文字単位に分割
+    let textChars = (getCurrentLanguage() === 'ローマ字' || getCurrentLanguage() === 'English')
+      ? (typeof hiraganaToRomaji === 'function') ? hiraganaToRomaji(inputText).split('') : inputText.split('')
+      : inputText.split('');
+    
+    const correspondenceLines = [];
+    for (let char of textChars) {
+      // current_languageから該当する文字を探す
+      const found = (typeof current_language !== 'undefined' && Array.isArray(current_language))
+        ? current_language.find(data => data[0] === char)
+        : null;
+      
+      if (found) {
+        correspondenceLines.push(`${char} ${found[1]}`);
+      } else if (showUnknowns && showUnknowns.checked) {
+        correspondenceLines.push(`${char} ？`);
+      }
+    }
+    
+     outputID.value = correspondenceLines.join('／\n');
+  }
+  
+
 function convertName() {
-  const nameInput = document.getElementById('nameInput');
   if (!nameInput) return;
 
   const name = nameInput.value.trim();
@@ -156,6 +203,7 @@ function convertName() {
   if (typeof ChangeIrohaNAME === "function") {
     ChangeIrohaNAME('nameInput', 'output');
   }
+  generateCorrespondenceTable(nameInput.value || '', correspondOutput);
 
   goToStep(2);
 }
@@ -180,17 +228,6 @@ document.addEventListener('DOMContentLoaded', function() {
       if (valueSpan) valueSpan.textContent = Math.round(Number(this.value) * 100) + '%';
     });
   }
-  // WantToChange: テキスト入力に応じてモールスに即時変換し、表示／コピーする
-  const wantToChangeInput = document.getElementById('WantToChange');
-  const wantToChangeOutput = document.getElementById('WantToChangeOutput');
-  const correspondWantToChangeOutput = document.getElementById('CorrespondWantToChangeOutput');
-  const wantToChangeOutputHidden = document.getElementById('WantToChangeOutputHidden');
-  const copyBtn = document.getElementById('copyWantToChangeBtn');
-  const playBtn = document.getElementById('playWantToChangeBtn');
-  const downloadWantBtn = document.getElementById('downloadWantToChangeBtn');
-  const copyMsg = document.getElementById('copyWantToChangeMsg');
-  const sepSelect = document.getElementById('WantToChangeSeparator');
-  const showUnknowns = document.getElementById('WantToChangeShowUnknowns');
   if (wantToChangeInput && wantToChangeOutput) {
     // 初期値がある場合は変換
     if (wantToChangeInput.value && typeof ChangeIroha === 'function') {
@@ -286,41 +323,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 対応表を生成して表示
     if (correspondWantToChangeOutput) {
-      generateCorrespondenceTable(wantToChangeInput.value || '');
+      generateCorrespondenceTable(wantToChangeInput.value || '', correspondWantToChangeOutput);
     }
   }
   
-  // 対応表を生成する関数
-  function generateCorrespondenceTable(inputText) {
-    if (!correspondWantToChangeOutput) return;
-    if (!inputText.trim()) {
-      correspondWantToChangeOutput.value = '';
-      return;
-    }
-    
-    // 入力テキストを文字単位に分割
-    let textChars = (getCurrentLanguage() === 'ローマ字') 
-      ? (typeof hiraganaToRomaji === 'function') ? hiraganaToRomaji(inputText).split('') : inputText.split('')
-      : inputText.split('');
-    
-    const correspondenceLines = [];
-    for (let char of textChars) {
-      // current_languageから該当する文字を探す
-      const found = (typeof current_language !== 'undefined' && Array.isArray(current_language))
-        ? current_language.find(data => data[0] === char)
-        : null;
-      
-      if (found) {
-        correspondenceLines.push(`${char} ${found[1]}`);
-      } else if (showUnknowns && showUnknowns.checked) {
-        correspondenceLines.push(`${char} ？`);
-      }
-    }
-    
-    correspondWantToChangeOutput.value = correspondenceLines.join('／\n');
-  }
-  
-  formatAndShowWantToChange();
+
 
   const settingsBtn = document.getElementById('settingsBtn');
   const settingsPanel = document.getElementById('settingsPanel');
@@ -524,7 +531,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.key === 'Enter') {
           e.preventDefault();
           if (typeof playMorse === 'function') playMorse('morseInput');
-          if (typeof ChangeMorse === 'function') ChangeMorse('morseInput');
+          if (typeof ChangeMorse === 'function') ChangeMorse('morseInput', 0);
         }
         return;
       }

@@ -80,7 +80,7 @@
         実際にモールス入力を体験してみましょう。
       </div>
       <div class="inline-character-area">
-        <img src="assets/png/マールス.png" alt="マールス" class="inline-character-img">
+        <img src="assets/png/マールス2.png" alt="マールス" class="inline-character-img">
         <div class="inline-character-balloon" id = "inline-character-balloon">
           僕と一緒にモールス信号を学ぼう！
         </div>
@@ -112,14 +112,17 @@
         <span class="step" id = "finish">完了</span>
       </div>
       
-      <h2 id = "h2">あなたのお名前を教えてください</h2>
+      <h2 id = "h2">自分の名前を入力してみよう！<br>(例：まーるす)</h2>
       <div class="inline-character-area">
-        <img src="assets/png/マールス.png" alt="マールス" class="inline-character-img">
+        <img src="assets/png/喜びのマールス.png" alt="マールス" class="inline-character-img">
+        
         <div class="inline-character-balloon" id = "input">
-          ひらがなで入力してね！
+          僕の名前は「まーるす」！<br>特技はモールス信号を打つこと！<br>君の名前もモールス信号にしてあげるよ！
         </div>
       </div>
+      
       <div style="margin: 30px 0;">
+        <div id = "tellToMarse">マールスに自分の名前を教えてみよう！</div>
         <input type="text" id="nameInput" placeholder="お名前をひらがなで入力" value="">
       </div>
       <select id="language3" class="hide-inline-language">
@@ -147,9 +150,9 @@
       
       <h2 id = "henkan-h2">モールス信号に変換しました！</h2>
       <div class="inline-character-area">
-        <img src="assets/png/マールス.png" alt="マールス" class="inline-character-img">
+        <img src="assets/png/にこにこマールス.png" alt="マールス" class="inline-character-img">
         <div class="inline-character-balloon" id ="marusu2">
-          君の名前がモールスになった！
+          君の名前をモールスにしたよ！
         </div>
       </div>
       <div style="margin: 20px 0;">
@@ -157,8 +160,22 @@
           <strong id="userName"></strong> さんのお名前は：
         </div>
         <textarea id="output" rows="3" readonly style="font-size: 1.5em; text-align: center;"></textarea>
+        <br><br>
+          <div class="inline-character-area">
+        <img src="assets/png/マールス2.png" alt="マールス" class="inline-character-img">
+        <div class="inline-character-balloon" id ="marusu3">
+          それぞれの文字はこんな感じで対応しているよ！
+        </div>
       </div>
-      <!-- 電鍵画像は専用クラスで -->
+        <textarea id="CorrespondOutput" rows="10" readonly style="font-size:1.2em; flex:1;"></textarea>
+      </div>
+          <br><br>
+          <div class="inline-character-area">
+        <img src="assets/png/マールス2.png" alt="マールス" class="inline-character-img">
+        <div class="inline-character-balloon" id ="marusu3">
+          実際にモールスを聞いてみよう！音をダウンロードすることもできるよ！
+        </div>
+      </div>
       <div class="morse-animation-row">
         <div class="morse-flow-area" id="morseFlow"></div>
         <img src="assets/png/machine_denken.png" alt="デンケン" class="denken-img vibrate" id="denkenVibrate"
@@ -174,10 +191,16 @@
         <button onclick="generateMorseMp3('output')" id ="MP3">MP3変換</button>
         <button id="downloadBtn" style="display:none;">MP3をダウンロード</button>
       </div>
-      
+      <br><br>
+         <div class="inline-character-area">
+        <img src="assets/png/喜びのマールス.png" alt="マールス" class="inline-character-img">
+        <div class="inline-character-balloon" id ="marusu3">
+          今度は君がモールスをうってみてよ！<br>下のボタンから移動しよう！
+        </div>
+      </div>
       <div class="navigation">
         <button class="back-button" onclick="goToStep(1)" id ="back2">戻る</button>
-        <button class="main-button" onclick="goToStep(3)" id ="next2">次へ進む</button>
+        <button class="main-button" onclick="goToStep(3)" id ="next2">モールスを入力してみる！</button>
       </div>
     </div>
 
@@ -193,13 +216,23 @@
         <span class="step">完了</span>
       </div>
       
-      <h2 id="h2InputExp">モールス入力を体験してみよう！</h2>
-      <div style="margin: 20px 0;" >
-        <p id="explainHow">今度は自分の名前をモールス信号で入力してみましょう。<br>
-        「・」（短音）と「－」（長音）と「／」(区切り) を組み合わせて文字を作ります。</p>
+      <h2 id="h2InputExp">自分の名前を入力してみよう！</h2>
+           <div class="inline-character-area">
+        <img src="assets/png/マールス2.png" alt="マールス" class="inline-character-img">
+        <div class="inline-character-balloon" id ="marusu4">
+        「・」（短音）と「－」（長音）と「／」(区切り) を組み合わせて文字を作るんだ！
+        </div>
+   
       </div>
+      <div class="inline-character-area">
+        <img src="assets/png/喜びのマールス.png" alt="マールス" class="inline-character-img">
+        <div class="inline-character-balloon" id ="marusu5">
+        本当はボタンを押している長さで区別するけど、今回は簡単にボタンで入力しちゃおう！
+        </div>
+        </div>
+
       
-      <textarea id="morseInput" rows="3" placeholder="ボタンで入力してください" style="font-size: 1.3em;"></textarea>
+      <textarea id="morseInput" rows="3" placeholder="ボタンで入力してください" style="font-size: 1.3em;" inputmode="none"></textarea>
     
       <div id="morseResult" class="morse-float"></div>
       <div id="correctMessage" class="correct-float"></div>
@@ -209,25 +242,44 @@
         <button class="morse-btn slash" onclick="appendText('／','morseInput')" aria-label="区切り" title="区切り（／）">／</button>
         <button class="control-btn delete" onclick="deleteLast('morseInput')" aria-label="1文字削除">DEL</button>
         <button class="control-btn clear" onclick="clearText('morseInput')" aria-label="全削除">C</button>
-        <button class="control-btn play" onclick="playMorse('morseInput');ChangeMorse('morseInput')" aria-label="確認">🔊</button>
+        <button class="control-btn play" onclick="playMorse('morseInput');ChangeMorse('morseInput',0)" aria-label="確認">🔊</button>
       </div>
-      <p id ="HowToPlay">
-      ボタンでモールス記号を入力できます。<br>
+         <div class="inline-character-area">
+        <img src="assets/png/マールス2.png" alt="マールス" class="inline-character-img">
+        <div class="inline-character-balloon" id ="marusu5">
+        見慣れないボタンの説明をするね！<br>
       DEL: 一文字消す<br>
       C: 全て消す<br>
-      🔊: 現在のモールス信号再生・確認<br>
+      🔊: 現在の入力を再生・確認<br>
+      あと、区切りの「／」も忘れずにね！下の注意事項も見ておこう！
+        </div>
+        </div>
+      <p id ="HowToPlay">
+      
       </p>
         <div class="help-text" style="display:block; margin-top:8px; font-size:0.95em;" id ="Tips">
         ・直接の文字入力は無効<br>
-        ・挿入位置を指定して削除可能<br>
-        ・「💡 ヒント」で答えとなる音を聞けます。
+        ・挿入位置を指定して削除可能
         </div>
-      <!-- HINTボタン -->
+        <br><br>
+        <div class="inline-character-area">
+           <img src="assets/png/マールス2.png" alt="マールス" class="inline-character-img">
+        <div class="inline-character-balloon" id ="marusu5">
+          困ったときは、「💡 ヒント」でさっきの音を聞けるよ！下のモールス信号表をクリックして対応を確認してみるのもいいね！
+        </div>
+        </div>
       <button id="hintBtn" onclick="playHintAudio()">💡 ヒント</button>
-        <button class="play-btn" onclick="playMorse('morseInput');ChangeMorse('morseInput')" id ="checkMyAnswer">✅答え合わせ</button>
-       <div class="help-text" style="font-size:0.95em; color:#5c6b73;" id ="Tips2">自分の名前が完成したら先に進めます。
+      <br>
+         <div class="inline-character-area">
+           <img src="assets/png/マールス2.png" alt="マールス" class="inline-character-img">
+        <div class="inline-character-balloon" id ="marusu5">
+          自分の名前が完成したら「✅答え合わせ」を押してね！難しいけど、がんばって！
+        </div>
+        </div>
+        <button class="play-btn" onclick="playMorse('morseInput');ChangeMorse('morseInput',1)" id ="checkMyAnswer">✅答え合わせ</button>
+       <!-- <div class="help-text" style="font-size:0.95em; color:#5c6b73;" id ="Tips2">自分の名前が完成したら先に進めます。
         <br>「✅答え合わせ」で確認してみましょう！
-       </div>
+       </div> -->
 
       <div class="navigation">
         <button class="back-button" onclick="goToStep(2)" id="back3">戻る</button>
@@ -248,21 +300,32 @@
       </div>
       
       <h2 id = "otsukare">🎉 おつかれさまでした！</h2>
-      <div class="welcome-text" id = "thanksMessage">
+      <div class="inline-character-area">
+           <img src="assets/png/マールス2.png" alt="マールス" class="inline-character-img">
+        <div class="inline-character-balloon" id ="marusu5">
+          モールス信号の体験はどうだった？おもしろかったかな？
+        昔の人たちはこの方法で遠くの人と連絡を取っていたりしたんだよ！詳しく知りたかったらぜひミュージアムで調べてみてね！
+        </div>
+        </div>
+      <!-- <div class="welcome-text" id = "thanksMessage">
         モールス信号の体験はいかがでしたか？<br>
         昔の人たちはこの方法で遠くの人と<br>
         コミュニケーションを取っていたんですね。
-      </div>
+      </div> -->
       
       <h3 id ="suggest">クイズに挑戦してみませんか？</h3>
       <!-- クイズ画面の質問の上などに追加 -->
-      <div class="quiz-character-area">
-        <img src="assets/png/マールス.png" alt="マールス" class="quiz-character-img">
-      </div>
+        <div class="inline-character-area">
+           <img src="assets/png/喜びのマールス.png" alt="マールス" class="inline-character-img">
+        <div class="inline-character-balloon" id ="marusu5">
+        3択クイズもあるんだけど、挑戦してみない？
+        きっとモールス信号の理解が深まるよ！
+        </div>
+        </div>
       
       <div class="navigation">
-        <button class="back-button" onclick="location.reload()" id="back4">最初から</button>
-        <button class="main-button" onclick="startQuiz()" id = "next4">簡単クイズ</button>
+        <button class="back-button" onclick="location.reload()" id="back4">タイトルに戻る</button>
+        <button class="main-button" onclick="startQuiz()" id = "next4">クイズに挑戦する</button>
       </div>
     </div>
     <!-- 追加：クイズ画面 -->
