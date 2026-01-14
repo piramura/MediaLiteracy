@@ -333,7 +333,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const settingsPanel = document.getElementById('settingsPanel');
   const globalLanguage = document.getElementById('globalLanguage');
   const closeSettings = document.getElementById('closeSettings');
-  const inlineLangIds = 'language';
 
   function toggleSettings() {
     if (!settingsPanel) return;
@@ -606,7 +605,6 @@ function playHintAudio() {
 // ========================
 function openMorseModal() {
   const currentLang = getCurrentLanguage(); 
-  console.log("openMorseModal", currentLang);
 
   if(currentLang === "日本語"){
     // 日本語用のモーダルを表示
@@ -626,6 +624,10 @@ function openMorseModal() {
     const modal = document.getElementById('morseModal');
     if (modal) modal.style.display = 'none';
   }
+
+  settingsBtn.style.display = "none";
+
+  
 }
 
 function closeMorseModal(lang) {
@@ -636,11 +638,15 @@ function closeMorseModal(lang) {
     const modal = document.getElementById('morseModal2');
     if (modal) modal.style.display = 'none';
   }
+  settingsBtn.style.display="block"
 }
 
 window.addEventListener('click', function(event) {
   const modal = document.getElementById('morseModal');
-  if (modal && event.target === modal) modal.style.display = 'none';
+  if (modal && event.target === modal){modal.style.display = 'none';settingsBtn.style.display="block";}
+  const modal2 = document.getElementById('morseModal2');
+  if (modal2 && event.target === modal2){modal2.style.display = 'none';settingsBtn.style.display="block";}
+  
 });
 
 // ========================

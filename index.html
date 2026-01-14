@@ -18,7 +18,7 @@
   <div class="container">
     <!-- 設定画面 -->
     <div class="settings-control" id="settingsControl" aria-hidden="false">
-      <button id="settingsBtn" class="settings-btn" aria-haspopup="true" aria-expanded="false" title="設定">
+      <button id="settingsBtn" class="settings-btn" aria-haspopup="true" aria-expanded="false" title="設定" display="block">
         ⚙️
       </button>
       <div id="settingsPanel" class="settings-panel" role="dialog" aria-modal="false" style="display:none;">
@@ -237,8 +237,8 @@
         <button class="morse-btn dot" onclick="appendText('・','morseInput');playDot();" aria-label="短音" title="短音 (・)">・</button>
         <button class="morse-btn dash" onclick="appendText('－','morseInput');playDash();" aria-label="長音" title="長音 (－)">－</button>
         <button class="morse-btn slash" onclick="appendText('／','morseInput')" aria-label="区切り" title="区切り（／）">／</button>
-        <button class="control-btn delete" onclick="deleteLast('morseInput')" aria-label="1文字削除">DEL</button>
         <button class="control-btn clear" onclick="clearText('morseInput')" aria-label="全削除">C</button>
+        <button class="control-btn delete" onclick="deleteLast('morseInput')" aria-label="1文字削除">DEL</button>
         <button class="control-btn play" onclick="playMorse('morseInput');ChangeMorse('morseInput',0)" aria-label="確認">🔊</button>
       </div>
          <div class="inline-character-area">
@@ -356,7 +356,7 @@
       </div>
           <div class="henkan-grid" style="margin-top: 16px;">
             <div class="panel" id="analyze-panel">
-              <div class="panel-header" id = "kaiseki"><h3>解析 (Upload & Analyze)</h3></div>
+              <div class="panel-header" id = "kaiseki"><h3>解析 (Analyze)</h3></div>
               <div class="panel-content">
                  <div class="help-text" style="font-size:0.95em; color:#5c6b73;" id = "kaiseki_help">ファイルを選択して「解析する」を押すと、検出されたモールス記号が表示されます。<br>
                 <b>現在の使用言語は日本語(かな)です。</b><br>(The current language in use is not English.)</div>
@@ -364,13 +364,21 @@
         <label for="audioFile" id ="audiofile">モールス音声(mp3)をアップロードして解析:</label>
         <input type="file" id="audioFile" accept="audio/*" />
                 </div>
+                <label for="decodeInput" id="decodeInputLabel">または、モールス信号を直接入力:</label>
+                <textarea id="decodeInput" rows="2" placeholder="変換したいモールス信号をここに入力。" style="width:100%; font-size:1.2em; margin-bottom: 5px;" oninput="decodeMorseFromText()" inputmode="none"></textarea>
+                <div class="morse-pad" role="group" aria-label="モールス入力パッド">
+        <button class="morse-btn dot" onclick="appendText('・','decodeInput');playDot();" aria-label="短音" title="短音 (・)">・</button>
+        <button class="morse-btn dash" onclick="appendText('－','decodeInput');playDash();" aria-label="長音" title="長音 (－)">－</button>
+        <button class="morse-btn slash" onclick="appendText('／','decodeInput')" aria-label="区切り" title="区切り（／）">／</button>
+          <button class="control-btn clear" onclick="clearText('decodeInput')" aria-label="全削除">C</button>
+          <button class="control-btn delete" onclick="deleteLast('decodeInput')" aria-label="1文字削除">DEL</button>
+        <button class="control-btn play" onclick="playMorse('decodeInput');ChangeMorse('decodeInput',0)" aria-label="確認">🔊</button>
+      </div>
+                 <div class="help-text" style="font-size:0.95em; color:#5c6b73;" id = "help-analyzeText">入力したファイル、テキストは自動で解析されます。</div>
                 <div class="analysis-area" style="margin-top: 10px; display:flex; flex-direction:column; gap:8px;">
-                <textarea id="analyzedMorse" rows="5" readonly style="font-size:1.1em; width:100%;"></textarea>
+                <textarea id="analyzedMorse" rows="5" readonly style="font-size:1.1em; width:100%;" ></textarea>
                 <textarea id="analyzedMorseToIroha" rows="5" readonly style="font-size:1.1em; width:100%;"></textarea>
-                <div id="analyzeInfo" style="font-size:0.9em; color:#444;">解析結果が表示されます ↑</div>
-                <textarea id="romajiToHiraResult" rows="3" readonly style="font-size:1.05em; width:100%; display:none;" placeholder="変換結果（ひらがな）"></textarea>
-          <!-- </div>
-        </div> -->
+                <textarea id="romajiToHiraResult" rows="3" readonly style="font-size:1.05em; width:100%; display:none;"></textarea>
                 </div>
               </div>
             </div>
@@ -381,7 +389,7 @@
             <div class="help-text" style="font-size:0.95em; color:#5c6b73;" id ="henkan_help">ここに変換したい文字を入力してください。使用言語には注意してください。<br>
               <b>現在の使用言語は日本語(かな)です。</b><br>(The current language in use is not English.)
             </div>
-            <input type="text" id="WantToChange" placeholder="変換したい文字を入力" value="">
+            <input type="text" id="WantToChange" rows = "2"placeholder="変換したい文字を入力" value="">
             <div class="help-text" style="font-size:0.95em; color:#5c6b73;" id = "hanken_help2">入力したテキストは自動でモールスに変換されます。コピーや再生、MP3ダウンロードが可能です。</div>
         <textarea id="WantToChangeOutput" rows="2" readonly style="font-size:1.2em; flex:1;"></textarea>
         <textarea id="CorrespondWantToChangeOutput" rows="10" readonly style="font-size:1.2em; flex:1;"></textarea>

@@ -34,11 +34,6 @@ const scriptAlertMessages = {
     'ローマ字': '解析されたモールスがありません。まず解析を実行してください。',
     'English': 'No analyzed Morse code. Please run analysis first.'
   },
-  noDecodedString: {
-    '日本語': '解析により文字列を取得できませんでした',
-    'ローマ字': '解析により文字列を取得できませんでした',
-    'English': 'Failed to get string from analysis.'
-  },
 };
 
 function getScriptLanguage() {
@@ -665,16 +660,17 @@ function getScriptAlertMessage(key, defaultMsg = '') {
             });
             currentOscillators = [];
 
-            // コンテキストをリセット（音が途中で残らないように）
-            // audioCtx.close();
             if (audioCtx.state === 'suspended') {
                 audioCtx.resume();
             }
 
-            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            // audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             const dot = SPEED * speedRatio; 
             let time = audioCtx.currentTime; // 再生開始時刻
 
+            if (time < audioCtx.currentTime) time = audioCtx.currentTime;
+
+            time += 0.01;
 
             for(let char of morse){
                 if(char === "・"){
@@ -904,6 +900,7 @@ function getScriptAlertMessage(key, defaultMsg = '') {
             const newPos = before.length + char.length;
             textbox.selectionStart = textbox.selectionEnd = newPos;
             textbox.focus();
+            textbox.dispatchEvent(new Event('input'));
         }
 
         function deleteLast(id) {
@@ -925,11 +922,13 @@ function getScriptAlertMessage(key, defaultMsg = '') {
                 textbox.selectionStart = textbox.selectionEnd = newPos;
             }
             textbox.focus();
+            textbox.dispatchEvent(new Event('input'));
         }
 
     function clearText(id) {
       const textbox = document.getElementById(id);
       textbox.value = '';
+      textbox.dispatchEvent(new Event('input'));
     }
 
 
@@ -1048,9 +1047,9 @@ function playDot(){
     if (audioCtx.state === 'suspended') {
         audioCtx.resume();
     }
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    // audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     const dot = SPEED * speedRatio; 
-    let time = audioCtx.currentTime; // 再生開始時刻
+    let time = audioCtx.currentTime;
     ring(audioCtx,time,dot);
 }
 
@@ -1062,7 +1061,7 @@ function playDash(){
     if (audioCtx.state === 'suspended') {
         audioCtx.resume();
     }
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    // audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     const dot = SPEED * speedRatio; 
     let time = audioCtx.currentTime; // 再生開始時刻
     ring(audioCtx,time,dot*3);
@@ -1074,23 +1073,20 @@ async function analyzeUploadedFile(){
     const input = document.getElementById('audioFile');
     const file = input.files && input.files[0];
     if(!file){
-        alert(getScriptAlertMessage('selectFile', 'Please select a file.'));
+        // alert(getScriptAlertMessage('selectFile', 'Please select a file.'));
         return;
     }
     const reader = new FileReader();
     reader.onload = async function(e){
-        document.getElementById('analyzeInfo').textContent = '解析中...';
         const arrayBuffer = e.target.result;
         try{
             const morse = await analyzeAudioBuffer(arrayBuffer);
             document.getElementById('analyzedMorse').value = morse;
             document.getElementById('analyzedMorseToIroha').value = Conversion(showDecodedFromAnalyzed());
             convertRomajiAnalyzedToHiragana();
-            document.getElementById('analyzeInfo').textContent = '解析完了';
         }catch(err){
             console.error(err);
             alert(getScriptAlertMessage('analysisFailed', 'Analysis failed: ') + err.message);
-            document.getElementById('analyzeInfo').textContent = '解析エラー';
         }
     };
     reader.readAsArrayBuffer(file);
@@ -1339,7 +1335,6 @@ function convertRomajiAnalyzedToHiragana(){
         return;
     }
     const decoded = showDecodedFromAnalyzed();
-    if(!decoded){ alert(getScriptAlertMessage('noDecodedString', 'Failed to get string.')); return; }
     const hira = romajiToHiragana(decoded);
     const outEl = document.getElementById('romajiToHiraResult');
     const currentLang = getScriptLanguage();
@@ -1532,7 +1527,6 @@ window.addEventListener('DOMContentLoaded', () => {
             if(analyzedToIrohaEl) analyzedToIrohaEl.value = '';
             if(romajiResultEl) { romajiResultEl.value = ''; romajiResultEl.style.display = 'none'; }
             analyzeUploadedFile();
-            document.getElementById('analyzeInfo').textContent = 'ファイルが選択されました。解析ボタンを押してください';
         });
     }
 
@@ -1553,6 +1547,18 @@ window.addEventListener('DOMContentLoaded', () => {
         console.warn('Failed to apply stored language', e);
     }
 });
+
+function decodeMorseFromText(){
+    const input = document.getElementById('decodeInput').value;
+    if(!input || input.trim() === "") return;
+    let decoded = input.trim().replace(/[ 　\/]+/g, '／');
+    decoded = decoded.trim().replace(/[-]+/g, '－');
+    document.getElementById('analyzedMorse').value = decoded;
+    decoded = DirectChangeMorse(decoded);
+    decoded = Conversion(decoded);
+    document.getElementById('analyzedMorseToIroha').value = decoded;
+    convertRomajiAnalyzedToHiragana();
+}
 
 function changeLanguage(languageName){
     const analyzedEl = document.getElementById('analyzedMorse');
@@ -1647,7 +1653,6 @@ function changeLanguage(languageName){
             <b>現在の使用言語は日本語(ローマ字)です。</b><br>(The current language in use is not English.)";
         }
         document.getElementById("audiofile").innerHTML = "モールス音声(mp3)をアップロードして解析:";
-        document.getElementById("analyzeInfo").innerHTML = "解析結果が表示されます ↑";
         document.getElementById("h3_henkan").innerHTML = "変換 (Convert Text)";
         if(languageName === "日本語" ){
             document.getElementById("henkan_help").innerHTML = "ここに変換したい文字を入力してください。使用言語には注意してください。<br>\
@@ -1768,7 +1773,6 @@ function changeLanguage(languageName){
         document.getElementById("kaiseki_help").innerHTML = "Select a file and press “Analyze” to display the detected Morse code.<br>\
         <b>The current language in use is English.</b><br>(現在の使用言語は英語です。)";
         document.getElementById("audiofile").innerHTML = "Upload Morse code audio (mp3) for analysis:";
-        document.getElementById("analyzeInfo").innerHTML = "Analysis results will be displayed ↑";
         document.getElementById("h3_henkan").innerHTML = "変換 (Convert Text)";
         document.getElementById("henkan_help").innerHTML = "Enter the text you want to convert here. Please be mindful of the language used.<br>\
         <b>The current language in use is English.</b><br>(現在の使用言語は英語です。)";
@@ -1898,7 +1902,6 @@ function changeKidsMode(){
               <b>いまつかっていることばは、にほんご（ろーまじ）だよ。</b>";
           }
           document.getElementById("audiofile").innerHTML = "おとのふぁいるをえらんで「かいせき」:";
-          document.getElementById("analyzeInfo").innerHTML = "かいせきけっかがみれるよ！ ↑";
           document.getElementById("h3_henkan").innerHTML = "へんかん";
           if(lang === "日本語" ){
               document.getElementById("henkan_help").innerHTML = "「へんかん」したいもじをにゅうりょくしてね！<br>\
