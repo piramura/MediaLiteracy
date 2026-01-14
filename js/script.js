@@ -1342,9 +1342,9 @@ function convertRomajiAnalyzedToHiragana(){
         outEl.value = hira; 
         // 言語が「ローマ字」の時だけ表示し、それ以外は非表示にする
         if (currentLang === 'ローマ字') {
-            outEl.style.display = 'block';
+            outEl.style.display = "block";
         } else {
-            outEl.style.display = 'none';
+            outEl.style.display = "none";
         }
     }
 }
@@ -1525,7 +1525,7 @@ window.addEventListener('DOMContentLoaded', () => {
             const romajiResultEl = document.getElementById('romajiToHiraResult');
             if(analyzedEl) analyzedEl.value = '';
             if(analyzedToIrohaEl) analyzedToIrohaEl.value = '';
-            if(romajiResultEl) { romajiResultEl.value = ''; romajiResultEl.style.display = 'none'; }
+            if(romajiResultEl) { romajiResultEl.value = ''; romajiResultEl.style.display = "none"; }
             analyzeUploadedFile();
         });
     }
@@ -1566,7 +1566,7 @@ function changeLanguage(languageName){
     const romajiResultEl = document.getElementById('romajiToHiraResult');
     if(analyzedEl) analyzedEl.value = '';
     if(analyzedToIrohaEl) analyzedToIrohaEl.value = '';
-    if(romajiResultEl) { romajiResultEl.value = ''; romajiResultEl.style.display = 'none'; }
+    if(romajiResultEl) { romajiResultEl.value = ''; romajiResultEl.style.display = "none"; }
 
     if(languageName === "日本語" || languageName === "ローマ字"){
         if(languageName === "日本語" ){current_language = iroha;}

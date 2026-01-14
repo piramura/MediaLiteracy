@@ -250,15 +250,15 @@ document.addEventListener('DOMContentLoaded', function() {
         navigator.clipboard.writeText(text).then(() => {
           if (copyMsg) {
             copyMsg.style.display = 'inline';
-            setTimeout(() => { copyMsg.style.display = 'none'; }, 1500);
+            setTimeout(() => { copyMsg.style.display = "none"; }, 1500);
           }
         }).catch(() => {
           // fallback
-          try { outEl.select(); document.execCommand('copy'); if (copyMsg) { copyMsg.style.display = 'inline'; setTimeout(()=>{copyMsg.style.display='none';},1500); } } catch (e) { alert(getAlertMessage('copyFailed', 'Failed to copy.')); }
+          try { outEl.select(); document.execCommand('copy'); if (copyMsg) { copyMsg.style.display = 'inline'; setTimeout(()=>{copyMsg.style.display="none";},1500); } } catch (e) { alert(getAlertMessage('copyFailed', 'Failed to copy.')); }
         });
       } else {
         // fallback
-        try { outEl.select(); document.execCommand('copy'); if (copyMsg) { copyMsg.style.display = 'inline'; setTimeout(()=>{copyMsg.style.display='none';},1500);} } catch (e) { alert(getAlertMessage('copyFailed', 'Failed to copy.')); }
+        try { outEl.select(); document.execCommand('copy'); if (copyMsg) { copyMsg.style.display = 'inline'; setTimeout(()=>{copyMsg.style.display="none";},1500);} } catch (e) { alert(getAlertMessage('copyFailed', 'Failed to copy.')); }
       }
     });
   }
@@ -339,17 +339,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // モールス信号表モーダルが開いている場合は設定パネルを開かない
     const modal1 = document.getElementById('morseModal');
     const modal2 = document.getElementById('morseModal2');
-    const modalOpen = (modal1 && modal1.style.display && modal1.style.display !== 'none') || (modal2 && modal2.style.display && modal2.style.display !== 'none');
+    const modalOpen = (modal1 && modal1.style.display && modal1.style.display !== "none") || (modal2 && modal2.style.display && modal2.style.display !== "none");
     if (modalOpen) {
       return;
     }
-    const shown = settingsPanel.style.display && settingsPanel.style.display !== 'none';
-    settingsPanel.style.display = shown ? 'none' : 'block';
+    const shown = settingsPanel.style.display && settingsPanel.style.display !== "none";
+    settingsPanel.style.display = shown ? "none" : "block";
     if (settingsBtn) settingsBtn.setAttribute('aria-expanded', (!shown).toString());
     if (!shown && globalLanguage) globalLanguage.focus();
   }
   if (settingsBtn) settingsBtn.addEventListener('click', toggleSettings);
-  if (closeSettings) closeSettings.addEventListener('click', () => { settingsPanel.style.display = 'none'; if (settingsBtn) settingsBtn.setAttribute('aria-expanded', 'false'); });
+  if (closeSettings) closeSettings.addEventListener('click', () => { settingsPanel.style.display = "none"; if (settingsBtn) settingsBtn.setAttribute('aria-expanded', 'false'); });
   const resetSettingsBtn = document.getElementById('resetSettings');
   if (resetSettingsBtn) {
     resetSettingsBtn.addEventListener('click', function() {
@@ -386,8 +386,8 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       const convertBtn = document.getElementById('convertRomajiToHiraBtn');
       const romajiResult = document.getElementById('romajiToHiraResult');
-      if (convertBtn) convertBtn.style.display = (val === 'ローマ字') ? 'inline-block' : 'none';
-      if (romajiResult) romajiResult.style.display = (val === 'ローマ字') ? 'block' : 'none';
+      if (convertBtn) convertBtn.style.display = (val === 'ローマ字') ? 'inline-block' : "none";
+      if (romajiResult) romajiResult.style.display = (val === 'ローマ字') ? "block" : "none";
       // 子ども表示が有効な場合は、言語切替後に子ども表示を再適用（優先度を上げる）
       const kidToggle = document.getElementById('kidModeToggle');
       if (kidToggle && kidToggle.checked) {
@@ -508,14 +508,14 @@ document.addEventListener('DOMContentLoaded', function() {
   document.addEventListener('click', function(e) {
     if (!settingsPanel || !settingsBtn) return;
     const isInside = settingsPanel.contains(e.target) || settingsBtn.contains(e.target);
-    if (!isInside && settingsPanel.style.display === 'block') {
-      settingsPanel.style.display = 'none';
+    if (!isInside && settingsPanel.style.display === "block") {
+      settingsPanel.style.display = "none";
       settingsBtn.setAttribute('aria-expanded', 'false');
     }
   });
   document.addEventListener('keydown', function(e) {
-    if ((e.key === 'Escape' || e.key === 'Esc') && settingsPanel && settingsPanel.style.display === 'block') {
-      settingsPanel.style.display = 'none';
+    if ((e.key === 'Escape' || e.key === 'Esc') && settingsPanel && settingsPanel.style.display === "block") {
+      settingsPanel.style.display = "none";
       if (settingsBtn) settingsBtn.setAttribute('aria-expanded', 'false');
       if (settingsBtn) settingsBtn.focus();
     }
@@ -609,23 +609,25 @@ function openMorseModal() {
   if(currentLang === "日本語"){
     // 日本語用のモーダルを表示
     const modal = document.getElementById('morseModal');
-    if (modal) modal.style.display = (modal.style.display === 'block') ? 'none' : 'block';
-    
+    if (modal && modal.style.display === "block"){modal.style.display = "none"; settingsBtn.style.display = "block";}
+    else{ if (modal) modal.style.display = "block"; settingsBtn.style.display = "none";}
+
     // 念のため英語版が開いていたら閉じる
     const modal2 = document.getElementById('morseModal2');
-    if (modal2) modal2.style.display = 'none';
+    if (modal2) modal2.style.display = "none";
 
   }else{
     // 英語・ローマ字用のモーダルを表示
     const modal2 = document.getElementById('morseModal2');
-    if (modal2) modal2.style.display = (modal2.style.display === 'block') ? 'none' : 'block';
+    if (modal2 && modal2.style.display === "block"){modal2.style.display = "none"; settingsBtn.style.display = "block";}
+    else{ if (modal2) modal2.style.display = "block"; settingsBtn.style.display = "none";}
 
     // 念のため日本語版が開いていたら閉じる
     const modal = document.getElementById('morseModal');
-    if (modal) modal.style.display = 'none';
+    if (modal) modal.style.display = "none";
   }
 
-  settingsBtn.style.display = "none";
+  
 
   
 }
@@ -633,19 +635,19 @@ function openMorseModal() {
 function closeMorseModal(lang) {
   if(lang === "日本語"){
     const modal = document.getElementById('morseModal');
-    if (modal) modal.style.display = 'none';
+    if (modal) modal.style.display = "none";
   }else{
     const modal = document.getElementById('morseModal2');
-    if (modal) modal.style.display = 'none';
+    if (modal) modal.style.display = "none";
   }
   settingsBtn.style.display="block"
 }
 
 window.addEventListener('click', function(event) {
   const modal = document.getElementById('morseModal');
-  if (modal && event.target === modal){modal.style.display = 'none';settingsBtn.style.display="block";}
+  if (modal && event.target === modal){modal.style.display = "none";settingsBtn.style.display="block";}
   const modal2 = document.getElementById('morseModal2');
-  if (modal2 && event.target === modal2){modal2.style.display = 'none';settingsBtn.style.display="block";}
+  if (modal2 && event.target === modal2){modal2.style.display = "none";settingsBtn.style.display="block";}
   
 });
 
@@ -720,11 +722,11 @@ function showQuizResult() {
     const modal = document.createElement('div');
     modal.id = 'morseVideoModal';
     modal.className = 'modal';
-    modal.style.display = 'none';
+    modal.style.display = "none";
     modal.innerHTML = '<div class="modal-content" style="max-width:640px;"><span class="close" id="morseVideoClose">&times;</span><video id="morseVideo" controls style="width:100%; height:auto;"></video></div>';
     document.body.appendChild(modal);
-    modal.querySelector('#morseVideoClose').addEventListener('click', ()=>{ modal.style.display='none'; const v = document.getElementById('morseVideo'); if(v){ v.pause(); v.src=''; } });
-    modal.addEventListener('click', (e)=>{ if (e.target===modal) { modal.style.display='none'; const v=document.getElementById('morseVideo'); if(v){ v.pause(); v.src=''; } }});
+    modal.querySelector('#morseVideoClose').addEventListener('click', ()=>{ modal.style.display="none"; const v = document.getElementById('morseVideo'); if(v){ v.pause(); v.src=''; } });
+    modal.addEventListener('click', (e)=>{ if (e.target===modal) { modal.style.display="none"; const v=document.getElementById('morseVideo'); if(v){ v.pause(); v.src=''; } }});
   }
 
   function playMp4ForChar(ch, btn){
@@ -739,14 +741,14 @@ function showQuizResult() {
     function onError(){
       btn.disabled = true;
       btn.title = '動画が見つかりません';
-      if (modal) modal.style.display = 'none';
+      if (modal) modal.style.display = "none";
       video.removeEventListener('error', onError);
       video.removeEventListener('loadedmetadata', onLoaded);
       video.pause(); video.src = '';
     }
     function onLoaded(){
       video.play().catch(()=>{});
-      modal.style.display = 'block';
+      modal.style.display = "block";
       video.removeEventListener('error', onError);
       video.removeEventListener('loadedmetadata', onLoaded);
     }
