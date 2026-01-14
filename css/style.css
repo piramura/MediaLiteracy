@@ -226,7 +226,7 @@ body::before {
 .settings-panel select { width: 100%; padding: 6px 6px; border-radius: 6px; border: 1px solid var(--text-border); font-size: 0.9em; }
 .settings-panel span { display: inline-block; margin-left: 6px; font-size: 0.9em; }
 /* Hide inline individual language selects - we'll centralize control */
-.hide-inline-language { display: none !important; }
+
 
 .main-content {
   padding: var(--spacing-2xl) var(--spacing-xl);
@@ -530,7 +530,7 @@ body::before {
 h1 {
   color: var(--primary-color);
   margin-bottom: var(--spacing-xl);
-  font-size: 1.8em;
+  font-size: 2.2em;
   line-height: 1.2;
 }
 
