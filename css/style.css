@@ -179,8 +179,7 @@ body::before {
    ===================================== */
 .container {
   margin: var(--spacing-3xl) auto;
-  padding: 24px var(--spacing-lg);
-  padding-bottom: 48px;
+  padding: 24px var(--spacing-lg) 48px;
   background: var(--white);
   border-radius: var(--border-radius-lg);
   box-shadow: var(--shadow-xl);
