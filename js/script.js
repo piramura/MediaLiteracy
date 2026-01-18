@@ -1683,6 +1683,7 @@ function changeLanguage(languageName){
         document.getElementById("kidModeLabel").innerHTML = "子ども表示:";
         document.getElementById("ExplainkidMode").textContent = "ひらがな中心のやさしい表記に切替";
         document.getElementById("decodeInputLabel").innerHTML = "または、モールス信号を直接入力:";
+        document.getElementById("decodeInputLabel").innerHTML = "Input files and text are automatically analyzed.";
         
         document.getElementById("marusu3").innerHTML = "それぞれの文字はこんな感じで対応しているよ！";
         document.getElementById("marusu4").innerHTML = "実際にモールスを聞いてみよう！音をダウンロードすることもできるよ！";
@@ -1864,7 +1865,7 @@ function changeKidsMode(){
           document.getElementById("marusu2").innerHTML = "きみのなまえがもーるすになってるよ！すごい！";
           document.getElementById("yourName").innerHTML = "<strong id='userName'></strong> さんのおなまえは：";
           document.getElementById("listen-first").innerHTML = "🔊 おとできく";
-          document.getElementById("MP3").innerHTML = "MP3（おと）をだうんろーど";
+          document.getElementById("MP3").innerHTML = "MP3（おと）にへんかん";
           document.getElementById("downloadBtn").innerHTML = "MP3（おと）をダウンロード";
           document.getElementById("back2").innerHTML = "なまえをいれなおす";
           document.getElementById("next2").innerHTML = "もーるすをうってみる！";
@@ -1934,6 +1935,7 @@ function changeKidsMode(){
           document.getElementById("morseTblBtn").textContent = "📖 もーるすしんごうひょう";
           document.getElementById("play").textContent = "おとをきく";
           document.getElementById("decodeInputLabel").innerHTML ="ここにじぶんでもーるすしんごうをいれてもいいよ！";
+          document.getElementById("decodeInputLabel").innerHTML ="かんたんにもーるすしんごうをしらべられるよ！";
 
           document.getElementById("marusu3").innerHTML = "それぞれのおとはこんなかんじだよ！<br>\
           たとえば「あ」は「・－」ってかくんだ！いちばんみぎにある「／」はもじをくぎってるよ！";
