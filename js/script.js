@@ -1634,8 +1634,8 @@ function changeLanguage(languageName){
         document.getElementById("quiz-next-btn").innerHTML = "次へ";
         document.getElementById("settings").innerHTML = "設定";
         document.getElementById("label_language").innerHTML = "使用言語(Language):";
-        document.getElementById("globalLanguage").options[0].innerHTML = "日本語(かな)";
-        document.getElementById("globalLanguage").options[1].innerHTML = "日本語(ローマ字)";
+        document.getElementById("globalLanguage").options[0].innerHTML = "日本語(和文)";
+        document.getElementById("globalLanguage").options[1].innerHTML = "日本語(欧文)";
         document.getElementById("volume").innerHTML = "音量";
         document.getElementById("frequency").innerHTML = "音の高さ（周波数）";
         document.getElementById("speed").innerHTML = "再生速度";
@@ -1760,8 +1760,8 @@ function changeLanguage(languageName){
         document.getElementById("quiz-next-btn").innerHTML = "Next";
         document.getElementById("settings").innerHTML = "Settings";
         document.getElementById("label_language").innerHTML = "Language used(使用言語):";
-        document.getElementById("globalLanguage").options[0].innerHTML = "日本語(かな)";
-        document.getElementById("globalLanguage").options[1].innerHTML = "日本語(ローマ字)";
+        document.getElementById("globalLanguage").options[0].innerHTML = "日本語(和文)";
+        document.getElementById("globalLanguage").options[1].innerHTML = "日本語(欧文)";
         document.getElementById("volume").innerHTML = "Volume";
         document.getElementById("frequency").innerHTML = "Frequency";
         document.getElementById("speed").innerHTML = "Playback speed";
@@ -2034,14 +2034,14 @@ function changeKidsMode(){
         document.getElementById("settings").innerHTML = "Settings";
         document.getElementById("label_language").innerHTML = "Language";
         
-        document.getElementById("frequency").innerHTML = "Pitch (High/Low)";
+        document.getElementById("frequency").innerHTML = "Pitch";
         document.getElementById("speed").innerHTML = "Speed";
         document.getElementById("filenameFormatLabel").innerHTML = "File Name:";
         document.getElementById("resetSettings").innerHTML = "Reset";
         document.getElementById("closeSettings").innerHTML = "Close";
 
         // 変換所・解析
-        document.getElementById("mo-rusuhenkanjo").innerHTML = "Morse Lab"; // Station -> Lab
+        document.getElementById("mo-rusuhenkanjo").innerHTML = "Morse Lab";
         document.getElementById("input_henkan").innerHTML = "Let's check or make Morse Code!";
         document.getElementById("kaiseki").innerHTML = "Check Sound";
         document.getElementById("kaiseki_help").innerHTML = "Choose a sound file and click 'Check Sound'.<br>We are using English now.";

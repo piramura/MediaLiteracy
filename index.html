@@ -27,8 +27,8 @@
           <div class="panel-content">
             <label for="globalLanguage" id = "label_language">使用言語(Language):</label>
             <select id="globalLanguage">
-              <option value="日本語">日本語(かな)</option>
-              <option value="ローマ字">日本語(ローマ字)</option>
+              <option value="日本語">日本語(和文)</option>
+              <option value="ローマ字">日本語(欧文)</option>
               <option value="English">English</option>
             </select>
             <div style="margin-top:8px;">
@@ -355,7 +355,7 @@
               <div class="panel-header" id = "kaiseki"><h3>解析 (Analyze)</h3></div>
               <div class="panel-content">
                  <div class="help-text" style="font-size:0.95em; color:#5c6b73;" id = "kaiseki_help">ファイルを選択して「解析する」を押すと、検出されたモールス記号が表示されます。<br>
-                <b>現在の使用言語は日本語(かな)です。</b><br>(The current language in use is not English.)</div>
+                <b>現在の使用言語は日本語(和文)です。</b><br>(The current language in use is not English.)</div>
                   <div class="analyze-row">
         <label for="audioFile" id ="audiofile">モールス音声(mp3)をアップロードして解析:</label>
         <input type="file" id="audioFile" accept="audio/*" />
@@ -383,7 +383,7 @@
           <div class="panel-header" id = "h3_henkan"><h3>変換 (Convert Text)</h3></div>
           <div class="panel-content">
             <div class="help-text" style="font-size:0.95em; color:#5c6b73;" id ="henkan_help">ここに変換したい文字を入力してください。使用言語には注意してください。<br>
-              <b>現在の使用言語は日本語(かな)です。</b><br>(The current language in use is not English.)
+              <b>現在の使用言語は日本語(和文)です。</b><br>(The current language in use is not English.)
             </div>
             <input type="text" id="WantToChange" rows = "2"placeholder="変換したい文字を入力" value="">
             <div class="help-text" style="font-size:0.95em; color:#5c6b73;" id = "hanken_help2">入力したテキストは自動でモールスに変換されます。コピーや再生、MP3ダウンロードが可能です。</div>
