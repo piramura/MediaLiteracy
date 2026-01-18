@@ -40,7 +40,7 @@ function getScriptLanguage() {
   const globalLang = document.getElementById('globalLanguage');
   if (globalLang) return globalLang.value;
   const lang = document.getElementById('language');
-  console.log("getScriptLanguage:", lang);
+//   console.log("getScriptLanguage:", lang);
   if (lang) return lang.value;
   return localStorage.getItem('ml_language') || '日本語';
 }
@@ -560,9 +560,9 @@ function getScriptAlertMessage(key, defaultMsg = '') {
         function ChangeIroha(inputID,outputID){
             quiz_morse = [];
             let getname = document.getElementById(inputID).value; 
-            console.log("1\n");  
-            console.log("Current: " + getCurrentLanguage());
-            if(getCurrentLanguage() === 'ローマ字'){getname = hiraganaToRomaji(getname);console.log("Direct"+getname);}
+            // console.log("1\n");  
+            // console.log("Current: " + getCurrentLanguage());
+            if(getCurrentLanguage() === 'ローマ字'){getname = hiraganaToRomaji(getname);}
             quiz_iroha = getname.split("");
             for(let char of quiz_iroha){
                 const found = current_language.find(data => data[0] === char); //探索
@@ -582,9 +582,9 @@ function getScriptAlertMessage(key, defaultMsg = '') {
         function ChangeIrohaNAME(inputID,outputID){
             morse_name = []; //初期化
             let getname = document.getElementById(inputID).value;
-            console.log("2\n");  
-            console.log("Current: " + getCurrentLanguage());
-            if(getCurrentLanguage() === 'ローマ字'){getname = hiraganaToRomaji(getname);console.log(getname);}    
+            // console.log("2\n");  
+            // console.log("Current: " + getCurrentLanguage());
+            if(getCurrentLanguage() === 'ローマ字'){getname = hiraganaToRomaji(getname);}    
             iroha_name = getname.split("");
             for(let char of iroha_name){
                 const found = current_language.find(data => data[0] === char); //探索
@@ -709,13 +709,13 @@ function getScriptAlertMessage(key, defaultMsg = '') {
         //モールス信号の書かれている場所を指定するといろはに変更
         function ChangeMorse(inputID, checkAnswer){
             const morseInput = document.getElementById(inputID).value;
-            console.log("morseInput: " + morseInput);
+            // console.log("morseInput: " + morseInput);
             let getMorse = morseInput.replace(/／{2,}/g, "／");
-            console.log("getMorse: " + getMorse);
+            // console.log("getMorse: " + getMorse);
             getMorse = getMorse.split("／");
-            console.log("getMorse: " + getMorse);
+            // console.log("getMorse: " + getMorse);
             getMorse = getMorse.filter(Boolean);
-            console.log("getMorse: " + getMorse);
+            // console.log("getMorse: " + getMorse);
             let result = "";
             invalidChars = [];
             for(let code of getMorse){
@@ -1093,7 +1093,6 @@ async function analyzeUploadedFile(){
             document.getElementById('analyzedMorseToIroha').value = Conversion(showDecodedFromAnalyzed());
             convertRomajiAnalyzedToHiragana();
         }catch(err){
-            console.error(err);
             alert(getScriptAlertMessage('analysisFailed', 'Analysis failed: ') + err.message);
         }
     };
@@ -1540,7 +1539,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const correctSound = document.getElementById('correctSound');
     if(correctSound){
-        console.log("Setting correctSound volume to 0.1");
         correctSound.volume = 0.15; 
     }
 
@@ -1579,8 +1577,7 @@ function changeLanguage(languageName){
     if(languageName === "日本語" || languageName === "ローマ字"){
         if(languageName === "日本語" ){current_language = iroha;}
         if(languageName === "ローマ字" ){current_language = rome;}
-        console.log("日本語選択\n");
-        document.getElementById("h1").innerHTML = "モールス信号体験アプリ";
+        // console.log("日本語選択\n");
         document.getElementById("inline-character-balloon").innerHTML = "僕と一緒にモールス信号を学ぼう！";
         document.getElementById("welcome-text").innerHTML = "モールス信号の世界へようこそ！<br>\
         あなたの名前をモールス信号に変換したり、実際にモールス入力を体験してみましょう。";
@@ -1590,7 +1587,6 @@ function changeLanguage(languageName){
         document.getElementById("setteing-help").innerHTML = "右上の⚙️を押すと設定画面が開けます。使用言語などが変更可能です。小さいお子さん用にひらがなのみの設定も可能です。<br>";
         document.getElementById("setteing-help2").style.display = "block";
         document.getElementById("h2").innerHTML = "自分の名前を入力してみよう！<br>(例：まーるす)";
-        document.getElementById("volume").innerHTML = "音量";
         document.getElementById("start").innerHTML = "はじめる";
         document.getElementById("inputName").innerHTML = "名前入力";
         document.getElementById("change_playback").innerHTML = "変換・再生";
@@ -1624,8 +1620,7 @@ function changeLanguage(languageName){
         document.getElementById("next2").innerHTML = "モールスを入力してみる！";
         document.getElementById("h2InputExp").innerHTML = "自分の名前を入力してみよう！";
         document.getElementById("morseInput").placeholder = "ボタンで入力してください";
-        document.getElementById("Tips").innerHTML = " ・直接の文字入力は無効<br>\
-        ・挿入位置を指定して削除可能<br>・「／」で文字を区切るのを忘れずに";
+        document.getElementById("Tips").innerHTML = " ・挿入位置を指定して削除可能<br>・「／」で文字を区切るのを忘れずに";
         document.getElementById("hintBtn").innerHTML = "💡 ヒント";
         document.getElementById("checkMyAnswer").innerHTML = "✅答え合わせ";
         document.getElementById("back3").innerHTML = "戻る";
@@ -1638,10 +1633,9 @@ function changeLanguage(languageName){
         document.getElementById("allFinish").innerHTML = "終了";
         document.getElementById("quiz-next-btn").innerHTML = "次へ";
         document.getElementById("settings").innerHTML = "設定";
-        document.getElementById("label_language").innerHTML = "使用言語";
+        document.getElementById("label_language").innerHTML = "使用言語(Language):";
         document.getElementById("globalLanguage").options[0].innerHTML = "日本語(かな)";
         document.getElementById("globalLanguage").options[1].innerHTML = "日本語(ローマ字)";
-        document.getElementById("volume").innerHTML = "Volume";
         document.getElementById("volume").innerHTML = "音量";
         document.getElementById("frequency").innerHTML = "音の高さ（周波数）";
         document.getElementById("speed").innerHTML = "再生速度";
@@ -1686,6 +1680,9 @@ function changeLanguage(languageName){
         document.getElementById("hugou").textContent = "モールス符号";
         document.getElementById("morseTblBtn").textContent = "📖 モールス信号表";
         document.getElementById("play").textContent = "再生";
+        document.getElementById("kidModeLabel").innerHTML = "子ども表示:";
+        document.getElementById("ExplainkidMode").textContent = "ひらがな中心のやさしい表記に切替";
+        document.getElementById("decodeInputLabel").innerHTML = "または、モールス信号を直接入力:";
         
         document.getElementById("marusu3").innerHTML = "それぞれの文字はこんな感じで対応しているよ！";
         document.getElementById("marusu4").innerHTML = "実際にモールスを聞いてみよう！音をダウンロードすることもできるよ！";
@@ -1705,8 +1702,7 @@ function changeLanguage(languageName){
 
     }else{
         current_language = rome;
-        console.log("English\n");
-        document.getElementById("h1").innerHTML = "🎵 Morse Code Experience App 📡";
+        // console.log("English\n");
         document.getElementById("inline-character-balloon").innerHTML = "Let's learn Morse code together!";
         document.getElementById("welcome-text").innerHTML = "Welcome to the world of Morse code!<br>\
         Convert your name into Morse code, and try experiencing Morse code input for yourself.";
@@ -1716,7 +1712,6 @@ function changeLanguage(languageName){
         document.getElementById("setteing-help2").style.display = "block";
         document.getElementById("h2").innerHTML = "Please tell me your name.<br>(ex: Marse)";
         document.getElementById("kid-Marse").innerHTML = "";
-        document.getElementById("volume").innerHTML = "Volume";
         document.getElementById("start").innerHTML = "Start";
         document.getElementById("inputName").innerHTML = "Input your name.";
         document.getElementById("change_playback").innerHTML = "Conversion and Playback";
@@ -1750,8 +1745,7 @@ function changeLanguage(languageName){
         document.getElementById("next2").innerHTML = "Next";
         document.getElementById("h2InputExp").innerHTML = "Try out Morse code input!";
         document.getElementById("morseInput").placeholder = "Please enter using the button.";
-        document.getElementById("Tips").innerHTML = " ・Direct text input is disabled<br>\
-        ・Deletion possible by specifying insertion position<br>";
+        document.getElementById("Tips").innerHTML = "・Deletion possible by specifying insertion position<br>";
         document.getElementById("hintBtn").innerHTML = "💡 Hint";
         document.getElementById("checkMyAnswer").innerHTML = "✅Check The Answer";
         document.getElementById("back3").innerHTML = "Back";
@@ -1764,7 +1758,7 @@ function changeLanguage(languageName){
         document.getElementById("allFinish").innerHTML = "End";
         document.getElementById("quiz-next-btn").innerHTML = "Next";
         document.getElementById("settings").innerHTML = "Settings";
-        document.getElementById("label_language").innerHTML = "Language used";
+        document.getElementById("label_language").innerHTML = "Language used(使用言語):";
         document.getElementById("globalLanguage").options[0].innerHTML = "日本語(かな)";
         document.getElementById("globalLanguage").options[1].innerHTML = "日本語(ローマ字)";
         document.getElementById("volume").innerHTML = "Volume";
@@ -1801,6 +1795,10 @@ function changeLanguage(languageName){
         document.getElementById("hugou").textContent = "Morse code";
         document.getElementById("morseTblBtn").textContent = "📖 Morse Code Chart";
         document.getElementById("play").textContent = "play";
+        document.getElementById("kidModeLabel").innerHTML = "Kids Mode:";
+        document.getElementById("ExplainkidMode").textContent = "Switch to simple text for kids";
+        document.getElementById("decodeInputLabel").innerHTML = "Or, enter Morse code directly:";
+
 
         document.getElementById("marusu3").innerHTML = "This is how each character corresponds to the code!";
         document.getElementById("marusu4").innerHTML = "Let's listen to actual Morse code! You can also download the audio!";
@@ -1839,7 +1837,6 @@ function changeKidsMode(){
           document.getElementById("setteing-help2").style.display = "none";
           document.getElementById("kid-Marse").innerHTML = '<br><br><img src="assets/png/やってみようマールス.png" alt="マールス" class="inline-character-img">';
           document.getElementById("h2").innerHTML = "あなたのなまえをおしえてね！<br>（れい：まーるす）";
-          document.getElementById("volume").innerHTML = "おとのおおきさ";
         document.getElementById("start").innerHTML = "はじめてみる！";
           document.getElementById("inputName").innerHTML = "なまえをにゅうりょく";
           document.getElementById("change_playback").innerHTML = "へんかん・さいせい";
@@ -1936,6 +1933,8 @@ function changeKidsMode(){
           document.getElementById("hugou").textContent = "もーるすふごう";
           document.getElementById("morseTblBtn").textContent = "📖 もーるすしんごうひょう";
           document.getElementById("play").textContent = "おとをきく";
+          document.getElementById("decodeInputLabel").innerHTML ="ここにじぶんでもーるすしんごうをいれてもいいよ！";
+
           document.getElementById("marusu3").innerHTML = "それぞれのおとはこんなかんじだよ！<br>\
           たとえば「あ」は「・－」ってかくんだ！いちばんみぎにある「／」はもじをくぎってるよ！";
         document.getElementById("marusu4").innerHTML = "この「・」とか「ー」がどんなおとをしているのか、きになるね！したのぼたんをおしてきいてみよう！おとをだうんろーどすることもできるよ。";
@@ -2032,9 +2031,6 @@ function changeKidsMode(){
         // 設定画面
         document.getElementById("settings").innerHTML = "Settings";
         document.getElementById("label_language").innerHTML = "Language";
-        // optionの書き換えは注意が必要ですが、表示だけ変えるなら
-        if(document.getElementById("globalLanguage").options[0]) document.getElementById("globalLanguage").options[0].innerHTML = "Japanese (Kana)";
-        if(document.getElementById("globalLanguage").options[1]) document.getElementById("globalLanguage").options[1].innerHTML = "Japanese (Romaji)";
         
         document.getElementById("frequency").innerHTML = "Pitch (High/Low)";
         document.getElementById("speed").innerHTML = "Speed";
@@ -2048,6 +2044,8 @@ function changeKidsMode(){
         document.getElementById("kaiseki").innerHTML = "Check Sound";
         document.getElementById("kaiseki_help").innerHTML = "Choose a sound file and click 'Check Sound'.<br>We are using English now.";
         document.getElementById("audiofile").innerHTML = "Choose MP3 file:";
+        document.getElementById("decodeInputLabel").innerHTML ="Or, type Morse code here:";
+
         
         document.getElementById("h3_henkan").innerHTML = "Make Morse";
         document.getElementById("henkan_help").innerHTML = "Type words here to make Morse code!";
@@ -2069,6 +2067,8 @@ function changeKidsMode(){
         document.getElementById("hugou").textContent = "Morse";
         document.getElementById("morseTblBtn").textContent = "📖 Morse Chart";
         document.getElementById("play").textContent = "Play";
+
+        document.getElementById("kid-Marse").innerHTML = '<br><br><img src="assets/png/LetsGoMarse.png" alt="Marse" class="inline-character-img">';
 
         // マールスの説明セリフ (短くわかりやすく)
         document.getElementById("marusu3").innerHTML = "Look at the chart!<br>'A' becomes '・－'. Short sound and Long sound!";

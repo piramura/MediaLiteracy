@@ -247,7 +247,7 @@ function nextQuiz() {
     const sound = document.getElementById("incorrectSound");
     sound.currentTime = 0;
     sound.play();
-    console.log("不正解"+ isQuizCorrect);
+    // console.log("不正解"+ isQuizCorrect);
     if(isQuizCorrect != null){
       showJudgeMark(isQuizCorrect);
     }
@@ -259,7 +259,7 @@ function nextQuiz() {
     sound.currentTime = 0;
     sound.play();
     if(isQuizCorrect != null){
-      console.log("正解"+ isQuizCorrect);
+      // console.log("正解"+ isQuizCorrect);
       showJudgeMark(isQuizCorrect);
     }
     currentQuizIndex++;

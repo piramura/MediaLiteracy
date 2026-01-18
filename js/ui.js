@@ -51,6 +51,11 @@ const alertMessages = {
     '日本語': '前の画面でモールス信号を変換してください。',
     'ローマ字': '前の画面でモールス信号を変換してください。',
     'English': 'Please convert to Morse code on the previous screen.'
+  },
+  confirmReset: {
+    '日本語': '設定を初期値に戻します。よろしいですか？',
+    'ローマ字': '設定を初期値に戻します。よろしいですか？',
+    'English': 'Are you sure you want to reset settings to default?'
   }
 };
   const wantToChangeInput = document.getElementById('WantToChange');
@@ -140,6 +145,14 @@ function goToStep(step) {
     if (targetId) {
       const target = document.getElementById(targetId);
       if (target) target.classList.add('active');
+    }
+    const langSelect = document.getElementById('globalLanguage');
+    if (langSelect) {
+      if (step === 2 || step === 3) {
+        langSelect.disabled = true;
+      } else {
+        langSelect.disabled = false;
+      }
     }
     hideDownloadAndLongPress();
   }, 500); // 0.5秒遅延
@@ -353,22 +366,19 @@ document.addEventListener('DOMContentLoaded', function() {
   const resetSettingsBtn = document.getElementById('resetSettings');
   if (resetSettingsBtn) {
     resetSettingsBtn.addEventListener('click', function() {
-      if (!confirm('設定を初期値に戻します。よろしいですか？')) return;
-      const defaults = { volume: 0.8, speed: 1, frequency: 880, language: '日本語' };
+      if (!confirm(getAlertMessage('confirmReset', 'Are you sure you want to reset settings to default?'))) return;
+      const defaults = { volume: 0.8, speed: 1, frequency: 880, filenameFormat: 'input' };
       if (existingSlider) { existingSlider.value = defaults.volume; existingSlider.dispatchEvent(new Event('input')); }
       if (globalVolumeSlider) { globalVolumeSlider.value = defaults.volume; globalVolumeSlider.dispatchEvent(new Event('input')); }
-      // Reset speed
       if (globalSpeedSelect) { globalSpeedSelect.value = defaults.speed; globalSpeedSelect.dispatchEvent(new Event('change')); }
-      // Reset frequency
       if (globalFrequencySlider) { globalFrequencySlider.value = defaults.frequency; globalFrequencySlider.dispatchEvent(new Event('input')); }
-      // Reset language
-      if (globalLanguage) { globalLanguage.value = defaults.language; globalLanguage.dispatchEvent(new Event('change')); }
-      // Persist defaults
+      if (globalFilenameFormat) { globalFilenameFormat.value = defaults.filenameFormat; globalFilenameFormat.dispatchEvent(new Event('change')); }
+      
       localStorage.setItem('ml_volume', String(defaults.volume));
       localStorage.setItem('ml_speed', String(defaults.speed));
       localStorage.setItem('ml_frequency', String(defaults.frequency));
-      localStorage.setItem('ml_language', defaults.language);
-      // Notify user
+      localStorage.setItem('ml_filenameFormat', defaults.filenameFormat);
+
       alert(getAlertMessage('resetSettingsCompleted', 'Settings have been reset.'));
     });
   }
@@ -381,6 +391,11 @@ document.addEventListener('DOMContentLoaded', function() {
     globalLanguage.addEventListener('change', function() {
       const val = this.value;
       localStorage.setItem('ml_language', val);
+      // 入力欄をクリア
+      document.getElementById('nameInput').value = "";
+      document.getElementById('decodeInput').value = "";
+      document.getElementById('WantToChange').value = "";
+      
       if (typeof changeLanguage === 'function') {
         changeLanguage(val);
       }
@@ -388,7 +403,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const romajiResult = document.getElementById('romajiToHiraResult');
       if (convertBtn) convertBtn.style.display = (val === 'ローマ字') ? 'inline-block' : "none";
       if (romajiResult) romajiResult.style.display = (val === 'ローマ字') ? "block" : "none";
-      // 子ども表示が有効な場合は、言語切替後に子ども表示を再適用（優先度を上げる）
+      // 子ども表示が有効な場合は、言語切替後に子ども表示を再適用
       const kidToggle = document.getElementById('kidModeToggle');
       if (kidToggle && kidToggle.checked) {
         setTimeout(() => window.applyKidModeGlobal(true), 50);
@@ -454,6 +469,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   const globalFrequencySlider = document.getElementById('globalFrequencySlider');
   const globalFrequencyValue = document.getElementById('globalFrequencyValue');
+
   if (globalFrequencySlider) {
     const storedFreq = localStorage.getItem('ml_frequency');
     if (storedFreq !== null) {

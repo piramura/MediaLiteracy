@@ -25,7 +25,7 @@
         <div class="settings-panel-content">
           <div class="panel-header2"><h3 id="settings">設定</h3></div>
           <div class="panel-content">
-            <label for="globalLanguage" id = "label_language">使用言語:</label>
+            <label for="globalLanguage" id = "label_language">使用言語(Language):</label>
             <select id="globalLanguage">
               <option value="日本語">日本語(かな)</option>
               <option value="ローマ字">日本語(ローマ字)</option>
@@ -33,7 +33,7 @@
             </select>
             <div style="margin-top:8px;">
               <label for="kidModeToggle" id="kidModeLabel">子ども表示:</label>
-              <input type="checkbox" id="kidModeToggle" /> <span style="font-size:0.95em;">ひらがな中心のやさしい表記に切替</span>
+              <input type="checkbox" id="kidModeToggle" /> <span style="font-size:0.95em;" id ="ExplainkidMode">ひらがな中心のやさしい表記に切替</span>
             </div>
             <div style="margin-top:8px;">
               <label for="globalVolumeSlider" id = "volume">音量:</label>
@@ -140,7 +140,7 @@
       </div>
       <div class="step-indicator">
         <span class="step active" id = "inputName1">名前入力</span>
-        <span class="step" id = "change_playback1">変換・再生</span>
+        <span class="step active" id = "change_playback1">変換・再生</span>
         <span class="step" id = "inputMores1">モールス入力</span>
         <span class="step" id = "finish1">完了</span>
       </div>
@@ -208,8 +208,8 @@
       </div>
     <div class="step-indicator">
         <span class="step active" id = "inputName2">名前入力</span>
-        <span class="step" id = "change_playback2">変換・再生</span>
-        <span class="step" id = "inputMores2">モールス入力</span>
+        <span class="step active" id = "change_playback2">変換・再生</span>
+        <span class="step active" id = "inputMores2">モールス入力</span>
         <span class="step" id = "finish2">完了</span>
       </div>
       
@@ -251,13 +251,12 @@
         </div>
         </div>
         <div class="help-text" style="display:block; margin-top:8px; font-size:0.95em;" id ="Tips">
-        ・直接の文字入力は無効<br>
         ・挿入位置を指定して削除可能<br>
         ・区切りの「／」も忘れずに
         </div>
         <br><br>
         <div class="inline-character-area">
-           <img src="assets/png/マールス2.png" alt="マールス" class="inline-character-img">
+           <img src="assets/png/喜びのマールス.png" alt="マールス" class="inline-character-img">
         <div class="inline-character-balloon" id ="marusu9">
           困ったときは、「💡 ヒント」でさっきの音を聞けるよ！下のモールス信号表をクリックして対応を確認してみるのもいいね！
         </div>
@@ -265,15 +264,12 @@
       <button id="hintBtn" onclick="playHintAudio()">💡 ヒント</button>
       <br>
          <div class="inline-character-area">
-           <img src="assets/png/マールス2.png" alt="マールス" class="inline-character-img">
+           <img src="assets/png/にこにこマールス.png" alt="マールス" class="inline-character-img">
         <div class="inline-character-balloon" id ="marusu10">
           自分の名前が完成したら「✅答え合わせ」を押してね！難しいけど、がんばって！
         </div>
         </div>
         <button class="play-btn" onclick="playMorse('morseInput');ChangeMorse('morseInput',1)" id ="checkMyAnswer">✅答え合わせ</button>
-       <!-- <div class="help-text" style="font-size:0.95em; color:#5c6b73;" id ="Tips2">自分の名前が完成したら先に進めます。
-        <br>「✅答え合わせ」で確認してみましょう！
-       </div> -->
 
       <div class="navigation">
         <button class="main-button" onclick="goToStep(4)" id="next3" style="display:none;">終わりにする</button>
@@ -288,9 +284,9 @@
       </div>
       <div class="step-indicator">
         <span class="step active" id = "inputName3">名前入力</span>
-        <span class="step" id = "change_playback3">変換・再生</span>
-        <span class="step" id = "inputMores3">モールス入力</span>
-        <span class="step" id = "finish3">完了</span>
+        <span class="step active" id = "change_playback3">変換・再生</span>
+        <span class="step active" id = "inputMores3">モールス入力</span>
+        <span class="step active" id = "finish3">完了</span>
       </div>
       
       <h2 id = "otsukare">🎉 おつかれさまでした！</h2>
@@ -372,7 +368,7 @@
         <button class="morse-btn slash" onclick="appendText('／','decodeInput')" aria-label="区切り" title="区切り（／）">／</button>
           <button class="control-btn clear" onclick="clearText('decodeInput')" aria-label="全削除">C</button>
           <button class="control-btn delete" onclick="deleteLast('decodeInput')" aria-label="1文字削除">DEL</button>
-        <button class="control-btn play" onclick="playMorse('decodeInput');ChangeMorse('decodeInput',0)" aria-label="確認">🔊</button>
+        <button class="control-btn play" onclick="playMorse('decodeInput');" aria-label="確認">🔊</button>
       </div>
                  <div class="help-text" style="font-size:0.95em; color:#5c6b73;" id = "help-analyzeText">入力したファイル、テキストは自動で解析されます。</div>
                 <div class="analysis-area" style="margin-top: 10px; display:flex; flex-direction:column; gap:8px;">
