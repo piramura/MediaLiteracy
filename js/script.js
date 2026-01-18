@@ -709,7 +709,13 @@ function getScriptAlertMessage(key, defaultMsg = '') {
         //モールス信号の書かれている場所を指定するといろはに変更
         function ChangeMorse(inputID, checkAnswer){
             const morseInput = document.getElementById(inputID).value;
-            const getMorse = morseInput.split("／");
+            console.log("morseInput: " + morseInput);
+            let getMorse = morseInput.replace(/／{2,}/g, "／");
+            console.log("getMorse: " + getMorse);
+            getMorse = getMorse.split("／");
+            console.log("getMorse: " + getMorse);
+            getMorse = getMorse.filter(Boolean);
+            console.log("getMorse: " + getMorse);
             let result = "";
             invalidChars = [];
             for(let code of getMorse){
@@ -722,6 +728,7 @@ function getScriptAlertMessage(key, defaultMsg = '') {
                 }
             }
             result = Conversion(result);
+            
             if(morseInput === morse_name.join('／') && checkAnswer === 1){
                 showFloatingResult(result,1,invalidChars);
             }
@@ -984,7 +991,7 @@ function showFloatingResult(text, isCorrect = false,invalidChars = []){
     const resultDiv = document.getElementById("morseResult");
     const correctDiv = document.getElementById("correctMessage");
 
-
+    
     if (!text || text.trim() === "") {
         window.alert(getScriptAlertMessage('emptyMorse', 'Morse code is empty.'));
         return;
@@ -1081,6 +1088,7 @@ async function analyzeUploadedFile(){
         const arrayBuffer = e.target.result;
         try{
             const morse = await analyzeAudioBuffer(arrayBuffer);
+            document.getElementById('decodeInput').value = morse;
             document.getElementById('analyzedMorse').value = morse;
             document.getElementById('analyzedMorseToIroha').value = Conversion(showDecodedFromAnalyzed());
             convertRomajiAnalyzedToHiragana();
@@ -1820,7 +1828,7 @@ function changeLanguage(languageName){
 
 function changeKidsMode(){
     const lang = getCurrentLanguage();
-     console.log(lang);
+     if(lang === "日本語" || lang === "ローマ字" ){
         document.getElementById("h1").innerHTML = "🎵 もーるすしんごうであそぼう！📡";
           document.getElementById("inline-character-balloon").innerHTML = "ぼくといっしょにやってみない？";
           document.getElementById("welcome-text").innerHTML = "もーるすしんごうのせかいへようこそ！<br>\
@@ -1944,6 +1952,136 @@ function changeKidsMode(){
         むかしのひとたちはこのほうほうでとおくのひととれんらくをとっていたりしたんだよ！くわしくしりたかったらぜひみゅーじあむでしらべてみてね！";
         document.getElementById("marusu12").innerHTML = "3たくくいずもあるんだけど、やってみない？\
         きっともーるすしんごうのりかいがふかまるよ！";
+     }else if(lang == "English"){
+        document.getElementById("h1").innerHTML = "🎵 Let's Play with Morse Code! 📡";
+        document.getElementById("inline-character-balloon").innerHTML = "Let's play together!";
+        
+        // 難しい説明を省き、ワクワクさせる表現に
+        document.getElementById("welcome-text").innerHTML = "Welcome! <br>Do you know Morse Code?";
+        document.getElementById("welcome-text2").innerHTML = "We can write names using only dots (・) and lines (－)!<br>Let's turn your name into a cool secret code!";
+        
+        // 設定まわりの説明
+        document.getElementById("setteing-help").innerHTML = "Ask an adult to help with Settings (⚙️) if you want to change sounds!";
+        document.getElementById("setteing-help2").style.display = "none";
+        
+        // キャラクター画像 (英語でも共通ならそのまま)
+        document.getElementById("kid-Marse").innerHTML = '<br><br><img src="assets/png/やってみようマールス.png" alt="Marse" class="inline-character-img">';
+        
+        // 入力フォーム周り
+        document.getElementById("h2").innerHTML = "What is your name?<br>(e.g. Marse)";
+        document.getElementById("volume").innerHTML = "Loudness"; // または Sound Volume
+        document.getElementById("start").innerHTML = "Let's Start!";
+        
+        // 各ステップのラベル
+        document.getElementById("inputName").innerHTML = "Type Name";
+        document.getElementById("change_playback").innerHTML = "Make & Listen"; // Conversion -> Make
+        document.getElementById("inputMores").innerHTML = "Type Morse";
+        document.getElementById("finish").innerHTML = "Done!"; // Completed -> Done
+        
+        // ステップごとのラベル (1~3すべて同様に変更)
+        for(let i=1; i<=3; i++){
+            const suffix = (i === 0) ? "" : i; // IDの数字処理
+             if(document.getElementById("inputName" + suffix)) document.getElementById("inputName" + suffix).innerHTML = "Type Name";
+             if(document.getElementById("change_playback" + suffix)) document.getElementById("change_playback" + suffix).innerHTML = "Make & Listen";
+             if(document.getElementById("inputMores" + suffix)) document.getElementById("inputMores" + suffix).innerHTML = "Type Morse";
+             if(document.getElementById("finish" + suffix)) document.getElementById("finish" + suffix).innerHTML = "Done!";
+        }
+
+        // マールスのセリフ
+        document.getElementById("input").innerHTML = "Hi! I'm Marse.<br>What's your name?";
+        document.getElementById("nameInput").placeholder = "Type your name in English";
+        document.getElementById("tellToMarse").innerHTML = "Tell Marse your name!";
+        
+        // ボタン類
+        document.getElementById("back").innerHTML = "Back";
+        document.getElementById("change").innerHTML = "OK! (Make Morse)";
+        document.getElementById("GoToHenkan").innerHTML = "Skip to Converter";
+        
+        // 結果画面
+        document.getElementById("henkan-h2").innerHTML = "Look! It's Morse Code!";
+        document.getElementById("marusu2").innerHTML = "Wow! Your name turned into dots and lines!<br>This is your secret code name!";
+        document.getElementById("yourName").innerHTML = "<strong id='userName'></strong>'s Morse Code is:";
+        
+        // 再生・ダウンロード
+        document.getElementById("listen-first").innerHTML = "🔊 Listen";
+        document.getElementById("MP3").innerHTML = "Save Sound";
+        document.getElementById("downloadBtn").innerHTML = "Save MP3 Sound";
+        document.getElementById("back2").innerHTML = "Try Again";
+        document.getElementById("next2").innerHTML = "Let's Tap Buttons!";
+        
+        // 入力体験画面
+        document.getElementById("h2InputExp").innerHTML = "Let's try tapping Morse Code!";
+        document.getElementById("morseInput").placeholder = "Tap the buttons below!";
+        
+        // ヒントなど
+        document.getElementById("Tips").innerHTML = "Use the buttons to type!<br>Don't forget the slash (／) between letters!";
+        document.getElementById("hintBtn").innerHTML = "💡 Hint";
+        document.getElementById("checkMyAnswer").innerHTML = "✅ Check Answer";
+        document.getElementById("back3").innerHTML = "Back";
+        document.getElementById("next3").innerHTML = "Finish";
+        
+        // 終了・クイズ誘導
+        document.getElementById("otsukare").innerHTML = "🎉 Good Job!";
+        document.getElementById("suggest").innerHTML = "Do you want to try a Quiz?";
+        document.getElementById("back4").innerHTML = "Go to Title";
+        document.getElementById("next4").innerHTML = "Try Quiz!";
+        document.getElementById("quiz-question").innerHTML = "Question comes here.";
+        document.getElementById("allFinish").innerHTML = "Quit";
+        document.getElementById("quiz-next-btn").innerHTML = "Next";
+
+        // 設定画面
+        document.getElementById("settings").innerHTML = "Settings";
+        document.getElementById("label_language").innerHTML = "Language";
+        // optionの書き換えは注意が必要ですが、表示だけ変えるなら
+        if(document.getElementById("globalLanguage").options[0]) document.getElementById("globalLanguage").options[0].innerHTML = "Japanese (Kana)";
+        if(document.getElementById("globalLanguage").options[1]) document.getElementById("globalLanguage").options[1].innerHTML = "Japanese (Romaji)";
+        
+        document.getElementById("frequency").innerHTML = "Pitch (High/Low)";
+        document.getElementById("speed").innerHTML = "Speed";
+        document.getElementById("filenameFormatLabel").innerHTML = "File Name:";
+        document.getElementById("resetSettings").innerHTML = "Reset";
+        document.getElementById("closeSettings").innerHTML = "Close";
+
+        // 変換所・解析
+        document.getElementById("mo-rusuhenkanjo").innerHTML = "Morse Lab"; // Station -> Lab
+        document.getElementById("input_henkan").innerHTML = "Let's check or make Morse Code!";
+        document.getElementById("kaiseki").innerHTML = "Check Sound";
+        document.getElementById("kaiseki_help").innerHTML = "Choose a sound file and click 'Check Sound'.<br>We are using English now.";
+        document.getElementById("audiofile").innerHTML = "Choose MP3 file:";
+        
+        document.getElementById("h3_henkan").innerHTML = "Make Morse";
+        document.getElementById("henkan_help").innerHTML = "Type words here to make Morse code!";
+        document.getElementById("WantToChange").placeholder = "Type here...";
+        document.getElementById("hanken_help2").innerHTML = "You can copy, listen, or save the sound!";
+        
+        document.getElementById("copyWantToChangeBtn").innerHTML = "Copy";
+        document.getElementById("playWantToChangeBtn").innerHTML = "🔊 Listen";
+        document.getElementById("downloadWantToChangeBtn").innerHTML = "Save Sound";
+        document.getElementById("copyWantToChangeMsg").innerHTML = "Copied!";
+        
+        document.getElementById("Separator").innerHTML = "Separator:";
+        document.getElementById("space").innerHTML = "Space";
+        document.getElementById("chkLabelText").innerHTML = "Show '?' for unknown letters";
+        document.getElementById("backToFst").innerHTML = "Back to Title";
+        
+        document.getElementById("morseTbl").innerHTML = "Morse Chart";
+        document.getElementById("moji").textContent = "Letter";
+        document.getElementById("hugou").textContent = "Morse";
+        document.getElementById("morseTblBtn").textContent = "📖 Morse Chart";
+        document.getElementById("play").textContent = "Play";
+
+        // マールスの説明セリフ (短くわかりやすく)
+        document.getElementById("marusu3").innerHTML = "Look at the chart!<br>'A' becomes '・－'. Short sound and Long sound!";
+        document.getElementById("marusu4").innerHTML = "Let's listen to the sound! You can save it too.";
+        document.getElementById("marusu5").innerHTML = "Now it's your turn!<br>Tap the button below to start.";
+        document.getElementById("marusu6").innerHTML = "Combine '・'(Dot) and '－'(Dash) to make letters!";
+        document.getElementById("marusu7").innerHTML = "Real Morse code uses timing, but here we just use buttons. It's easy!";
+        document.getElementById("marusu8").innerHTML = "Buttons:<br>DEL: Erase one<br>C: Erase all<br>🔊: Listen";
+        document.getElementById("marusu9").innerHTML = "Need help? Click '💡 Hint' to listen again!<br>Or check the Chart.";
+        document.getElementById("marusu10").innerHTML = "When you are done, click '✅ Check Answer'!";
+        document.getElementById("marusu11").innerHTML = "Was it fun? People used this code long ago to talk to faraway friends!";
+        document.getElementById("marusu12").innerHTML = "Do you want to try a Quiz? It's fun!";
+     }
     const currentName = document.getElementById('nameInput').value;
     const userNameEl = document.getElementById('userName');
     if (userNameEl) {
