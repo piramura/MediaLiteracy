@@ -190,14 +190,14 @@
       </div>
       <br><br>
          <div class="inline-character-area">
-        <img src="assets/png/喜びのマールス.png" alt="マールス" class="inline-character-img">
+        <img src="assets/png/喜びのマールス.png" alt="マールス" class="inline-character-img" id = "whetherNext">
         <div class="inline-character-balloon" id ="marusu5">
           今度は君がモールスをうってみてよ！<br>下のボタンから移動しよう！
         </div>
       </div>
       <div class="navigation">
-        <button class="main-button" onclick="goToStep(3)" id ="next2">モールスを入力してみる！</button>
-        <button class="back-button" onclick="goToStep(1)" id ="back2">戻る</button>
+        <button class="main-button" onclick="goToStep(3)" id ="next2" display = "block">モールスを入力してみる！</button>
+        <button class="back-button" onclick="goToStep(1);resetInformation()" id ="back2">戻る</button>
       </div>
     </div>
 
@@ -272,7 +272,7 @@
         <button class="play-btn" onclick="playMorse('morseInput');ChangeMorse('morseInput',1)" id ="checkMyAnswer">✅答え合わせ</button>
 
       <div class="navigation">
-        <button class="main-button" onclick="goToStep(4)" id="next3" style="display:none;">終わりにする</button>
+        <button class="main-button" onclick="goToStep(4);resetInformation()" id="next3" style="display:none;">終わりにする</button>
         <button class="back-button" onclick="goToStep(2)" id="back3">戻る</button>
       </div>
     </div>
@@ -333,8 +333,8 @@
       <audio id="incorrectSound" src="assets/mp3/決定ボタンを押す44.mp3" preload="auto"></audio>
 
       <div class="navigation">
-        <button class="back-button" onclick="prevQuiz()" id="allFinish">終了</button>
         <button class="main-button" id="quiz-next-btn" onclick="nextQuiz()" disabled>次へ</button>
+        <button class="back-button" onclick="prevQuiz()" id="allFinish">終了</button>
       </div>
       </div>
     <div class="screen" id="quiz-result"></div>

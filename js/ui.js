@@ -197,7 +197,7 @@ const nameInput = document.getElementById('nameInput');
       }
     }
     
-     outputID.value = correspondenceLines.join('／\n');
+     outputID.value = correspondenceLines.join('\n'); // 最後の文字に改行
   }
   
 
@@ -218,7 +218,7 @@ function convertName() {
   }
   generateCorrespondenceTable(nameInput.value || '', correspondOutput);
 
-  goToStep(2);
+  checkAndGoToInput();
 }
 
 // ========================
@@ -703,17 +703,24 @@ function showQuizResult() {
   const twitterLabel = isEnglish ? 'Share on X(Twitter)' : 'X(Twitter)でシェア';
   const lineLabel = isEnglish ? 'Share on LINE' : 'LINEでシェア';
 
-  const shareMessage = isEnglish 
-    ? `Challenge the Morse Code Quiz!\nLearned words [${quizData.map(q => q.answer).join(',')}] \n #MorseCodeQuiz\n#UECCommunicationMuseum`
-    : `モールス信号クイズに挑戦したよ！\n正解した単語は [${quizData.map(q => q.answer).join(',')}] \nみんなはこのモールス信号分かる？\n #モールス信号クイズ\n#UECコミュニケーションミュージアム`;
   
+
+  const shareMessage = isEnglish 
+    ? `${quizData.map(q => q.question).join('\n')} \n I aced the Morse Code Quiz!📡\nCan you decode it?\n\n▼Try converting it here!`
+    : `${quizData.map(q => q.question).join('\n')} \n モールス信号クイズに正解したよ！📡\n何て書いてあるかわかるかな？\n\n▼ここで変換してみよう！`;
+  
+  const hashTags = isEnglish ? '#MorseCode #Quiz #UECCommunicationMuseum' : ' #モールス信号 #クイズ\n#UECコミュニケーションミュージアム';
+
+
+  const rawUrl = "https://piramura.github.io/MediaLiteracy/";
   const shareText = encodeURIComponent(shareMessage);
-  const shareUrl = encodeURIComponent(location.href);
+  const shareUrl = encodeURIComponent(rawUrl);
+  const twitterFullText = encodeURIComponent(`${shareMessage}\n${rawUrl}\n${hashTags}`);
   
   let html = `
     <h2>${heading}</h2>
     <p>${description}</p>
-    <table class="result-table">
+    <table class="result-table" style="margin: 0 auto;">
       <thead>
         <tr><th>${morseColHeader}</th><th>${wordColHeader}</th></tr>
       </thead>
@@ -722,7 +729,7 @@ function showQuizResult() {
       </tbody>
     </table>
     <div class="sns-share">
-      <a class="sns-btn twitter" href="https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}" target="_blank" rel="noopener">${twitterLabel}</a>
+      <a class="sns-btn twitter" href="https://twitter.com/intent/tweet?text=${twitterFullText}" target="_blank" rel="noopener">${twitterLabel}</a>
       <a class="sns-btn line" href="https://social-plugins.line.me/lineit/share?url=${shareUrl}&text=${shareText}" target="_blank" rel="noopener">${lineLabel}</a>
     </div>
     <button class="main-button" onclick="goToStep(4);resetQuiz();">${buttonText}</button>

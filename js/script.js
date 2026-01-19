@@ -34,6 +34,11 @@ const scriptAlertMessages = {
     'ローマ字': '解析されたモールスがありません。まず解析を実行してください。',
     'English': 'No analyzed Morse code. Please run analysis first.'
   },
+  cannnotLINE: {
+    '日本語': 'LINEアプリでは動作しない可能性があります。\nブラウザで開き直してください。',
+    'ローマ字': 'LINEアプリでは動作しない可能性があります。\nブラウザで開き直してください。',
+    'English': 'This may not work in the LINE app.\nPlease reopen in a browser.'
+  }
 };
 
 function getScriptLanguage() {
@@ -47,9 +52,9 @@ function getScriptLanguage() {
 
 function getScriptAlertMessage(key, defaultMsg = '') {
   const lang = getScriptLanguage();
-  const msgObj = scriptAlertMessages[key];
-  if (!msgObj) return defaultMsg;
-  return msgObj[lang] || msgObj['日本語'] || defaultMsg;
+  const messageObj = scriptAlertMessages[key];
+  if (!messageObj) return defaultMsg;
+  return messageObj[lang] || messageObj['日本語'] || defaultMsg;
 }
 
    const iroha = [
@@ -156,6 +161,8 @@ function getScriptAlertMessage(key, defaultMsg = '') {
                 ["\n","・－・－・・"], //改行 －98
                 ["っ","・－－・"], //っ－99
                 ["",""], // 区切り連続でもok　-100
+                [" ","／"],   // 半角スペース
+                ["　","／"],  // 全角スペース
                 /*以下全角 */
                 ["（","－・－－・－"], //( －101
                 ["）","・－・・－・"], //) －102 
@@ -535,6 +542,8 @@ function getScriptAlertMessage(key, defaultMsg = '') {
                 ["ぺ","・－－・／・"], //pe－71
                 ["ぽ","・－－・／－－－"], //po－72
                 ["。","・－・－・・"], //。 －98　改行を読点に
+                [" ","／"],   // 半角スペース
+                ["　","／"]  // 全角スペース
         ];
 
         let iroha_name = [];
@@ -728,11 +737,16 @@ function getScriptAlertMessage(key, defaultMsg = '') {
                 }
             }
             result = Conversion(result);
-            
-            if(morseInput === morse_name.join('／') && checkAnswer === 1){
+
+            //　正解判定　空白部分（／）の連続は無視
+            if((morseInput.replace(/／+/g, '／') === morse_name.join('／').replace(/／+/g, '／')) && checkAnswer === 1){
+                // console.log("morseInput:" + morseInput);
+                // console.log("morse_name.join('／'):" + morse_name.join('／'));
                 showFloatingResult(result,1,invalidChars);
             }
             else{
+                // console.log("morseInput:" + morseInput);
+                // console.log("morse_name.join('／'):" + morse_name.join('／'));
                 showFloatingResult(result,0,invalidChars);
             }
             return result;
@@ -856,12 +870,12 @@ function getScriptAlertMessage(key, defaultMsg = '') {
         async function generateMorseMp3(id) {
         const morse = document.getElementById(id).value;
             if (!morse.trim()) {
-                alert("何も入力されていません");
+                window.alert(getScriptAlertMessage('emptyMorse','No Morse code to convert to MP3.'));
                 return;
             }
 
             if (isLineBrowser()) {
-                alert("LINEのブラウザではMP3をダウンロードできません。\n右下の「…」から「ブラウザで開く」またはSafari/Chromeで開いてください。");
+                window.alert(getScriptAlertMessage('cannotLINE', 'This may not work in the LINE app.\nPlease reopen in a browser.'));
                 return;
             }
 
@@ -1013,9 +1027,14 @@ function showFloatingResult(text, isCorrect = false,invalidChars = []){
     correctDiv.classList.remove("correct-float", "incorrect-float");
     void correctDiv.offsetWidth;
 
+    const lang = getCurrentLanguage();
     
     if (isCorrect) {
-        correctDiv.textContent = "おめでとう🎉";
+        if(lang === '日本語' || lang === 'ローマ字'){
+            correctDiv.textContent = "おめでとう🎉";
+        }else{
+            correctDiv.textContent = "Congraturation! 🎉";
+        }
         correctDiv.classList.add("correct-float");
         // おめでとうメッセージが表示されたら次へボタンを表示
         const next3Btn = document.getElementById('next3');
@@ -1023,6 +1042,15 @@ function showFloatingResult(text, isCorrect = false,invalidChars = []){
     } else {
         correctDiv.textContent = ""
     }
+}
+
+function resetInformation(){
+    const resultDiv = document.getElementById("morseResult");
+    const correctDiv = document.getElementById("correctMessage");
+    resultDiv.textContent = "";
+    correctDiv.textContent = "";
+    const next3Btn = document.getElementById('next3');
+    if (next3Btn) next3Btn.style.display = 'none';
 }
 
 function showJudgeMark(isCorrect) {
@@ -1566,6 +1594,32 @@ function decodeMorseFromText(){
     convertRomajiAnalyzedToHiragana();
 }
 
+function checkAndGoToInput() {
+  const output = document.getElementById('output');
+  if (!output) return;
+
+  const morseText = output.value;
+  const lang = getCurrentLanguage();
+
+  if (morseText.includes('？')) {
+    document.getElementById('whetherNext').src = "assets/png/困ったマールス.png";
+    document.getElementById('next2').style.display = "none";
+  }else{
+  document.getElementById('whetherNext').src = "assets/png/喜びのマールス.png";
+  document.getElementById('next2').style.display = "block";
+  }
+
+  
+  goToStep(2);
+  const storedKid = localStorage.getItem('ml_kid_mode');
+  const enabled = storedKid === '1' || storedKid === 'true';
+  if (enabled) {
+          document.body.classList.add('kid-ui');
+          changeKidsMode();
+          console.log("子供モード有効");
+        }
+}
+
 function changeLanguage(languageName){
     const analyzedEl = document.getElementById('analyzedMorse');
     const analyzedToIrohaEl = document.getElementById('analyzedMorseToIroha');
@@ -1573,6 +1627,9 @@ function changeLanguage(languageName){
     if(analyzedEl) analyzedEl.value = '';
     if(analyzedToIrohaEl) analyzedToIrohaEl.value = '';
     if(romajiResultEl) { romajiResultEl.value = ''; romajiResultEl.style.display = "none"; }
+
+    const audioInput = document.getElementById('audioFile');
+    if(audioInput) audioInput.value = '';
 
     if(languageName === "日本語" || languageName === "ローマ字"){
         if(languageName === "日本語" ){current_language = iroha;}
@@ -1687,7 +1744,11 @@ function changeLanguage(languageName){
         
         document.getElementById("marusu3").innerHTML = "それぞれの文字はこんな感じで対応しているよ！";
         document.getElementById("marusu4").innerHTML = "実際にモールスを聞いてみよう！音をダウンロードすることもできるよ！";
-        document.getElementById("marusu5").innerHTML = "今度は君がモールスをうってみてよ！<br>下のボタンから移動しよう！";
+        if(document.getElementById("next2").style.display === "none"){
+            document.getElementById('marusu5').innerHTML = "君の名前には未対応の文字「？」が含まれているよ... 名前設定に戻って、未対応の文字を削除しよう...！";
+        }else{
+            document.getElementById("marusu5").innerHTML = "今度は君がモールスをうってみてよ！<br>下のボタンから移動しよう！";
+        }
         document.getElementById("marusu6").innerHTML = "「・」（短音）と「－」（長音）と「／」(区切り) を組み合わせて文字を作るんだ！";
         document.getElementById("marusu7").innerHTML = "本当はボタンを押している長さで区別するけど、今回は簡単にボタンで入力しちゃおう！";
         document.getElementById("marusu8").innerHTML = "見慣れないボタンの説明をするね！<br>\
@@ -1803,7 +1864,11 @@ function changeLanguage(languageName){
 
         document.getElementById("marusu3").innerHTML = "This is how each character corresponds to the code!";
         document.getElementById("marusu4").innerHTML = "Let's listen to actual Morse code! You can also download the audio!";
-        document.getElementById("marusu5").innerHTML = "Now it's your turn to tap out some Morse code!<br>Move to the next screen using the button below!";
+        if(document.getElementById("next2").style.display === "none"){
+                  document.getElementById('marusu5').innerHTML = "Undefined character \"?\" is included, so you cannot proceed to input... Go back to name setting and remove the undefined character...!";
+        }else{
+                  document.getElementById('marusu5').innerHTML = "Now it's your turn to tap out some Morse code!<br>Move to the next screen using the button below!";
+        }
         document.getElementById("marusu6").innerHTML = "You create characters by combining '.' (dots), '-' (dashes), and '/' (separators)!";
         document.getElementById("marusu7").innerHTML = "Normally, you distinguish them by how long you hold the button, but this time let's make it easy and use simple buttons!";
         document.getElementById("marusu8").innerHTML = "Let me explain the buttons!<br>\
@@ -1940,7 +2005,13 @@ function changeKidsMode(){
           document.getElementById("marusu3").innerHTML = "それぞれのおとはこんなかんじだよ！<br>\
           たとえば「あ」は「・－」ってかくんだ！いちばんみぎにある「／」はもじをくぎってるよ！";
         document.getElementById("marusu4").innerHTML = "この「・」とか「ー」がどんなおとをしているのか、きになるね！したのぼたんをおしてきいてみよう！おとをだうんろーどすることもできるよ。";
-        document.getElementById("marusu5").innerHTML = "こんどはきみがもーるすをうってみるばんだ！<br>まずしたのぼたんをおしてね！";
+        if(document.getElementById("next2").style.display === "none"){
+            document.getElementById("marusu5").innerHTML = "いま、きみのなまえに「？」があるね。「？」のぶぶんは、もーるすをたいけんできないから、なまえをいれなおそう！よくわからなかったらおとなのひとにきいてみてね！";
+            console.log("undefined character in kids mode");
+        }else{
+            document.getElementById("marusu5").innerHTML = "こんどはきみがもーるすをうってみるばんだ！<br>まずしたのぼたんをおしてね！";
+            console.log("undefined character in kids mode");
+        }
         document.getElementById("marusu6").innerHTML = "「・」（みじかいおと）と「－」（ながいおと）と「／」(くぎり) をくみあわせてもじをつくるんだ！";
         document.getElementById("marusu7").innerHTML = "ほんとうはぼたんをおしているながさで、みじかいおとと、ながいおとをききわけるんだ。けど、こんかいはかんたんにぼたんをおしてつくってみよう！";
         document.getElementById("marusu8").innerHTML = "へんなぼたんのせつめいをするよ！<br>\
@@ -2075,7 +2146,11 @@ function changeKidsMode(){
         // マールスの説明セリフ (短くわかりやすく)
         document.getElementById("marusu3").innerHTML = "Look at the chart!<br>'A' becomes '・－'. Short sound and Long sound!";
         document.getElementById("marusu4").innerHTML = "Let's listen to the sound! You can save it too.";
+        if(document.getElementById("next2").style.display === "none"){
+            document.getElementById("marusu5").innerHTML = "There is a '?' in your name. I can't read it!<br>Let's fix your name. Please ask an adult for help.";
+        }else{
         document.getElementById("marusu5").innerHTML = "Now it's your turn!<br>Tap the button below to start.";
+        }
         document.getElementById("marusu6").innerHTML = "Combine '・'(Dot) and '－'(Dash) to make letters!";
         document.getElementById("marusu7").innerHTML = "Real Morse code uses timing, but here we just use buttons. It's easy!";
         document.getElementById("marusu8").innerHTML = "Buttons:<br>DEL: Erase one<br>C: Erase all<br>🔊: Listen";
