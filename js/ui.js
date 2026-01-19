@@ -706,10 +706,10 @@ function showQuizResult() {
   
 
   const shareMessage = isEnglish 
-    ? `${quizData.map(q => q.question).join('\n')} \n I aced the Morse Code Quiz!📡\nCan you decode it?\n\n▼Try converting it here!`
-    : `${quizData.map(q => q.question).join('\n')} \n モールス信号クイズに正解したよ！📡\n何て書いてあるかわかるかな？\n\n▼ここで変換してみよう！`;
+    ? `${quizData.map(q => q.question).join('\n')}\nI aced the Morse Code Quiz!📡\nCan you decode it?\n\n▼Try converting it here!`
+    : `${quizData.map(q => q.question).join('\n')}\nモールス信号クイズに正解したよ！📡\n何て書いてあるかわかるかな？\n\n▼ここで変換してみよう！`;
   
-  const hashTags = isEnglish ? '#MorseCode #Quiz #UECCommunicationMuseum' : ' #モールス信号 #クイズ\n#UECコミュニケーションミュージアム';
+  const hashTags = isEnglish ? '#MorseCode #Quiz\n#UECCommunicationMuseum' : '#モールス信号 #クイズ\n#UECコミュニケーションミュージアム';
 
 
   const rawUrl = "https://piramura.github.io/MediaLiteracy/";
