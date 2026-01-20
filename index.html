@@ -106,10 +106,10 @@
         <div class="progress-fill" style="width: 25%"></div>
       </div>
       <div class="step-indicator">
-        <span class="step active" id = "inputName">名前入力</span>
-        <span class="step" id = "change_playback">変換・再生</span>
-        <span class="step" id = "inputMores">モールス入力</span>
-        <span class="step" id = "finish">完了</span>
+        <span class="step active" id = "inputName0">名前入力</span>
+        <span class="step" id = "change_playback0">変換・再生</span>
+        <span class="step" id = "inputMores0">モールス入力</span>
+        <span class="step" id = "finish0">完了</span>
       </div>
       
       <h2 id = "h2">自分の名前を入力してみよう！<br>(例：まーるす)</h2>
@@ -361,7 +361,7 @@
         <input type="file" id="audioFile" accept="audio/*" />
                 </div>
                 <label for="decodeInput" id="decodeInputLabel">または、モールス信号を直接入力:</label>
-                <textarea id="decodeInput" rows="2" placeholder="変換したいモールス信号をここに入力。" style="width:100%; font-size:1.2em; margin-bottom: 5px;" oninput="decodeMorseFromText()" inputmode="none"></textarea>
+                <textarea id="decodeInput" rows="2" placeholder="変換したいモールス信号をボタン入力、または貼り付け。" style="width:100%; font-size:1.2em; margin-bottom: 5px;" oninput="decodeMorseFromText()" inputmode="none"></textarea>
                 <div class="morse-pad" role="group" aria-label="モールス入力パッド">
         <button class="morse-btn dot" onclick="appendText('・','decodeInput');playDot();" aria-label="短音" title="短音 (・)">・</button>
         <button class="morse-btn dash" onclick="appendText('－','decodeInput');playDash();" aria-label="長音" title="長音 (－)">－</button>
@@ -385,8 +385,8 @@
             <div class="help-text" style="font-size:0.95em; color:#5c6b73;" id ="henkan_help">ここに変換したい文字を入力してください。使用言語には注意してください。<br>
               <b>現在の使用言語は日本語(和文)です。</b><br>(The current language in use is not English.)
             </div>
-            <input type="text" id="WantToChange" rows = "2"placeholder="変換したい文字を入力" value="">
-            <div class="help-text" style="font-size:0.95em; color:#5c6b73;" id = "hanken_help2">入力したテキストは自動でモールスに変換されます。コピーや再生、MP3ダウンロードが可能です。</div>
+            <input type="text" id="WantToChange" placeholder="変換したい文字を入力" value=""">
+            <div class="help-text" style="font-size:0.95em; color:#5c6b73;" id = "henkan_help2">入力したテキストは自動でモールスに変換されます。コピーや再生、MP3ダウンロードが可能です。</div>
         <textarea id="WantToChangeOutput" rows="2" readonly style="font-size:1.2em; flex:1;"></textarea>
         <textarea id="CorrespondWantToChangeOutput" rows="10" readonly style="font-size:1.2em; flex:1;"></textarea>
       <div class="want-to-change-row" style="margin-top: 16px; display:flex; justify-content:center; width:100%;">
