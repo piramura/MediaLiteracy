@@ -239,7 +239,7 @@
         <button class="morse-btn slash" onclick="appendText('／','morseInput')" aria-label="区切り" title="区切り（／）">／</button>
         <button class="control-btn clear" onclick="clearText('morseInput')" aria-label="全削除">C</button>
         <button class="control-btn delete" onclick="deleteLast('morseInput')" aria-label="1文字削除">DEL</button>
-        <button class="control-btn play" onclick="playMorse('morseInput');ChangeMorse('morseInput',0)" aria-label="確認">🔊</button>
+        <button class="control-btn play" onclick="playMorse('morseInput');ChangeMorse('morseInput',1)" aria-label="確認">🔊</button>
       </div>
          <div class="inline-character-area">
         <img src="assets/png/マールス2.png" alt="マールス" class="inline-character-img">
@@ -437,7 +437,7 @@
   <!-- モーダル: モールス信号表 -->
   <div id="morseModal" class="modal" style="display:none;">
     <div class="modal-content">
-      <span class="close" onclick="closeMorseModal(getScriptLanguage())">&times;</span>
+      <span class="close" onclick="closeMorseModal(getCurrentLanguage())">&times;</span>
       <h3>モールス信号表</h3>
       <div style="overflow-x:auto; max-height:500px;">
         <table class="morse-table" border="1" style="width:100%; border-collapse:collapse;">
@@ -556,7 +556,7 @@
 
     <div id="morseModal2" class="modal" style="display:none;">
     <div class="modal-content">
-      <span class="close" onclick="closeMorseModal(getScriptLanguage())">&times;</span>
+      <span class="close" onclick="closeMorseModal(getCurrentLanguage())">&times;</span>
       <h3 id ="morseTbl">モールス信号表</h3>
       <div style="overflow-x:auto; max-height:500px;">
         <table class="morse-table" border="1" style="width:100%; border-collapse:collapse;">
@@ -628,10 +628,16 @@
   <button class="footer-button" onclick="openMorseModal()" id = "morseTblBtn">📖 モールス信号表</button>
 </footer>
 
-
+  <script src="js/constants.js"></script>
+  <script src="js/audio-player.js"></script>
+  <script src="js/changeLanguage.js"></script>
+  <script src="js/animation.js"></script>
   <script src="js/ui.js"></script>
-  <script src="js/script.js"></script>
+  <script src="js/converter.js"></script>
   <script src="js/quiz.js"></script>
+  <script src="js/settings.js"></script>
+
+  
 
 </body>
 </html>

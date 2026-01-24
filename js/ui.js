@@ -1,63 +1,4 @@
-// ========================
-// 言語対応アラートメッセージ
-// ========================
-const alertMessages = {
-  nameEmpty: {
-    '日本語': 'お名前を入力してください',
-    'ローマ字': 'お名前を入力してください',
-    'English': 'Please enter your name.'
-  },
-  noMorseToPlay: {
-    '日本語': '再生するモールス信号がありません',
-    'ローマ字': '再生するモールス信号がありません',
-    'English': 'No Morse code to play.'
-  },
-  noMorseToDownload: {
-    '日本語': 'ダウンロードするモールス信号がありません',
-    'ローマ字': 'ダウンロードするモールス信号がありません',
-    'English': 'No Morse code to download.'
-  },
-  lineDownloadNotSupported: {
-    '日本語': 'LINEのブラウザではMP3をダウンロードできません。別ブラウザでお試しください。',
-    'ローマ字': 'LINEのブラウザではMP3をダウンロードできません。別ブラウザでお試しください。',
-    'English': 'MP3 download is not supported in LINE browser. Please try with another browser.'
-  },
-  mp3GenerationFailed: {
-    '日本語': 'MP3の生成に失敗しました',
-    'ローマ字': 'MP3の生成に失敗しました',
-    'English': 'Failed to generate MP3.'
-  },
-  downloadCompleted: {
-    '日本語': 'ダウンロード完了！',
-    'ローマ字': 'ダウンロード完了！',
-    'English': 'Download completed!'
-  },
-  copyFailed: {
-    '日本語': 'コピーできませんでした',
-    'ローマ字': 'コピーできませんでした',
-    'English': 'Failed to copy.'
-  },
-  noMorseToPlay2: {
-    '日本語': 'コピーするモールス記号がありません',
-    'ローマ字': 'コピーするモールス記号がありません',
-    'English': 'No Morse code to copy.'
-  },
-  resetSettingsCompleted: {
-    '日本語': '設定を初期値に戻しました。',
-    'ローマ字': '設定を初期値に戻しました。',
-    'English': 'Settings have been reset to default values.'
-  },
-  prevScreenMorseConvert: {
-    '日本語': '前の画面でモールス信号を変換してください。',
-    'ローマ字': '前の画面でモールス信号を変換してください。',
-    'English': 'Please convert to Morse code on the previous screen.'
-  },
-  confirmReset: {
-    '日本語': '設定を初期値に戻します。よろしいですか？',
-    'ローマ字': '設定を初期値に戻します。よろしいですか？',
-    'English': 'Are you sure you want to reset settings to default?'
-  }
-};
+
   const wantToChangeInput = document.getElementById('WantToChange');
   const wantToChangeOutput = document.getElementById('WantToChangeOutput');
   const correspondWantToChangeOutput = document.getElementById('CorrespondWantToChangeOutput');
@@ -76,14 +17,6 @@ function getCurrentLanguage() {
   const lang = document.getElementById('language');
   if (lang) return lang.value;
   return localStorage.getItem('ml_language') || '日本語';
-}
-
-// Get alert message in current language
-function getAlertMessage(key, defaultMsg = '') {
-  const lang = getCurrentLanguage();
-  const msgObj = alertMessages[key];
-  if (!msgObj) return defaultMsg;
-  return msgObj[lang] || msgObj['日本語'] || defaultMsg;
 }
 
 // ========================
@@ -134,6 +67,11 @@ const SCREEN_IDS = [
   'henkan-screen'
 ];
 
+
+/*
+step = SCREEN_IDSの順を参照
+対応スクリーンに移動
+*/
 function goToStep(step) {
   window.scrollTo({
   top: 0,
@@ -154,51 +92,94 @@ function goToStep(step) {
         langSelect.disabled = false;
       }
     }
-    hideDownloadAndLongPress();
+    hideDownload();
   }, 500); // 0.5秒遅延
 }
-function hideDownloadAndLongPress() {
+
+/*
+未定義文字の入力体験ができないため例外関数
+name-screen -> convert-screenで起動
+未定義文字があると先に進めないようになる
+ */
+function checkAndGoToInput() {
+  const output = document.getElementById('output');
+  if (!output) return;
+
+  const morseText = output.value;
+  const lang = getCurrentLanguage();
+
+  if (morseText.includes('？')) {
+    document.getElementById('whetherNext').src = "assets/png/困ったマールス.png";
+    document.getElementById('next2').style.display = "none";
+    if(lang === "English"){
+     document.getElementById('marusu5').innerHTML = "Undefined character \"?\" is included, so you cannot proceed to input... Go back to name setting and remove the undefined character...!";
+    }else{
+        document.getElementById('marusu5').innerHTML = "君の名前には未対応の文字「？」が含まれているよ... 名前設定に戻って、未対応の文字を削除しよう...！";
+    }
+  }else{
+  document.getElementById('whetherNext').src = "assets/png/喜びのマールス.png";
+  document.getElementById('next2').style.display = "block";
+  if(lang === "English"){
+        document.getElementById('marusu5').innerHTML = "Now it's your turn to tap out some Morse code!<br>Move to the next screen using the button below!";
+
+    }else{
+        document.getElementById("marusu5").innerHTML = "今度は君がモールスをうってみてよ！<br>下のボタンから移動しよう！";
+    }
+  }
+
+  
+  goToStep(2);
+  const storedKid = localStorage.getItem('ml_kid_mode');
+  const enabled = storedKid === '1' || storedKid === 'true';
+  if (enabled) {
+          document.body.classList.add('kid-ui');
+          changeKidsMode();
+        }
+}
+
+
+function hideDownload() {
   const btn = document.getElementById("downloadBtn");
   if (btn) btn.style.display = "none";
   const link = document.getElementById("longPressLink");
   if (link) link.remove();
 }
 
-// ========================
-// 名前変換機能
-// ========================
+/*==============================
+====== 対応モールス表示機能 =====
+================================ */
 const correspondOutput = document.getElementById('CorrespondOutput');
 const nameInput = document.getElementById('nameInput');
 
-  // 対応表を生成する関数
-  function generateCorrespondenceTable(inputText, outputID) {
-    if (!outputID) return;
-    if (!inputText.trim()) {
-      outputID.value = '';
-      return;
-    }
-    
-    // 入力テキストを文字単位に分割
-    let textChars = (getCurrentLanguage() === 'ローマ字' || getCurrentLanguage() === 'English')
-      ? (typeof hiraganaToRomaji === 'function') ? hiraganaToRomaji(inputText).split('') : inputText.split('')
-      : inputText.split('');
-    
-    const correspondenceLines = [];
-    for (let char of textChars) {
-      // current_languageから該当する文字を探す
-      const found = (typeof current_language !== 'undefined' && Array.isArray(current_language))
-        ? current_language.find(data => data[0] === char)
-        : null;
-      
-      if (found) {
-        correspondenceLines.push(`${char} ${found[1]}`);
-      } else if (showUnknowns && showUnknowns.checked) {
-        correspondenceLines.push(`${char} ？`);
-      }
-    }
-    
-     outputID.value = correspondenceLines.join('\n'); // 最後の文字に改行
+// 対応表を生成する関数
+function generateCorrespondenceTable(inputText, outputID) {
+  if (!outputID) return;
+  if (!inputText.trim()) {
+    outputID.value = '';
+    return;
   }
+  const current_language = getMorseCodeTable(getCurrentLanguage());
+  // 入力テキストを文字単位に分割
+  let textChars = (getCurrentLanguage() === 'ローマ字' || getCurrentLanguage() === 'English')
+    ? (typeof hiraganaToRomaji === 'function') ? hiraganaToRomaji(inputText).split('') : inputText.split('')
+    : inputText.split('');
+  
+  const correspondenceLines = [];
+  for (let char of textChars) {
+    // current_languageから該当する文字を探す
+    const found = (typeof current_language !== 'undefined' && Array.isArray(current_language))
+      ? current_language.find(data => data[0] === char)
+      : null;
+    
+    if (found) {
+      correspondenceLines.push(`${char} ${found[1]}`);
+    } else if (showUnknowns && showUnknowns.checked) {
+      correspondenceLines.push(`${char} ？`);
+    }
+  }
+  const last = getLastOfCorrespond();
+  outputID.value = correspondenceLines.join(last);
+}
   
 
 function convertName() {
@@ -206,24 +187,25 @@ function convertName() {
 
   const name = nameInput.value.trim();
   if (!name) {
-    alert(getAlertMessage('nameEmpty', 'Please enter your name.'));
+    showAlert('nameEmpty');
     return;
   }
 
   const userNameEl = document.getElementById('userName');
   if (userNameEl) userNameEl.textContent = name;
 
-  if (typeof ChangeIrohaNAME === "function") {
-    ChangeIrohaNAME('nameInput', 'output');
+  if (typeof ChangeIroha === "function") {
+    ChangeIroha('nameInput', 'output');
   }
   generateCorrespondenceTable(nameInput.value || '', correspondOutput);
 
   checkAndGoToInput();
 }
 
-// ========================
-// 初期化処理
-// ========================
+
+/*==============================
+==========　初期処理  ============
+================================= */
 document.addEventListener('DOMContentLoaded', function() {
   const nameInput = document.getElementById('nameInput');
   if (nameInput) {
@@ -256,7 +238,7 @@ document.addEventListener('DOMContentLoaded', function() {
       if (!outEl) return;
       const text = outEl.value || '';
       if (!text.trim()) {
-        alert(getAlertMessage('noMorseToPlay2', 'No Morse code to copy.'));
+        showAlert('noMorseToPlay2');
         return;
       }
       if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -267,11 +249,11 @@ document.addEventListener('DOMContentLoaded', function() {
           }
         }).catch(() => {
           // fallback
-          try { outEl.select(); document.execCommand('copy'); if (copyMsg) { copyMsg.style.display = 'inline'; setTimeout(()=>{copyMsg.style.display="none";},1500); } } catch (e) { alert(getAlertMessage('copyFailed', 'Failed to copy.')); }
+          try { outEl.select(); document.execCommand('copy'); if (copyMsg) { copyMsg.style.display = 'inline'; setTimeout(()=>{copyMsg.style.display="none";},1500); } } catch (e) { showAlert('copyFailed'); }
         });
       } else {
         // fallback
-        try { outEl.select(); document.execCommand('copy'); if (copyMsg) { copyMsg.style.display = 'inline'; setTimeout(()=>{copyMsg.style.display="none";},1500);} } catch (e) { alert(getAlertMessage('copyFailed', 'Failed to copy.')); }
+        try { outEl.select(); document.execCommand('copy'); if (copyMsg) { copyMsg.style.display = 'inline'; setTimeout(()=>{copyMsg.style.display="none";},1500);} } catch (e) { showAlert('copyFailed'); }
       }
     });
   }
@@ -279,7 +261,7 @@ document.addEventListener('DOMContentLoaded', function() {
     playBtn.addEventListener('click', function() {
       if (!wantToChangeInput) return;
       const rawMorse = (typeof DirectChangeIroha === 'function') ? DirectChangeIroha(wantToChangeInput.value || '') : (function(){ ChangeIroha('WantToChange', 'WantToChangeOutput'); return document.getElementById('WantToChangeOutput').value; })();
-      if (!rawMorse || !rawMorse.trim()) { alert(getAlertMessage('noMorseToPlay', 'No Morse code to play.')); return; }
+      if (!rawMorse || !rawMorse.trim()) { showAlert('noMorseToPlay'); return; }
       if (wantToChangeOutputHidden) { wantToChangeOutputHidden.value = rawMorse; }
       if (typeof playMorse === 'function') playMorse('WantToChangeOutputHidden');
     });
@@ -288,9 +270,9 @@ document.addEventListener('DOMContentLoaded', function() {
     downloadWantBtn.addEventListener('click', async function() {
       if (!wantToChangeInput) return;
       const rawMorse = (typeof DirectChangeIroha === 'function') ? DirectChangeIroha(wantToChangeInput.value || '') : (function(){ ChangeIroha('WantToChange', 'WantToChangeOutput'); return document.getElementById('WantToChangeOutput').value; })();
-      if (!rawMorse || !rawMorse.trim()) { alert(getAlertMessage('noMorseToDownload', 'No Morse code to download.')); return; }
+      if (!rawMorse || !rawMorse.trim()) { showAlert('noMorseToDownload'); return; }
       if (typeof isLineBrowser === 'function' && isLineBrowser()) {
-        alert(getAlertMessage('lineDownloadNotSupported', 'MP3 download is not supported in LINE browser.'));
+        showAlert('lineDownloadNotSupported');
         return;
       }
       try {
@@ -301,15 +283,15 @@ document.addEventListener('DOMContentLoaded', function() {
         const filenameToUse = getDownloadFilename(originalText);
           if (typeof downloadBlob === 'function') {
             downloadBlob(blob, filenameToUse);
-            window.alert(`${getAlertMessage('downloadCompleted','Download completed!')}\nファイル名: ${filenameToUse}`);
+            showAlert('downloadCompleted', `\nファイル名: ${filenameToUse}`);
           } else {
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a'); a.href = url; a.download = filenameToUse; a.click(); URL.revokeObjectURL(url);
-            window.alert(`${getAlertMessage('downloadCompleted','Download completed!')}\nファイル名: ${filenameToUse}`);
+            showAlert('downloadCompleted', `\nファイル名: ${filenameToUse}`);
           }
       } catch (err) {
         console.error(err);
-        alert(getAlertMessage('mp3GenerationFailed', 'Failed to generate MP3.'));
+        showAlert('mp3GenerationFailed');
       }
     });
   }
@@ -340,103 +322,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
   
-
-
-  const settingsBtn = document.getElementById('settingsBtn');
-  const settingsPanel = document.getElementById('settingsPanel');
-  const globalLanguage = document.getElementById('globalLanguage');
-  const closeSettings = document.getElementById('closeSettings');
-
-  function toggleSettings() {
-    if (!settingsPanel) return;
-    // モールス信号表モーダルが開いている場合は設定パネルを開かない
-    const modal1 = document.getElementById('morseModal');
-    const modal2 = document.getElementById('morseModal2');
-    const modalOpen = (modal1 && modal1.style.display && modal1.style.display !== "none") || (modal2 && modal2.style.display && modal2.style.display !== "none");
-    if (modalOpen) {
-      return;
-    }
-    const shown = settingsPanel.style.display && settingsPanel.style.display !== "none";
-    settingsPanel.style.display = shown ? "none" : "block";
-    if (settingsBtn) settingsBtn.setAttribute('aria-expanded', (!shown).toString());
-    if (!shown && globalLanguage) globalLanguage.focus();
-  }
-  if (settingsBtn) settingsBtn.addEventListener('click', toggleSettings);
-  if (closeSettings) closeSettings.addEventListener('click', () => { settingsPanel.style.display = "none"; if (settingsBtn) settingsBtn.setAttribute('aria-expanded', 'false'); });
-  const resetSettingsBtn = document.getElementById('resetSettings');
-  if (resetSettingsBtn) {
-    resetSettingsBtn.addEventListener('click', function() {
-      if (!confirm(getAlertMessage('confirmReset', 'Are you sure you want to reset settings to default?'))) return;
-      const defaults = { volume: 0.8, speed: 1, frequency: 880, filenameFormat: 'input' };
-      if (existingSlider) { existingSlider.value = defaults.volume; existingSlider.dispatchEvent(new Event('input')); }
-      if (globalVolumeSlider) { globalVolumeSlider.value = defaults.volume; globalVolumeSlider.dispatchEvent(new Event('input')); }
-      if (globalSpeedSelect) { globalSpeedSelect.value = defaults.speed; globalSpeedSelect.dispatchEvent(new Event('change')); }
-      if (globalFrequencySlider) { globalFrequencySlider.value = defaults.frequency; globalFrequencySlider.dispatchEvent(new Event('input')); }
-      if (globalFilenameFormat) { globalFilenameFormat.value = defaults.filenameFormat; globalFilenameFormat.dispatchEvent(new Event('change')); }
-      
-      localStorage.setItem('ml_volume', String(defaults.volume));
-      localStorage.setItem('ml_speed', String(defaults.speed));
-      localStorage.setItem('ml_frequency', String(defaults.frequency));
-      localStorage.setItem('ml_filenameFormat', defaults.filenameFormat);
-
-      alert(getAlertMessage('resetSettingsCompleted', 'Settings have been reset.'));
-    });
-  }
-  // 初期化
-  if (globalLanguage) {
-    const storedLang = localStorage.getItem('ml_language');
-    const base = document.getElementById('language');
-    let initialLang = storedLang !== null ? storedLang : (base && base.value ? base.value : '日本語');
-    globalLanguage.value = initialLang;
-    globalLanguage.addEventListener('change', function() {
-      const val = this.value;
-      localStorage.setItem('ml_language', val);
-      // 入力欄をクリア
-      document.getElementById('nameInput').value = "";
-      document.getElementById('decodeInput').value = "";
-      document.getElementById('WantToChange').value = "";
-      
-      if (typeof changeLanguage === 'function') {
-        changeLanguage(val);
-      }
-      const convertBtn = document.getElementById('convertRomajiToHiraBtn');
-      const romajiResult = document.getElementById('romajiToHiraResult');
-      if (convertBtn) convertBtn.style.display = (val === 'ローマ字') ? 'inline-block' : "none";
-      if (romajiResult) romajiResult.style.display = (val === 'ローマ字') ? "block" : "none";
-      // 子ども表示が有効な場合は、言語切替後に子ども表示を再適用
-      const kidToggle = document.getElementById('kidModeToggle');
-      if (kidToggle && kidToggle.checked) {
-        setTimeout(() => window.applyKidModeGlobal(true), 50);
-      }
-    });
-    globalLanguage.dispatchEvent(new Event('change'));
-    // --- キッズモードの初期化 ---
-    const kidToggle = document.getElementById('kidModeToggle');
-    window.applyKidModeGlobal = function applyKidMode(enabled){
-      try{
-        if (enabled) {
-          document.body.classList.add('kid-ui');
-          changeKidsMode();
-        } else {
-          document.body.classList.remove('kid-ui');
-          // オフにしたら現在の言語で再描画
-          if (typeof changeLanguage === 'function') changeLanguage(getCurrentLanguage());
-        }
-      }catch(e){ console.error('applyKidMode error', e); }
-    }; // applyKidModeGlobal の終了
-    // 初期値をローカルストレージから読み込む
-    if (kidToggle) {
-      const storedKid = localStorage.getItem('ml_kid_mode');
-      const enabled = storedKid === '1' || storedKid === 'true';
-      kidToggle.checked = enabled;
-      window.applyKidModeGlobal(enabled);
-      kidToggle.addEventListener('change', function(){
-        const on = this.checked;
-        localStorage.setItem('ml_kid_mode', on ? '1' : '0');
-        window.applyKidModeGlobal(on);
-      });
-    }
-  }
+  
 
   const globalFilenameFormat = document.getElementById('globalFilenameFormat');
   if (globalFilenameFormat) {
@@ -449,18 +335,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
   const globalVolumeSlider = document.getElementById('globalVolumeSlider');
   const globalVolumeValue = document.getElementById('globalVolumeValue');
-  const existingSlider = document.getElementById('volumeSlider');
   if (globalVolumeSlider) {
     const storedVol = localStorage.getItem('ml_volume');
     if (storedVol !== null) {
       globalVolumeSlider.value = storedVol;
-    } else if (existingSlider) {
-      globalVolumeSlider.value = existingSlider.value;
     }
     globalVolumeValue.textContent = Math.round(Number(globalVolumeSlider.value) * 100) + '%';
     globalVolumeSlider.addEventListener('input', function() {
       const v = Number(this.value);
-      if (existingSlider) { existingSlider.value = v; existingSlider.dispatchEvent(new Event('input')); }
       if (typeof setVolume === 'function') setVolume(v);
       if (globalVolumeValue) globalVolumeValue.textContent = Math.round(v * 100) + '%';
       localStorage.setItem('ml_volume', String(v));
@@ -503,7 +385,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (v !== null) {
       const nv = Number(v);
       if (globalVolumeSlider) { globalVolumeSlider.value = nv; if (globalVolumeValue) globalVolumeValue.textContent = Math.round(nv*100)+'%'; }
-      if (existingSlider) { existingSlider.value = nv; existingSlider.dispatchEvent(new Event('input')); }
       if (typeof setVolume === 'function') setVolume(nv);
     }
     const s = localStorage.getItem('ml_speed');
@@ -575,7 +456,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // kid modeが有効な場合は最後に再度適用する
+  // kid-modeが有効な場合は最後に再度適用する
   setTimeout(() => {
     const kidToggle = document.getElementById('kidModeToggle');
     if (kidToggle && kidToggle.checked) {
@@ -590,12 +471,12 @@ document.addEventListener('DOMContentLoaded', function() {
   }, 100);
 });
 
-// ========================
-// HINTボタン処理
-// ========================
+/*===============================
+===========ヒントボタン処理=======
+================================= */
 function toggleHint() {
   if (!Array.isArray(morse_name) || !morse_name.length) {
-    alert(getAlertMessage('prevScreenMorseConvert', 'Please convert to Morse code on the previous screen.'));
+    showAlert('prevScreenMorseConvert');
     return;
   }
   const hintArea = document.getElementById("hintArea");
@@ -610,42 +491,38 @@ function toggleHint() {
 
 function playHintAudio() {
   if (!Array.isArray(morse_name) || !morse_name.length) {
-    alert(getAlertMessage('prevScreenMorseConvert', 'Please convert to Morse code on the previous screen.'));
+    showAlert('prevScreenMorseConvert');
     return;
   }
   if (typeof playMorse === "function") playMorse('NAME');
 }
 
-// ========================
-// モーダル処理
-// ========================
+/*=======================================
+==============  モールス信号表処理  ============
+=======================================*/
 function openMorseModal() {
   const currentLang = getCurrentLanguage(); 
 
   if(currentLang === "日本語"){
-    // 日本語用のモーダルを表示
+    // 日本語用表示
     const modal = document.getElementById('morseModal');
     if (modal && modal.style.display === "block"){modal.style.display = "none"; settingsBtn.style.display = "block";}
     else{ if (modal) modal.style.display = "block"; settingsBtn.style.display = "none";}
 
-    // 念のため英語版が開いていたら閉じる
+    // 念のため英語版が開いていたら閉じる(バグ対策)
     const modal2 = document.getElementById('morseModal2');
     if (modal2) modal2.style.display = "none";
 
   }else{
-    // 英語・ローマ字用のモーダルを表示
+    // 英語・ローマ字用表示
     const modal2 = document.getElementById('morseModal2');
     if (modal2 && modal2.style.display === "block"){modal2.style.display = "none"; settingsBtn.style.display = "block";}
     else{ if (modal2) modal2.style.display = "block"; settingsBtn.style.display = "none";}
 
-    // 念のため日本語版が開いていたら閉じる
+    // 念のため日本語版が開いていたら閉じる(バグ対策)
     const modal = document.getElementById('morseModal');
     if (modal) modal.style.display = "none";
-  }
-
-  
-
-  
+  } 
 }
 
 function closeMorseModal(lang) {
@@ -679,9 +556,9 @@ document.addEventListener('click', function() {
   document.querySelectorAll('.dropdown.open').forEach(el => el.classList.remove('open'));
 });
 
-// ========================
-// クイズ機能
-// ========================
+/*==========================
+=====  クイズ周辺の表示  =====
+===========================*/
 function ShowQuestion(targetId) {
   const questionEl = document.getElementById(targetId);
   if (questionEl) questionEl.textContent = "クイズやっていかない？";
@@ -703,17 +580,11 @@ function showQuizResult() {
   const twitterLabel = isEnglish ? 'Share on X(Twitter)' : 'X(Twitter)でシェア';
   const lineLabel = isEnglish ? 'Share on LINE' : 'LINEでシェア';
 
-  
-
-  const shareMessage = isEnglish 
-    ? `${quizData.map(q => q.question).join('\n')}\nI aced the Morse Code Quiz!📡\nCan you decode it?\n\n▼Try converting it here!`
-    : `${quizData.map(q => q.question).join('\n')}\nモールス信号クイズに正解したよ！📡\n何て書いてあるかわかるかな？\n\n▼ここで変換してみよう！`;
-  
-  const hashTags = isEnglish ? '#MorseCode #Quiz\n#UECCommunicationMuseum' : '#モールス信号 #クイズ\n#UECコミュニケーションミュージアム';
-
-
-  const rawUrl = "https://piramura.github.io/MediaLiteracy/";
-  const shareText = encodeURIComponent(shareMessage);
+  let shareMessage = getShareMessage();
+  let hashTags = getHashTags();
+  let correctMorse = `${quizData.map(q => q.question).join('\n')}\n`;
+  const rawUrl = getRowUrl();
+  const shareText = correctMorse + encodeURIComponent(shareMessage);
   const shareUrl = encodeURIComponent(rawUrl);
   const twitterFullText = encodeURIComponent(`${shareMessage}\n${rawUrl}\n${hashTags}`);
   
@@ -738,7 +609,10 @@ function showQuizResult() {
   goToStep(6);
 }
 
-// ======== MP4 再生ボタン
+
+/*=================================
+========== MP4再生 ================
+==================================*/
 (function setupMorsePlayButtons(){
   function createVideoModal(){
     if (document.getElementById('morseVideoModal')) return;
@@ -777,7 +651,6 @@ function showQuizResult() {
     }
     video.addEventListener('error', onError);
     video.addEventListener('loadedmetadata', onLoaded);
-    // set src (これがトリガーとなりロードが始まる)
     video.src = path;
   }
 
