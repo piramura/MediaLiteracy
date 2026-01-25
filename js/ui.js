@@ -570,9 +570,10 @@ function showQuizResult() {
   let hashTags = getHashTags();
   let correctMorse = `${quizData.map(q => q.question).join('\n')}\n`;
   const rawUrl = getRowUrl();
-  const shareText = correctMorse + encodeURIComponent(shareMessage);
+  const shareText = correctMorse + shareMessage;
   const shareUrl = encodeURIComponent(rawUrl);
   const twitterFullText = encodeURIComponent(`${shareText}\n${rawUrl}\n${hashTags}`);
+  console.log();
   
   let html = `
     <h2>${heading}</h2>

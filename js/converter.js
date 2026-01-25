@@ -82,8 +82,6 @@ function ChangeMorse(inputID, checkAnswer){
         }
     }
     result = Conversion(result);
-    console.log("1: " + (morseInput + "／").replace(/／{2,}/g, "／"));
-    console.log("2: " + (morse_name + "／").replace(/／{2,}/g, "／"));
 
     // checkAnswerが1ならおめでとうが浮かびあがる可能性あり
     //　正解判定　空白部分（／）の連続は無視
