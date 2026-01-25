@@ -65,6 +65,8 @@ return 和文コード/欧文コード
 function ChangeMorse(inputID, checkAnswer){
     const currentCodeTable = getMorseCodeTable(getCurrentLanguage());
     const morseInput = document.getElementById(inputID).value;
+    const separator = getSeparator();  
+    const unknown = getUnknown();
     let getMorse = morseInput.replace(/／{2,}/g, "／");
     getMorse = getMorse.split("／");
     getMorse = getMorse.filter(Boolean);
@@ -80,10 +82,9 @@ function ChangeMorse(inputID, checkAnswer){
         }
     }
     result = Conversion(result);
-
     // checkAnswerが1ならおめでとうが浮かびあがる可能性あり
     //　正解判定　空白部分（／）の連続は無視
-    if((morseInput.replace(/／+/g, '／') === morse_name.split('／').join('／').replace(/／+/g, '／')) && checkAnswer === 1){
+    if((morseInput.replace(/／{2,}/g, "／") === (morse_name + "／").replace(/／{2,}/g, "／")) && checkAnswer === 1){
         showFloatingResult(result,1,invalidChars);
     }
     else{
@@ -100,6 +101,8 @@ morse = モールス信号(例: ・－)
 function DirectChangeMorse(morse){
     const currentCodeTable = getMorseCodeTable(getCurrentLanguage());
     const getMorse = morse.split("／");
+    const separator = getSeparator();  
+    const unknown = getUnknown();
     let result = "";
     for(let code of getMorse){
         const found = currentCodeTable.find(data => data[1] === code);
