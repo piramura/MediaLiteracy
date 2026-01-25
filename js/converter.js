@@ -9,21 +9,23 @@ function ChangeIroha(inputID,outputID){
     const currentCodeTable = getMorseCodeTable(getCurrentLanguage());
     let morse = [];
     let getname = document.getElementById(inputID).value; 
-    if(getCurrentLanguage() === 'ローマ字'){getname = hiraganaToRomaji(getname);}
+    if(getCurrentLanguage() != "日本語") getname = hiraganaToRomaji(getname);
     let iroha = getname.split("");
+    const separator = getSeparator();  
+    const unknown = getUnknown();
     for(let char of iroha){
         const found = currentCodeTable.find(data => data[0] === char); //探索
         if(found){
             morse.push(found[1]);
         }else{ //未定義の文字があった場合
-            morse.push("？")
+            morse.push(unknown)
         }
     }
-    morse = morse.join('／');
+    morse = morse.join(separator);
     document.getElementById(outputID).value = morse;
     if(inputID === "nameInput"){
         document.getElementById("downloadBtn").style.display = "none";
-        morse_name = morse.split("");;
+        morse_name = morse;
     }
     return morse;
 }
@@ -35,17 +37,20 @@ InputIroha = 文字列
 function DirectChangeIroha(InputIroha){
     const currentCodeTable = getMorseCodeTable(getCurrentLanguage());
     let morse = []; //初期化
-    if(getCurrentLanguage() === 'ローマ字'){InputIroha = hiraganaToRomaji(InputIroha);}
+    if(getCurrentLanguage() != "日本語") InputIroha = hiraganaToRomaji(InputIroha);
     InputIroha = InputIroha.split("");
+    const separator = getSeparator();  
+    const unknown = getUnknown();
+    
     for(let char of InputIroha){
         const found = currentCodeTable.find(data => data[0] === char); //探索
         if(found){
             morse.push(found[1]);
         }else{ //未定義の文字があった場合
-            morse.push("？");
+            morse.push(unknown);
         }
     }
-    morse = morse.join('／');
+    morse = morse.join(separator);
     return morse;
 }
 
@@ -60,8 +65,14 @@ return 和文コード/欧文コード
 function ChangeMorse(inputID, checkAnswer){
     const currentCodeTable = getMorseCodeTable(getCurrentLanguage());
     const morseInput = document.getElementById(inputID).value;
-    let getMorse = morseInput.replace(/／{2,}/g, "／");
-    getMorse = getMorse.split("／");
+    const separator = getSeparator();  
+    const unknown = getUnknown();
+    function escapeRegExp(string) {
+    return   string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // 特殊文字を無効化
+    }
+    const regex = new RegExp(escapeRegExp(separator) + "{2,}", "g");
+    let getMorse = morseInput.replace(regex, separator);
+    getMorse = getMorse.split(separator);
     getMorse = getMorse.filter(Boolean);
     let result = "";
     invalidChars = [];
@@ -70,23 +81,19 @@ function ChangeMorse(inputID, checkAnswer){
         if(found){
             result += found[0];
         }else{
-            result += "？";
+            result += unknown;
             invalidChars.push(code);
         }
     }
     result = Conversion(result);
 
-    // checkAnswerが1なら文字を画面に浮かびあげる
-    if(checkAnswer === 1){
-        //　正解判定　空白部分（／）の連続は無視
-        console.log("1: " + morseInput.replace(/／+/g, '／'));
-        console.log("2: " + morse_name);
-        if((morseInput.replace(/／+/g, '／') === morse_name.join('／').replace(/／+/g, '／'))){
-            showFloatingResult(result,1,invalidChars);
-        }
-        else{
-            showFloatingResult(result,0,invalidChars);
-        }
+    // checkAnswerが1ならおめでとうが浮かびあがる可能性あり
+    //　正解判定　空白部分（／）の連続は無視
+    if((morseInput.replace(/／+/g, '／') === morse_name.split('／').join('／').replace(/／+/g, '／')) && checkAnswer === 1){
+        showFloatingResult(result,1,invalidChars);
+    }
+    else{
+        showFloatingResult(result,0,invalidChars);
     }
     return result;
 }
@@ -221,100 +228,6 @@ async function analyzeUploadedFile(){
     reader.readAsArrayBuffer(file);
 }
 
-/*
-ArrayBuffer を AudioBuffer にして解析する
-*/
-async function analyzeAudioBuffer(arrayBuffer){
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const audioBuffer = await ctx.decodeAudioData(arrayBuffer);
-    const sampleRate = audioBuffer.sampleRate;
-    const channelData = audioBuffer.getChannelData(0);
-
-    // envelope を作成 (5ms window)
-    const windowMs = 5; // ms
-    const windowSize = Math.max(1, Math.floor(sampleRate * (windowMs/1000)));
-    const envelope = [];
-    let maxEnv = 0;
-    for(let i = 0; i < channelData.length; i += windowSize){
-        let sum = 0;
-        let end = Math.min(i + windowSize, channelData.length);
-        for(let j = i; j < end; j++){
-            sum += Math.abs(channelData[j]);
-        }
-        let rms = sum / (end - i);
-        envelope.push(rms);
-        if(rms > maxEnv) maxEnv = rms;
-    }
-
-    // threshold を自動決定（ノイズの割合を考慮）
-    const sorted = Array.from(envelope).sort((a,b)=>a-b);
-    const noiseLevel = sorted[Math.floor(sorted.length * 0.25)] || 0; // 25%点
-    const signalLevel = sorted[Math.floor(sorted.length * 0.98)] || maxEnv; // 98%点
-    // threshold を noise と signal の中間的な値に設定
-    let threshold = Math.max(noiseLevel + (signalLevel - noiseLevel) * 0.25, maxEnv * 0.06);
-
-    // binary オン/オフ配列
-    const onOff = envelope.map(v => v >= threshold ? 1 : 0);
-
-    const segments = []; // {isOn: boolean, frames: n}
-    let current = onOff[0];
-    let count = 1;
-    for(let i = 1; i < onOff.length; i++){
-        if(onOff[i] === current){ count++; }
-        else{ segments.push({isOn: !!current, frames: count}); current = onOff[i]; count = 1; }
-    }
-    segments.push({isOn: !!current, frames: count});
-
-    // フレーム -> sec
-    const unitSec = windowSize / sampleRate; // sec per envelope frame
-    const toneDurations = segments.filter(s => s.isOn).map(s => s.frames * unitSec);
-    const silenceDurations = segments.filter(s => !s.isOn).map(s => s.frames * unitSec);
-
-    if(toneDurations.length === 0){
-        throw new Error('音が検出できませんでした');
-    }
-
-    // 「・」の推定: 短いトーンの中央値
-    const sortedTones = toneDurations.slice().sort((a,b)=>a-b);
-    const cutoff = Math.max(1, Math.floor(sortedTones.length * 0.3));
-    const shortestSlice = sortedTones.slice(0, cutoff);
-    const dotUnit = median(shortestSlice);
-
-    let morseStr = '';
-    for(let i = 0; i < segments.length; i++){
-        const seg = segments[i];
-        if(seg.isOn){
-            const dur = seg.frames * unitSec;
-            if(dur <= dotUnit * 1.8){ morseStr += '・'; }
-            else{ morseStr += '－'; }
-        }else{
-            const dur = seg.frames * unitSec;
-            // silence 判定
-            if(dur > dotUnit * 5){ // word間
-                morseStr += ' '; // 区切り文字
-            }else if(dur > dotUnit * 2.5){ // letter間
-                morseStr += '／';
-            }else{
-                // なにもしない
-            }
-        }
-    }
-    morseStr = morseStr.replace(/／+/g,'／');
-    morseStr = morseStr.replace(/(^／+|／+$)/g,'');
-    return morseStr;
-}
-
-/*
-音の長さの中央値を計算
-解析時の「・」「ー」の区別のために使用
- */
-function median(arr){
-    if(arr.length === 0) return 0;
-    const s = arr.slice().sort((a,b)=>a-b);
-    const mid = Math.floor(s.length/2);
-    if(s.length % 2 === 0) return (s[mid-1] + s[mid]) / 2;
-    return s[mid];
-}
 
 // テキストのモールスを元に文字に変換して表示
 function showDecodedFromAnalyzed(){

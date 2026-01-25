@@ -27,12 +27,12 @@
           <div class="panel-content">
             <label for="globalLanguage" id = "label_language">使用言語(Language):</label>
             <select id="globalLanguage">
-              <option value="日本語">日本語(和文)</option>
-              <option value="ローマ字">日本語(欧文)</option>
+              <option value="日本語">日本語(かな)</option>
+              <option value="ローマ字">日本語(ローマ字)</option>
               <option value="English">English</option>
             </select>
             <div style="margin-top:8px;">
-              <label for="kidModeToggle" id="kidModeLabel">子ども表示:</label>
+              <label for="kidModeToggle" id="kidModeLabel">子ども(child)表示:</label>
               <input type="checkbox" id="kidModeToggle" /> <span style="font-size:0.95em;" id ="ExplainkidMode">ひらがな中心のやさしい表記に切替</span>
             </div>
             <div style="margin-top:8px;">
@@ -92,6 +92,11 @@
       </div>
        <div class="help-text" style="font-size:0.95em; color:#5c6b73;" id = "setteing-help">右上の⚙️を押すと設定画面が開けます。使用言語などが変更可能です。小さいお子さん用にひらがなのみの設定も可能です。<br>
        </div>
+       <div class="help-text" style='text-align: left;' id = "language-use">
+        <b>使用言語: 日本語(かな) 使用中！</b><br>
+        　　　　   日本語(ローマ字) アルファベットに対応<br>
+        　　　　   English Use English
+      </div>
        <div class="help-text" style="font-size:0.95em; color:#5c6b73; margin-top: 10px;" id = "setteing-help2" display="block">
         Press the ⚙️ in the upper right to open the settings screen. You can change the language and other settings.
        </div>
@@ -123,6 +128,8 @@
       
       <div style="margin: 30px 0;">
         <div id = "tellToMarse">マールスに自分の名前を教えてみよう！</div>
+        <div class="help-text" style='text-align: left;' id = "language-use4">
+        <b>使用言語: 日本語(かな) 使用中！</b></div>
         <input type="text" id="nameInput" placeholder="お名前をひらがなで入力" value="">
       </div>
 
@@ -239,7 +246,7 @@
         <button class="morse-btn slash" onclick="appendText('／','morseInput')" aria-label="区切り" title="区切り（／）">／</button>
         <button class="control-btn clear" onclick="clearText('morseInput')" aria-label="全削除">C</button>
         <button class="control-btn delete" onclick="deleteLast('morseInput')" aria-label="1文字削除">DEL</button>
-        <button class="control-btn play" onclick="playMorse('morseInput');ChangeMorse('morseInput',1)" aria-label="確認">🔊</button>
+        <button class="control-btn play" onclick="playMorse('morseInput');ChangeMorse('morseInput',0)" aria-label="確認">🔊</button>
       </div>
          <div class="inline-character-area">
         <img src="assets/png/マールス2.png" alt="マールス" class="inline-character-img">
@@ -354,8 +361,12 @@
             <div class="panel" id="analyze-panel">
               <div class="panel-header" id = "kaiseki"><h3>解析 (Analyze)</h3></div>
               <div class="panel-content">
-                 <div class="help-text" style="font-size:0.95em; color:#5c6b73;" id = "kaiseki_help">ファイルを選択して「解析する」を押すと、検出されたモールス記号が表示されます。<br>
-                <b>現在の使用言語は日本語(和文)です。</b><br>(The current language in use is not English.)</div>
+                 <div class="help-text" style="font-size:0.95em; color:#5c6b73;" id = "kaiseki_help">ファイルを選択して「解析する」を押すと、検出されたモールス記号が表示されます。</div>
+                 <div class="help-text" style='text-align: left;' id = "language-use2">
+        <b>使用言語: 日本語(かな) 使用中！</b><br>
+        　　　　: 日本語(ローマ字)<br>
+        　　　　: English Use English
+      </div>
                   <div class="analyze-row">
         <label for="audioFile" id ="audiofile">モールス音声(mp3)をアップロードして解析:</label>
         <input type="file" id="audioFile" accept="audio/*" />
@@ -382,10 +393,14 @@
         <div class="panel" id="convert-panel">
           <div class="panel-header" id = "h3_henkan"><h3>変換 (Convert Text)</h3></div>
           <div class="panel-content">
-            <div class="help-text" style="font-size:0.95em; color:#5c6b73;" id ="henkan_help">ここに変換したい文字を入力してください。使用言語には注意してください。<br>
-              <b>現在の使用言語は日本語(和文)です。</b><br>(The current language in use is not English.)
+            <div class="help-text" style="font-size:0.95em; color:#5c6b73;" id ="henkan_help">ここに変換したい文字を入力してください。使用言語には注意してください。
             </div>
-            <input type="text" id="WantToChange" placeholder="変換したい文字を入力" value=""">
+            <div class="help-text" style='text-align: left;' id = "language-use3">
+        <b>使用言語: 日本語(かな) 使用中！</b><br>
+        　　　　: 日本語(ローマ字)<br>
+        　　　　: English Use English
+      </div>
+            <input type="text" id="WantToChange" placeholder="変換したい文字を入力" value="">
             <div class="help-text" style="font-size:0.95em; color:#5c6b73;" id = "henkan_help2">入力したテキストは自動でモールスに変換されます。コピーや再生、MP3ダウンロードが可能です。</div>
         <textarea id="WantToChangeOutput" rows="2" readonly style="font-size:1.2em; flex:1;"></textarea>
         <textarea id="CorrespondWantToChangeOutput" rows="10" readonly style="font-size:1.2em; flex:1;"></textarea>

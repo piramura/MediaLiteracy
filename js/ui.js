@@ -14,14 +14,12 @@
 function getCurrentLanguage() {
   const globalLang = document.getElementById('globalLanguage');
   if (globalLang) return globalLang.value;
-  const lang = document.getElementById('language');
-  if (lang) return lang.value;
-  return localStorage.getItem('ml_language') || '日本語';
+  return "日本語";
 }
 
-// ========================
-// ファイル名生成ユーティリティ
-// ========================
+/*=================================
+===== ダウンロードファイル名生成 =====
+===================================*/
 function getDownloadFilename(originalText){
   // determine base name by language
   const lang = getCurrentLanguage();
@@ -53,9 +51,9 @@ function getDownloadFilename(originalText){
   return `${langCode}_${base}_${word}.mp3`;
 }
 
-// ========================
-// 画面遷移機能
-// ========================
+/*========================
+========画面遷移機能========
+==========================*/
 const SCREEN_IDS = [
   'start-screen',
   'name-screen',
@@ -544,9 +542,9 @@ window.addEventListener('click', function(event) {
   
 });
 
-// ========================
-// ドロップダウンメニュー処理
-// ========================
+/*====================================
+=====  ドロップダウンメニュー処理  =====
+====================================*/
 function toggleDropdown(event) {
   event.stopPropagation();
   event.currentTarget.parentElement.classList.toggle('open');

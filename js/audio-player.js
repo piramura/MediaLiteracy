@@ -205,4 +205,100 @@ async function generateMorseMp3(id) {
 }
 
 
+/*=================================
+===== アップロードされた音声解析 =====
+===================================
+ArrayBuffer を AudioBuffer にして解析する
+*/
+async function analyzeAudioBuffer(arrayBuffer){
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const audioBuffer = await ctx.decodeAudioData(arrayBuffer);
+    const sampleRate = audioBuffer.sampleRate;
+    const channelData = audioBuffer.getChannelData(0);
+
+    // envelope を作成 (5ms window)
+    const windowMs = 5; // ms
+    const windowSize = Math.max(1, Math.floor(sampleRate * (windowMs/1000)));
+    const envelope = [];
+    let maxEnv = 0;
+    for(let i = 0; i < channelData.length; i += windowSize){
+        let sum = 0;
+        let end = Math.min(i + windowSize, channelData.length);
+        for(let j = i; j < end; j++){
+            sum += Math.abs(channelData[j]);
+        }
+        let rms = sum / (end - i);
+        envelope.push(rms);
+        if(rms > maxEnv) maxEnv = rms;
+    }
+
+    // threshold を自動決定（ノイズの割合を考慮）
+    const sorted = Array.from(envelope).sort((a,b)=>a-b);
+    const noiseLevel = sorted[Math.floor(sorted.length * 0.25)] || 0; // 25%点
+    const signalLevel = sorted[Math.floor(sorted.length * 0.98)] || maxEnv; // 98%点
+    // threshold を noise と signal の中間的な値に設定
+    let threshold = Math.max(noiseLevel + (signalLevel - noiseLevel) * 0.25, maxEnv * 0.06);
+
+    // binary オン/オフ配列
+    const onOff = envelope.map(v => v >= threshold ? 1 : 0);
+
+    const segments = []; // {isOn: boolean, frames: n}
+    let current = onOff[0];
+    let count = 1;
+    for(let i = 1; i < onOff.length; i++){
+        if(onOff[i] === current){ count++; }
+        else{ segments.push({isOn: !!current, frames: count}); current = onOff[i]; count = 1; }
+    }
+    segments.push({isOn: !!current, frames: count});
+
+    // フレーム -> sec
+    const unitSec = windowSize / sampleRate; // sec per envelope frame
+    const toneDurations = segments.filter(s => s.isOn).map(s => s.frames * unitSec);
+    const silenceDurations = segments.filter(s => !s.isOn).map(s => s.frames * unitSec);
+
+    if(toneDurations.length === 0){
+        throw new Error('音が検出できませんでした');
+    }
+
+    // 「・」の推定: 短いトーンの中央値
+    const sortedTones = toneDurations.slice().sort((a,b)=>a-b);
+    const cutoff = Math.max(1, Math.floor(sortedTones.length * 0.3));
+    const shortestSlice = sortedTones.slice(0, cutoff);
+    const dotUnit = median(shortestSlice);
+
+    let morseStr = '';
+    for(let i = 0; i < segments.length; i++){
+        const seg = segments[i];
+        if(seg.isOn){
+            const dur = seg.frames * unitSec;
+            if(dur <= dotUnit * 1.8){ morseStr += '・'; }
+            else{ morseStr += '－'; }
+        }else{
+            const dur = seg.frames * unitSec;
+            // silence 判定
+            if(dur > dotUnit * 5){ // word間
+                morseStr += ' '; // 区切り文字
+            }else if(dur > dotUnit * 2.5){ // letter間
+                morseStr += '／';
+            }else{
+                // なにもしない
+            }
+        }
+    }
+    morseStr = morseStr.replace(/／+/g,'／');
+    morseStr = morseStr.replace(/(^／+|／+$)/g,'');
+    return morseStr;
+}
+
+/*
+音の長さの中央値を計算
+解析時の「・」「ー」の区別のために使用
+ */
+function median(arr){
+    if(arr.length === 0) return 0;
+    const s = arr.slice().sort((a,b)=>a-b);
+    const mid = Math.floor(s.length/2);
+    if(s.length % 2 === 0) return (s[mid-1] + s[mid]) / 2;
+    return s[mid];
+}
 

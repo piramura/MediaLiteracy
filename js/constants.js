@@ -6,6 +6,10 @@ let volume = 1; //音の大きさ
 let frequency = 880; //モールスの音の高さ
 let speedRatio = 1;
 const lastOfCorrespond = "\n"; // モールス対応表の最後の文字
+let dot = "・"; // モールス信号の「・」
+let dash = "－"; // モールス信号の「－」
+let separator = "／"; // モールス信号の「／」
+let unknown = "？"; // 未定義文字の記号
 
 /*シェア用の文*/
 const rawUrl = "https://piramura.github.io/MediaLiteracy/";
@@ -739,3 +743,13 @@ function getMorseCodeTable(languageName){
     if(languageName == "日本語") return irohaCode;
     else return romeCode;
 }
+
+function getDot(){return dot;}
+function getDash(){return dash;}
+function getSeparator(){return separator;}
+function getUnknown(){return unknown;}
+
+function setDot(dotValue){dot = dotValue;}
+function setDash(dashValue){dash = dashValue;}
+function setSeparator(separatorValue){separator = separatorValue;}
+function setUnknown(unknownValue){unknown = unknownValue;}

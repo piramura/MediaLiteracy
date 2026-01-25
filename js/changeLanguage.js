@@ -4,6 +4,7 @@ languageName = getCurrentLanguage();
 すべてを対応する言語に変換する
  */
 function changeLanguage(languageName){
+
     const romajiResult = document.getElementById('romajiToHiraResult');
 
     document.getElementById('analyzedMorse').value = '';
@@ -22,7 +23,18 @@ function changeLanguage(languageName){
         document.getElementById("welcome-text2").innerHTML = "Welcome to the world of Morse code!<br>\
         Convert your name into Morse code, and try experiencing Morse code input for yourself.";
         document.getElementById("kid-Marse").innerHTML = "";
-        document.getElementById("setteing-help").innerHTML = "右上の⚙️を押すと設定画面が開けます。使用言語などが変更可能です。小さいお子さん用にひらがなのみの設定も可能です。<br>";
+        document.getElementById("setteing-help").innerHTML = "右上の⚙️を押すと設定画面が開けます。使用言語などが変更可能です。小さいお子さん用にひらがなのみの設定も可能です。";
+        if(languageName === "日本語" ){
+            document.getElementById("language-use").innerHTML = "<b>\
+            使用言語</b>: <b>日本語(かな) 使用中！</b><br>\
+            　　　　: 日本語(ローマ字) A-Zに対応<br>\
+            　　　　:  English Use English<br>";
+        }else if(languageName === "ローマ字" ){
+            document.getElementById("language-use").innerHTML = "\
+            <b>使用言語</b>: 日本語(かな) 仮名(あ-ん)に対応<br>\
+            　　　　: <b>日本語(ローマ字) 使用中！</b><br>\
+            　　　　:  English Use English<br>";
+        }
         document.getElementById("setteing-help2").style.display = "block";
         document.getElementById("start").innerHTML = "はじめる";
         
@@ -38,10 +50,26 @@ function changeLanguage(languageName){
              if(document.getElementById("finish" + suffix)) document.getElementById("finish" + suffix).innerHTML = "完了";
         }
 
+        for(let i = 2; i <= 4; i++){
+            const suffix = i;
+            if(languageName === "日本語" ){
+                document.getElementById("language-use" + suffix).innerHTML = "<b>\
+                使用言語</b>: <b>日本語(かな) 使用中！</b><br>\
+                　　　　: 日本語(ローマ字)<br>\
+                　　　　:  English<br>";
+            }else if(languageName === "ローマ字" ){
+                document.getElementById("language-use" + suffix).innerHTML = "\
+                <b>使用言語</b>: 日本語(かな)<br>\
+                　　　　: <b>日本語(ローマ字) 使用中！</b><br>\
+                　　　　:  English<br><br>\
+                ※ひらがなの入力があった場合、自動でローマ字に変換されます。";
+            }
+        }
+
         // 名前入力画面
         document.getElementById("h2").innerHTML = "自分の名前を入力してみよう！<br>(例：まーるす)";
         document.getElementById("input").innerHTML = "僕の名前は「まーるす」！<br>特技はモールス信号を打つこと！<br>君の名前もモールス信号にしてあげるよ！";
-        document.getElementById("nameInput").placeholder = "ひらがなで入力してね";
+        document.getElementById("nameInput").placeholder = "名前を入力してね";
         document.getElementById("tellToMarse").innerHTML = "マールスに自分の名前を教えてみよう！";
         document.getElementById("back").innerHTML = "戻る";
         document.getElementById("change").innerHTML = "名前を確定！";
@@ -77,8 +105,8 @@ function changeLanguage(languageName){
         // 設定画面
         document.getElementById("settings").innerHTML = "設定";
         document.getElementById("label_language").innerHTML = "使用言語(Language):";
-        document.getElementById("globalLanguage").options[0].innerHTML = "日本語(和文)";
-        document.getElementById("globalLanguage").options[1].innerHTML = "日本語(欧文)";
+        document.getElementById("globalLanguage").options[0].innerHTML = "日本語(かな)";
+        document.getElementById("globalLanguage").options[1].innerHTML = "日本語(ローマ字)";
         document.getElementById("volume").innerHTML = "音量";
         document.getElementById("frequency").innerHTML = "音の高さ（周波数）";
         document.getElementById("speed").innerHTML = "再生速度";
@@ -95,20 +123,16 @@ function changeLanguage(languageName){
         document.getElementById("input_henkan").innerHTML = "モールスの解析や変換が出来るよ！";
         document.getElementById("kaiseki").innerHTML = "解析 (Upload & Analyze)";
         if(languageName === "日本語" ){
-            document.getElementById("kaiseki_help").innerHTML = "ファイルを選択して「解析する」を押すと、検出されたモールス記号が表示されます。<br>\
-            <b>現在の使用言語は日本語(かな)です。</b><br>(The current language in use is not English.)";
+            document.getElementById("kaiseki_help").innerHTML = "ファイルを選択して「解析する」を押すと、検出されたモールス記号が表示されます。";
         }else if(languageName === "ローマ字" ){
-            document.getElementById("kaiseki_help").innerHTML = "ファイルを選択して「解析する」を押すと、検出されたモールス記号が表示されます。<br>\
-            <b>現在の使用言語は日本語(ローマ字)です。</b><br>(The current language in use is not English.)";
+            document.getElementById("kaiseki_help").innerHTML = "ファイルを選択して「解析する」を押すと、検出されたモールス記号が表示されます。";
         }
         document.getElementById("audiofile").innerHTML = "モールス音声(mp3)をアップロードして解析:";
         document.getElementById("h3_henkan").innerHTML = "変換 (Convert Text)";
         if(languageName === "日本語" ){
-            document.getElementById("henkan_help").innerHTML = "ここに変換したい文字を入力してください。使用言語には注意してください。<br>\
-            <b>現在の使用言語は日本語(かな)です。</b><br>(The current language in use is not English.)";
+            document.getElementById("henkan_help").innerHTML = "ここに変換したい文字を入力してください。使用言語には注意してください。";
         }else if(languageName === "ローマ字" ){
-            document.getElementById("henkan_help").innerHTML = "ここに変換したい文字を入力してください。使用言語には注意してください。<br>\
-            <b>現在の使用言語は日本語(ローマ字)です。</b><br>(The current language in use is not English.)";
+            document.getElementById("henkan_help").innerHTML = "ここに変換したい文字を入力してください。使用言語には注意してください。";
         }
         document.getElementById("help-analyzeText").innerHTML = "入力したファイル、テキストは自動で解析されます。";
         document.getElementById("decodeInput").placeholder = "変換したいモールス信号をボタン入力、または貼り付け。";
@@ -155,15 +179,17 @@ function changeLanguage(languageName){
         きっとモールス信号の理解が深まるよ！";
 
     }else{
-        current_language = rome;
-
         // タイトル
         document.getElementById("inline-character-balloon").innerHTML = "Let's learn Morse code together!";
         document.getElementById("welcome-text").innerHTML = "Welcome to the world of Morse code!<br>\
         Convert your name into Morse code, and try experiencing Morse code input for yourself.";
         document.getElementById("welcome-text2").innerHTML = "モールス信号の世界へようこそ！<br>\
         あなたの名前をモールス信号に変換したり、実際にモールス入力を体験してみましょう。";
-        document.getElementById("setteing-help").innerHTML = "右上の⚙️を押すと設定画面が開けます。使用言語などが変更可能です。小さいお子さん用にひらがなのみの設定も可能です。<br>";
+        document.getElementById("setteing-help").innerHTML = "右上の⚙️を押すと設定画面が開けます。使用言語などが変更可能です。小さいお子さん用にひらがなのみの設定も可能です。";
+        document.getElementById("language-use").innerHTML = "<b>\
+        Language  </b>: 日本語(かな) かな(あ-ん)に対応<br>\
+        　　　　　: 日本語(ローマ字) A-Zに対応<br>\
+        　　　　　: <b>English Using!</b><br>";
         document.getElementById("setteing-help2").style.display = "block";
         document.getElementById("h2").innerHTML = "Please tell me your name.<br>(ex: Marse)";
         document.getElementById("kid-Marse").innerHTML = "";
@@ -177,6 +203,14 @@ function changeLanguage(languageName){
              if(document.getElementById("change_playback" + suffix)) document.getElementById("change_playback" + suffix).innerHTML = "Conversion and Playback";
              if(document.getElementById("inputMores" + suffix)) document.getElementById("inputMores" + suffix).innerHTML = "Morse code input";
              if(document.getElementById("finish" + suffix)) document.getElementById("finish" + suffix).innerHTML = "Completed";
+        }
+
+        for(let i = 2; i <= 4; i++){
+            const suffix = i;
+                document.getElementById("language-use" + suffix).innerHTML = "\
+            <b>使用言語</b>: 日本語(かな)<br>\
+            　　　　: 日本語(ローマ字)<br>\
+            　　　　: <b>English useing!</b>";
         }
 
         // 名前入力画面
@@ -221,8 +255,8 @@ function changeLanguage(languageName){
         // 設定画面
         document.getElementById("settings").innerHTML = "Settings";
         document.getElementById("label_language").innerHTML = "Language used(使用言語):";
-        document.getElementById("globalLanguage").options[0].innerHTML = "日本語(和文)";
-        document.getElementById("globalLanguage").options[1].innerHTML = "日本語(欧文)";
+        document.getElementById("globalLanguage").options[0].innerHTML = "日本語(かな)";
+        document.getElementById("globalLanguage").options[1].innerHTML = "日本語(ローマ字)";
         document.getElementById("volume").innerHTML = "Volume";
         document.getElementById("frequency").innerHTML = "Frequency";
         document.getElementById("speed").innerHTML = "Playback speed";
@@ -238,13 +272,11 @@ function changeLanguage(languageName){
         document.getElementById("mo-rusuhenkanjo").innerHTML = "Morse Code Station";
         document.getElementById("input_henkan").innerHTML = "You can analyze and convert Morse code!";
         document.getElementById("kaiseki").innerHTML = "解析 (Upload & Analyze)";
-        document.getElementById("kaiseki_help").innerHTML = "Select a file and press “Analyze” to display the detected Morse code.<br>\
-        <b>The current language in use is English.</b><br>(現在の使用言語は英語です。)";
+        document.getElementById("kaiseki_help").innerHTML = "Select a file and press “Analyze” to display the detected Morse code.";
         document.getElementById("audiofile").innerHTML = "Upload Morse code audio (mp3) for analysis:";
         document.getElementById("decodeInputLabel").innerHTML = "Or, enter Morse code directly:";
         document.getElementById("h3_henkan").innerHTML = "変換 (Convert Text)";
-        document.getElementById("henkan_help").innerHTML = "Enter the text you want to convert here. Please be mindful of the language used.<br>\
-        <b>The current language in use is English.</b><br>(現在の使用言語は英語です。)";
+        document.getElementById("henkan_help").innerHTML = "Enter the text you want to convert here. Please be mindful of the language used.";
         document.getElementById("help-analyzeText").innerHTML = "Input files and text are automatically analyzed.";
         document.getElementById("decodeInput").placeholder = "Please input or paste the Morse code you want to convert.";
         document.getElementById("WantToChange").placeholder = "Enter the text you want to convert";
@@ -395,11 +427,9 @@ function changeKidsMode(){
         document.getElementById("decodeInputLabel").innerHTML ="かんたんにもーるすしんごうをしらべられるよ！";
         document.getElementById("h3_henkan").innerHTML = "へんかん";
         if(lang === "日本語" ){
-            document.getElementById("henkan_help").innerHTML = "「へんかん」したいもじをにゅうりょくしてね！<br>\
-            <b>いまつかっていることばは、にほんご（ひらがな）だよ。</b>";
+            document.getElementById("henkan_help").innerHTML = "「へんかん」したいもじをにゅうりょくしてね！";
         }else if(lang === "ローマ字" ){
-            document.getElementById("henkan_help").innerHTML = "「へんかん」したいもじをにゅうりょくしてね！<br>\
-            <b>いまつかっていることばは、にほんご（ろーまじ）だよ。</b>";
+            document.getElementById("henkan_help").innerHTML = "「へんかん」したいもじをにゅうりょくしてね！";
         }
         document.getElementById("help-analyzeText").innerHTML = "せんたくしたふぁいるや、にゅうりょくしたもじはじどうでかいせきされるよ。";
         document.getElementById("decodeInput").placeholder = "もーるすしんごうをぼたんでつくったり、はりつけたりしてね。";
@@ -592,4 +622,11 @@ function changeKidsMode(){
     if (userNameEl) {
         userNameEl.textContent = currentName;
     }
+}
+
+/*現在の使用言語を返す */
+function getCurrentLanguage() {
+  const globalLang = document.getElementById('globalLanguage');
+  if (globalLang) return globalLang.value;
+  return "日本語";
 }
