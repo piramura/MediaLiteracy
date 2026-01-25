@@ -558,7 +558,7 @@ function showQuizResult() {
   const isEnglish = lang === 'English';
 
   const heading = isEnglish ? 'Perfect Score! Congratulations!' : '全問正解！おめでとうございます！';
-  const description = isEnglish ? 'Morse code you learned:' : 'あなたが覚えたモールス信号：';
+  const description = isEnglish ? 'Morse code you learned:' : 'あなたが正解したモールス信号：';
   const morseColHeader = isEnglish ? 'Morse Code' : 'モールス信号';
   const wordColHeader = isEnglish ? 'Word' : (lang === 'ローマ字' ? 'ローマ字' : '日本語');
   const buttonText = isEnglish ? 'Complete' : '完了画面へ';
