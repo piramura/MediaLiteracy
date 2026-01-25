@@ -573,7 +573,7 @@ function showQuizResult() {
   const shareText = correctMorse + shareMessage;
   const shareUrl = encodeURIComponent(rawUrl);
   const twitterFullText = encodeURIComponent(`${shareText}\n${rawUrl}\n${hashTags}`);
-  const lineFullText = encodeURIComponent(`${shareText}`);
+  const lineShareText = encodeURIComponent(`${shareText}\n${rawUrl}`);
   
   let html = `
     <h2>${heading}</h2>
@@ -588,7 +588,7 @@ function showQuizResult() {
     </table>
     <div class="sns-share">
       <a class="sns-btn twitter" href="https://twitter.com/intent/tweet?text=${twitterFullText}" target="_blank" rel="noopener">${twitterLabel}</a>
-      <a class="sns-btn line" href="https://social-plugins.line.me/lineit/share?url=${shareUrl}&text=${lineFullText}" target="_blank" rel="noopener">${lineLabel}</a>
+      <a class="sns-btn line" href="line://msg/text/${lineShareText}" target="_blank" rel="noopener">${lineLabel}</a>
     </div>
     <button class="main-button" onclick="goToStep(4);resetQuiz();">${buttonText}</button>
   `;
