@@ -82,9 +82,10 @@ function ChangeMorse(inputID, checkAnswer){
         }
     }
     result = Conversion(result);
+
     // checkAnswerが1ならおめでとうが浮かびあがる可能性あり
     //　正解判定　空白部分（／）の連続は無視
-    if((morseInput.replace(/／{2,}/g, "／") === (morse_name + "／").replace(/／{2,}/g, "／")) && checkAnswer === 1){
+    if(((morseInput + "／").replace(/／{2,}/g, "／") === (morse_name + "／").replace(/／{2,}/g, "／")) && checkAnswer === 1){
         showFloatingResult(result,1,invalidChars);
     }
     else{
