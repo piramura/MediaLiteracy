@@ -10,34 +10,22 @@
   const sepSelect = document.getElementById('WantToChangeSeparator');
   const showUnknowns = document.getElementById('WantToChangeShowUnknowns');
   
-// Get current language for alerts
-function getCurrentLanguage() {
-  const globalLang = document.getElementById('globalLanguage');
-  if (globalLang) return globalLang.value;
-  return "日本語";
-}
-
 /*=================================
 ===== ダウンロードファイル名生成 =====
 ===================================*/
 function getDownloadFilename(originalText){
-  // determine base name by language
   const lang = getCurrentLanguage();
   const isEnglish = (lang === 'English');
   const base = isEnglish ? 'Morse' : 'モールス信号';
-
-  // sanitize originalText
   let text = (originalText || '').toString();
   text = text.replace(/[\\/:*?"<>|]/g, '_');
   if (text.length > 20) text = text.substring(0,20) + (isEnglish ? '...' : '・・・');
 
-  // language code
   let langCode = 'JP';
   if (lang === '日本語') langCode = 'JP';
   else if (lang === 'ローマ字') langCode = 'RO';
   else if (lang === 'English') langCode = 'EN';
 
-  // format choice: 'input' or 'timestamp'
   const format = localStorage.getItem('ml_filename_format') || 'input';
 
   if (format === 'timestamp'){
@@ -45,8 +33,6 @@ function getDownloadFilename(originalText){
     const timestamp = now.toISOString().replace(/[:.]/g, '-');
     return `${langCode}_${base}_${timestamp}.mp3`;
   }
-
-  // default: input-based
   const word = text || (isEnglish ? 'morse' : 'morse');
   return `${langCode}_${base}_${word}.mp3`;
 }
@@ -473,6 +459,7 @@ document.addEventListener('DOMContentLoaded', function() {
 ===========ヒントボタン処理=======
 ================================= */
 function toggleHint() {
+  let morse_name = getMorseName();
   if (!Array.isArray(morse_name) || !morse_name.length) {
     showAlert('prevScreenMorseConvert');
     return;
@@ -488,6 +475,7 @@ function toggleHint() {
 }
 
 function playHintAudio() {
+   let morse_name = getMorseName();
   if (!Array.isArray(morse_name) || !morse_name.length) {
     showAlert('prevScreenMorseConvert');
     return;

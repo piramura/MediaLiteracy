@@ -65,14 +65,8 @@ return 和文コード/欧文コード
 function ChangeMorse(inputID, checkAnswer){
     const currentCodeTable = getMorseCodeTable(getCurrentLanguage());
     const morseInput = document.getElementById(inputID).value;
-    const separator = getSeparator();  
-    const unknown = getUnknown();
-    function escapeRegExp(string) {
-    return   string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // 特殊文字を無効化
-    }
-    const regex = new RegExp(escapeRegExp(separator) + "{2,}", "g");
-    let getMorse = morseInput.replace(regex, separator);
-    getMorse = getMorse.split(separator);
+    let getMorse = morseInput.replace(/／{2,}/g, "／");
+    getMorse = getMorse.split("／");
     getMorse = getMorse.filter(Boolean);
     let result = "";
     invalidChars = [];
@@ -150,7 +144,15 @@ function Conversion(array){
     array = array.split("ほ゜").join('ぽ');
     return array;
 }
+
+/* morse_nameを取得する関数 */
+function getMorseName(){
+    return morse_name;
+}
            
+/* 以下、入力支援機能 */
+
+/* 文字を追加する(char)を(id)に追加 */
 function appendText(char,id) {
     const textbox = document.getElementById(id);
     if(!textbox) return;
@@ -165,6 +167,7 @@ function appendText(char,id) {
     textbox.dispatchEvent(new Event('input'));
 }
 
+/* idのテキストボックスから1文字削除 */
 function deleteLast(id) {
     const textbox = document.getElementById(id);
     if(!textbox) return;
@@ -187,12 +190,14 @@ function deleteLast(id) {
     textbox.dispatchEvent(new Event('input'));
 }
 
+/* idのテキストボックスをクリア */
 function clearText(id) {
     const textbox = document.getElementById(id);
     textbox.value = '';
     textbox.dispatchEvent(new Event('input'));
 }
 
+/* モールス入力結果をリセット */
 function resetInformation(){
     const resultDiv = document.getElementById("morseResult");
     const correctDiv = document.getElementById("correctMessage");
@@ -206,6 +211,7 @@ function resetInformation(){
 ===== MP3 アップロード・解析機能 =====
 ====================================
 */
+/* アップロードされた音声ファイルを解析してモールス信号を取得 */
 async function analyzeUploadedFile(){
     const input = document.getElementById('audioFile');
     const file = input.files && input.files[0];
@@ -418,6 +424,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+/* モールス解析結果をデコードして表示 */
 function decodeMorseFromText(){
     const input = document.getElementById('decodeInput').value;
     if(!input || input.trim() === "") return;
