@@ -363,16 +363,16 @@ function changeKidsMode(){
         if(lang === "日本語" ){
             for(let i = 2; i <= 4; i++){
                 const suffix = i;
-                    document.getElementById("language-use" + suffix).innerHTML = "\
-                <b>つかっていることば</b>: <b>にほんご(ひらがな) つかってるよ！</b><br>\
-                　　　　: にほんご(ろーまじ)<br>";
+                console.log(suffix);
+                document.getElementById("language-use" + suffix).innerHTML = "\
+                <b>つかっていることば</b>: <b>にほんご(ひらがな)</b>";
             }
         }else if(lang === "ローマ字" ){
             for(let i = 2; i <= 4; i++){
                 const suffix = i;
-                    document.getElementById("language-use" + suffix).innerHTML = "\
-                <b>つかっていることば</b>: にほんご(ひらがな)<br>\
-                　　　　: <b>にほんご(ろーまじ) つかってるよ！</b><br><br>\
+                document.getElementById("language-use" + suffix).innerHTML = "\
+                <b>つかっていることば</b>:<b>にほんご(ろーまじ)</b><br>\
+                ひらがなではないよ！ひらがなをつかいたかったら、みぎうえのせっていで「にほんご（かな）」をえらんでね。<br>\
                 ※ひらがなのにゅうりょくがあったばあい、じどうでろーまじにへんかんされるよ。";
             }
         }
@@ -479,10 +479,8 @@ function changeKidsMode(){
         document.getElementById("marusu4").innerHTML = "この「・」とか「ー」がどんなおとをしているのか、きになるね！したのぼたんをおしてきいてみよう！おとをだうんろーどすることもできるよ。";
         if(document.getElementById("next2").style.display === "none"){
             document.getElementById("marusu5").innerHTML = "いま、きみのなまえに「？」があるね。「？」のぶぶんは、もーるすをたいけんできないから、なまえをいれなおそう！よくわからなかったらおとなのひとにきいてみてね！";
-            console.log("undefined character in kids mode");
         }else{
             document.getElementById("marusu5").innerHTML = "こんどはきみがもーるすをうってみるばんだ！<br>まずしたのぼたんをおしてね！";
-            console.log("undefined character in kids mode");
         }
         document.getElementById("marusu6").innerHTML = "「・」（みじかいおと）と「－」（ながいおと）と「／」(くぎり) をくみあわせてもじをつくるんだ！";
         document.getElementById("marusu7").innerHTML = "ほんとうはぼたんをおしているながさで、みじかいおとと、ながいおとをききわけるんだ。けど、こんかいはかんたんにぼたんをおしてつくってみよう！";
