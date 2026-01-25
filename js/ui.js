@@ -588,7 +588,7 @@ function showQuizResult() {
     </table>
     <div class="sns-share">
       <a class="sns-btn twitter" href="https://twitter.com/intent/tweet?text=${twitterFullText}" target="_blank" rel="noopener">${twitterLabel}</a>
-      <a class="sns-btn line" href="line://msg/text/${lineShareText}" target="_blank" rel="noopener">${lineLabel}</a>
+      <a class="sns-btn line" href="https://line.me/R/msg/text/?${lineShareText}" target="_blank" rel="noopener">${lineLabel}</a>
     </div>
     <button class="main-button" onclick="goToStep(4);resetQuiz();">${buttonText}</button>
   `;
