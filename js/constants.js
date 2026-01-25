@@ -6,13 +6,15 @@ let volume = 1; //音の大きさ
 let frequency = 880; //モールスの音の高さ
 let speedRatio = 1;
 const lastOfCorrespond = "\n"; // モールス対応表の最後の文字
+
+// 対応文字変更は未実装
 let dot = "・"; // モールス信号の「・」
 let dash = "－"; // モールス信号の「－」
 let separator = "／"; // モールス信号の「／」
 let unknown = "？"; // 未定義文字の記号
 
 /*シェア用の文*/
-const rawUrl = "https://piramura.github.io/MediaLiteracy/";
+const rawUrl = "https://piramura.github.io/MorseCodeUEC/";
 let shareMessage_English = `I aced the Morse Code Quiz!📡\n\n▼Try converting it here!`;
 let shareMessage_Japanese = `モールス信号クイズに正解したよ！📡\n\n▼ここで変換してみよう！`;
 let hashTags_English = '#MorseCode #Quiz\n#UECCommunicationMuseum';

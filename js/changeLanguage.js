@@ -360,6 +360,23 @@ function changeKidsMode(){
             if(document.getElementById("finish" + suffix)) document.getElementById("finish" + suffix).innerHTML = "おわり";
         }
 
+        if(lang === "日本語" ){
+            for(let i = 2; i <= 4; i++){
+                const suffix = i;
+                    document.getElementById("language-use" + suffix).innerHTML = "\
+                <b>つかっていることば</b>: <b>にほんご(ひらがな) つかってるよ！</b><br>\
+                　　　　: にほんご(ろーまじ)<br>";
+            }
+        }else if(lang === "ローマ字" ){
+            for(let i = 2; i <= 4; i++){
+                const suffix = i;
+                    document.getElementById("language-use" + suffix).innerHTML = "\
+                <b>つかっていることば</b>: にほんご(ひらがな)<br>\
+                　　　　: <b>にほんご(ろーまじ) つかってるよ！</b><br><br>\
+                ※ひらがなのにゅうりょくがあったばあい、じどうでろーまじにへんかんされるよ。";
+            }
+        }
+
         // 名前入力画面
         document.getElementById("h2").innerHTML = "あなたのなまえをおしえてね！<br>（れい：まーるす）";
         document.getElementById("input").innerHTML = "ぼくのなまえは「まーるす」！<br>きみのなまえはなあに？";
