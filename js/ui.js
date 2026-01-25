@@ -458,28 +458,7 @@ document.addEventListener('DOMContentLoaded', function() {
 /*===============================
 ===========ヒントボタン処理=======
 ================================= */
-function toggleHint() {
-  let morse_name = getMorseName();
-  if (!Array.isArray(morse_name) || !morse_name.length) {
-    showAlert('prevScreenMorseConvert');
-    return;
-  }
-  const hintArea = document.getElementById("hintArea");
-  const hintMorse = document.getElementById("hintMorse");
-  if (hintArea.style.display === "none") {
-    hintMorse.textContent = morse_name.join('／');
-    hintArea.style.display = "block";
-  } else {
-    hintArea.style.display = "none";
-  }
-}
-
 function playHintAudio() {
-   let morse_name = getMorseName();
-  if (!Array.isArray(morse_name) || !morse_name.length) {
-    showAlert('prevScreenMorseConvert');
-    return;
-  }
   if (typeof playMorse === "function") playMorse('NAME');
 }
 

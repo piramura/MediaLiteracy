@@ -4,7 +4,7 @@ let currentOscillators = [];
 // モールス信号の再生
 function playMorse(id){
     let morse =[];
-    if(id == 'NAME'){morse = morse_name.join('／');}
+    if(id == 'NAME'){morse = morse_name;}
     else{morse = document.getElementById(id).value;}
 
     // 前回の音を止める
