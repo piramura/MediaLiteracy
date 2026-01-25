@@ -208,9 +208,9 @@ function changeLanguage(languageName){
         for(let i = 2; i <= 4; i++){
             const suffix = i;
                 document.getElementById("language-use" + suffix).innerHTML = "\
-            <b>使用言語</b>: 日本語(かな)<br>\
-            　　　　: 日本語(ローマ字)<br>\
-            　　　　: <b>English useing!</b>";
+            <b>Language used</b>: 日本語(かな)<br>\
+            　　　　　　　: 日本語(ローマ字)<br>\
+            　　　　　　　: <b>English useing!</b>";
         }
 
         // 名前入力画面
@@ -363,17 +363,22 @@ function changeKidsMode(){
         if(lang === "日本語" ){
             for(let i = 2; i <= 4; i++){
                 const suffix = i;
-                console.log(suffix);
-                document.getElementById("language-use" + suffix).innerHTML = "\
-                <b>つかっていることば</b>: <b>にほんご(ひらがな)</b>";
+                const el = document.getElementById("language-use" + suffix);
+                if(el){
+                    document.getElementById("language-use" + suffix).innerHTML = "\
+                    <b>つかっていることば</b>: <b>にほんご(ひらがな)</b>";
+                }
             }
         }else if(lang === "ローマ字" ){
             for(let i = 2; i <= 4; i++){
                 const suffix = i;
-                document.getElementById("language-use" + suffix).innerHTML = "\
-                <b>つかっていることば</b>:<b>にほんご(ろーまじ)</b><br>\
-                ひらがなではないよ！ひらがなをつかいたかったら、みぎうえのせっていで「にほんご（かな）」をえらんでね。<br>\
-                ※ひらがなのにゅうりょくがあったばあい、じどうでろーまじにへんかんされるよ。";
+                const el = document.getElementById("language-use" + suffix);
+                if(el){
+                    document.getElementById("language-use" + suffix).innerHTML = "\
+                    <b>つかっていることば</b>:<b>にほんご(ろーまじ)</b><br>\
+                    ひらがなではないよ！ひらがなをつかいたかったら、みぎうえのせっていで「にほんご（かな）」をえらんでね。<br>\
+                    ※ひらがなのにゅうりょくがあったばあい、じどうでろーまじにへんかんされるよ。";
+                }
             }
         }
 
