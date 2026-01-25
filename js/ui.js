@@ -572,7 +572,7 @@ function showQuizResult() {
   const rawUrl = getRowUrl();
   const shareText = correctMorse + encodeURIComponent(shareMessage);
   const shareUrl = encodeURIComponent(rawUrl);
-  const twitterFullText = encodeURIComponent(`${shareMessage}\n${rawUrl}\n${hashTags}`);
+  const twitterFullText = encodeURIComponent(`${shareText}\n${rawUrl}\n${hashTags}`);
   
   let html = `
     <h2>${heading}</h2>
