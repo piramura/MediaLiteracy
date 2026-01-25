@@ -117,10 +117,3 @@ function ChangeSpeed(ratio){
     btn.style.display = "none";
 }
 
-/*現在の使用言語を返す */
-function getCurrentLanguage() {
-  const globalLang = document.getElementById('globalLanguage');
-  if (globalLang) return globalLang.value;
-  return "日本語";
-}
-
