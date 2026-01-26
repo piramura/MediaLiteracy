@@ -24,7 +24,6 @@ function ChangeIroha(inputID,outputID){
     morse = morse.join(separator);
     document.getElementById(outputID).value = morse;
     if(inputID === "nameInput"){
-        document.getElementById("downloadBtn").style.display = "none";
         morse_name = morse;
     }
     return morse;

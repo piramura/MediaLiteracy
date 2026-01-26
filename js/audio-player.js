@@ -176,35 +176,6 @@ function downloadBlob(blob, filename) {
     URL.revokeObjectURL(url);
 }
 
-async function generateMorseMp3(id) {
-    const morse = document.getElementById(id).value;
-    if (!morse.trim()) {
-        showAlert('emptyMorse');
-        return;
-    }
-
-    if (isLineBrowser()) {
-        showAlert('cannotLINE');
-        return;
-    }
-
-    const blob = await morseToMp3(morse);
-    currentMp3Blob = blob;
-
-    const btn = document.getElementById("downloadBtn");
-    btn.style.display = "inline-block";
-    btn.onclick = () => {
-        let originalText = (typeof iroha_name !== 'undefined' && Array.isArray(iroha_name)) ? iroha_name.join("") : '';
-        originalText = originalText.replace(/[\\/:*?"<>|]/g, '_');
-        if (originalText.length > 20) originalText = originalText.substring(0, 20) + "・・・";
-        const filename = (typeof getDownloadFilename === 'function') ? getDownloadFilename(originalText) : (`モールス信号_${originalText}.mp3`);
-        downloadBlob(currentMp3Blob, filename);
-        showAlert('downloadCompleted', `\nファイル名: ${filename}`);
-    }
-
-}
-
-
 /*=================================
 ===== アップロードされた音声解析 =====
 ===================================

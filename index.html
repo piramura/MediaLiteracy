@@ -101,8 +101,10 @@
         Press the ⚙️ in the upper right to open the settings screen. You can change the language and other settings. There is also a setting for children to use only simple English.
        </div>
        <div id = "kid-Marse"></div>
-      <button class="main-button" onclick="goToStep(1)" id = "start">はじめる</button>
-      <button class="GoToHenkan-button" onclick="goToStep(7)" id = "GoToHenkan">変換だけする</button>
+       <button class="main-button" onclick="goToStep(1)" id = "start">はじめる</button>
+       <br>
+      <button class="GoToHenkan-button" onclick="startQuiz()" id = "next4-1">クイズ</button>
+      <button class="GoToHenkan-button" onclick="goToStep(7)" id = "GoToHenkan">分析・変換</button>
     </div>
 
     <!-- 名前入力画面 -->
@@ -192,8 +194,7 @@
         </div>
       </div>
       <div class="convert-buttons">
-        <button onclick="generateMorseMp3('output')" id ="MP3">MP3変換</button>
-        <button id="downloadBtn" style="display:none;">MP3をダウンロード</button>
+        <button class="convert-buttons" id="downloadNameBtn" style="min-width: 130px;">MP3ダウンロード</button>
       </div>
       <br><br>
          <div class="inline-character-area">
@@ -315,8 +316,8 @@
         </div>
       
       <div class="navigation">
-        <button class="main-button" onclick="startQuiz()" id = "next4">クイズに挑戦する</button>
-        <button class="back-button" onclick="location.reload()" id="back4">タイトルに戻る</button>
+        <button class="main-button" onclick="startQuiz()" id = "next4-2">クイズに挑戦する</button>
+        <button class="back-button" onclick="goToStep(0)" id="back4">タイトルに戻る</button>
       </div>
     </div>
     <!-- 追加：クイズ画面 -->

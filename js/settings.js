@@ -113,7 +113,5 @@ ratio = 倍率
  */
 function ChangeSpeed(ratio){
     speedRatio = 1.0 / ratio;
-    const btn = document.getElementById("downloadBtn");
-    btn.style.display = "none";
 }
 

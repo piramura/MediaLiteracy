@@ -6,6 +6,7 @@
   const copyBtn = document.getElementById('copyWantToChangeBtn');
   const playBtn = document.getElementById('playWantToChangeBtn');
   const downloadWantBtn = document.getElementById('downloadWantToChangeBtn');
+  const downloadNameBtn = document.getElementById('downloadNameBtn');
   const copyMsg = document.getElementById('copyWantToChangeMsg');
   const sepSelect = document.getElementById('WantToChangeSeparator');
   const showUnknowns = document.getElementById('WantToChangeShowUnknowns');
@@ -76,7 +77,6 @@ function goToStep(step) {
         langSelect.disabled = false;
       }
     }
-    hideDownload();
   }, 500); // 0.5秒遅延
 }
 
@@ -122,12 +122,6 @@ function checkAndGoToInput() {
 }
 
 
-function hideDownload() {
-  const btn = document.getElementById("downloadBtn");
-  if (btn) btn.style.display = "none";
-  const link = document.getElementById("longPressLink");
-  if (link) link.remove();
-}
 
 /*==============================
 ====== 対応モールス表示機能 =====
@@ -250,6 +244,8 @@ document.addEventListener('DOMContentLoaded', function() {
       if (typeof playMorse === 'function') playMorse('WantToChangeOutputHidden');
     });
   }
+
+  // mp3ダウンロードボタン
   if (downloadWantBtn) {
     downloadWantBtn.addEventListener('click', async function() {
       if (!wantToChangeInput) return;
@@ -279,6 +275,36 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   }
+  if (downloadNameBtn) {
+    downloadNameBtn.addEventListener('click', async function() {
+      if (!wantToChangeInput) return;
+      const rawMorse = (typeof DirectChangeIroha === 'function') ? DirectChangeIroha(nameInput.value || '') : (function(){return document.getElementById('output').value; })();
+      if (!rawMorse || !rawMorse.trim()) { showAlert('noMorseToDownload'); return; }
+      if (typeof isLineBrowser === 'function' && isLineBrowser()) {
+        showAlert('lineDownloadNotSupported');
+        return;
+      }
+      try {
+        const blob = await morseToMp3(rawMorse);
+        let originalText = nameInput.value || 'morse';
+        originalText = originalText.replace(/[\\/:*?"<>|]/g, '_');
+        if (originalText.length > 20) originalText = originalText.substring(0, 20) + '・・・';
+        const filenameToUse = getDownloadFilename(originalText);
+          if (typeof downloadBlob === 'function') {
+            downloadBlob(blob, filenameToUse);
+            showAlert('downloadCompleted', `\nファイル名: ${filenameToUse}`);
+          } else {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a'); a.href = url; a.download = filenameToUse; a.click(); URL.revokeObjectURL(url);
+            showAlert('downloadCompleted', `\nファイル名: ${filenameToUse}`);
+          }
+      } catch (err) {
+        console.error(err);
+        showAlert('mp3GenerationFailed');
+      }
+    });
+  }
+
   // 言語切替時にリアルタイム変換を更新
   if (sepSelect) sepSelect.addEventListener('change', formatAndShowWantToChange);
   if (showUnknowns) showUnknowns.addEventListener('change', formatAndShowWantToChange);
@@ -535,15 +561,42 @@ function ShowQuestion(targetId) {
 function showQuizResult() {
   const lang = getCurrentLanguage();
   const isEnglish = lang === 'English';
+  const storedKid = localStorage.getItem('ml_kid_mode');
+  const isKidMode = storedKid === '1' || storedKid === 'true';
 
-  const heading = isEnglish ? 'Perfect Score! Congratulations!' : '全問正解！おめでとうございます！';
-  const description = isEnglish ? 'Morse code you learned:' : 'あなたが正解したモールス信号：';
-  const morseColHeader = isEnglish ? 'Morse Code' : 'モールス信号';
-  const wordColHeader = isEnglish ? 'Word' : (lang === 'ローマ字' ? 'ローマ字' : '日本語');
-  const buttonText = isEnglish ? 'Complete' : '完了画面へ';
+  let heading, description, morseColHeader, wordColHeader, buttonText;
+
+  if (isEnglish) {
+    heading = 'Perfect Score! Congratulations!';
+    description = 'Morse code you learned:';
+    morseColHeader = 'Morse Code';
+    wordColHeader = 'Word';
+    buttonText = 'Complete';
+  } else if (isKidMode) {
+    heading = 'ぜんもんせいかい！おめでとう！！';
+    description = 'あなたがせいかいしたもーるすしんごう：';
+    morseColHeader = 'もーるすしんごう';
+    wordColHeader = 'ことば';
+    buttonText = 'おわりにする';
+  } else {
+    heading = '全問正解！おめでとうございます！';
+    description = 'あなたが正解したモールス信号：';
+    morseColHeader = 'モールス信号';
+    wordColHeader = (lang === 'ローマ字' ? 'ローマ字' : '日本語');
+    buttonText = '完了画面へ';
+  }
   
-  const twitterLabel = isEnglish ? 'Share on X(Twitter)' : 'X(Twitter)でシェア';
-  const lineLabel = isEnglish ? 'Share on LINE' : 'LINEでシェア';
+  let twitterLabel, lineLabel;
+  if (isEnglish) {
+    twitterLabel = 'Share on X(Twitter)';
+    lineLabel = 'Share on LINE';
+  } else if (isKidMode) {
+    twitterLabel = 'X(Twitter)でシェア';
+    lineLabel = 'LINEでシェア';
+  } else {
+    twitterLabel = 'X(Twitter)でシェア';
+    lineLabel = 'LINEでシェア';
+  }
 
   let shareMessage = getShareMessage();
   let hashTags = getHashTags();

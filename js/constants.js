@@ -6,6 +6,9 @@ let volume = 1; //音の大きさ
 let frequency = 880; //モールスの音の高さ
 let speedRatio = 1;
 const lastOfCorrespond = "\n"; // モールス対応表の最後の文字
+const randomStateMax = 1000; // ランダム状態の最大値
+let numOfQuiz = 3; // クイズの問題数
+const maxOptions = 3; // 選択肢の数
 
 // 対応文字変更は未実装
 let dot = "・"; // モールス信号の「・」
@@ -720,6 +723,7 @@ const romeCode = [
     ["７","－－・・・"],
     ["８","－－－・・"],
     ["９","－－－－・"],
+    ["ー","・－－・－"],
     [" ","／"],
     ["　","／"]
 ];
@@ -755,3 +759,6 @@ function setDot(dotValue){dot = dotValue;}
 function setDash(dashValue){dash = dashValue;}
 function setSeparator(separatorValue){separator = separatorValue;}
 function setUnknown(unknownValue){unknown = unknownValue;}
+function getRandomStateMax(){return randomStateMax;}
+function getNumOfQuiz(){return numOfQuiz;}
+function getMaxOptions(){return maxOptions;}

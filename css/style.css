@@ -216,7 +216,7 @@ body::before {
   margin-top: 8px;
   min-width: 200px;
 }
-.settings-panel { position: absolute; right: 0; top: 40px; min-width: 220px; max-width: 360px; overflow: auto; }
+.settings-panel { position: absolute; right: 0; top: 40px; min-width: 220px; max-width: 360px; max-height: 80vh; overflow-y: auto; overflow-x: hidden; }
 .settings-panel .panel-content {
   padding: 8px 4px 4px 4px;
 }

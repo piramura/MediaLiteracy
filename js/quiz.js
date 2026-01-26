@@ -6,17 +6,8 @@ function shuffle(array) {
     .map(({ value }) => value);
 }
 
-// 言語を取得
-function getQuizLanguage() {
-  const globalLang = document.getElementById('globalLanguage');
-  if (globalLang) return globalLang.value;
-  const lang = document.getElementById('language');
-  if (lang) return lang.value;
-  return localStorage.getItem('ml_language') || '日本語';
-}
-
 // クイズ候補（選択肢となる語）を用意
-const wordPool = [
+let wordPool = [
   /* 食べ物 */
   ["ぶどう", "りんご", "もも"],
   ["すいか", "みかん", "めろん"],
@@ -103,7 +94,7 @@ const wordPool = [
 ];
 
 //英語
-const EnglishWordPool = [
+let EnglishWordPool = [
   ["cat", "dog", "pig"],
   ["sun", "sky", "star"],
   ["car", "boat", "bike"],
@@ -165,43 +156,92 @@ const EnglishWordPool = [
 
 ];
 
-// ランダムに問題を生成
-function generateQuizData() {
-  // 使用言語を参考にクイズを設定
-  const currentLang = getQuizLanguage();
+let quizData = []; // 生成済みの問題を格納する配列
+let currentQuizIndex = 0; // 現在表示中の問題インデックス
+let selectedAnswer = null; // 選択された答え
+let isQuizCorrect = null; // 正解判定（1=正解、0=不正解、null=未判定）
+let generatedQuizCount = 0; // 生成済みの問題数
+let randomState = 0; // ランダム状態
+
+// ===== 問題生成 =====
+// 指定インデックスの問題を生成してquizDataに追加
+function generateAndAddQuiz(index) {
+  const NumOfQuiz = getNumOfQuiz();
+  const MaxOptions = getMaxOptions();
+  if (index >= NumOfQuiz || quizData.length > index) return; // 既に生成済みまたは上限に達した場合はスキップ
+
+  const currentLang = getCurrentLanguage();
   const activeWordPool = (currentLang === 'English') ? EnglishWordPool : wordPool;
-  const conversionFunction = (currentLang === 'English') ? DirectChangeIroha : DirectChangeIroha;
-  
-  const data = activeWordPool.map(options => {
-    const shuffled = shuffle(options);
-    const answer = shuffled[Math.floor(Math.random() * shuffled.length)];
-    const question = conversionFunction(answer); // モールス信号に変換
 
-    return {
-      question,
-      options: shuffled,
-      answer
-    };
-  });
+  const options = activeWordPool[(index + randomState) % activeWordPool.length];
+  const shuffled = shuffle(options);
+  const answer = shuffled[Math.floor(Math.random() * MaxOptions)];
+  const question = DirectChangeIroha(answer);
 
-  return shuffle(data); // クイズ順自体もシャッフル
+  const newQuiz = {
+    question: question,
+    options: shuffled,
+    answer: answer,
+  };
+
+  quizData.push(newQuiz);
+  generatedQuizCount++;
 }
 
-let NumOfQuiz = 3;//クイズの問題数
-let isQuizCorrect = null;//クイズが正解か　正解なら1、不正解なら0
-// まず全問作成
-const allQuizData = generateQuizData();
+// 次の問題が必要な場合に生成
+function ensureQuizLoaded(index) {
+  const NumOfQuiz = getNumOfQuiz();
+  while (quizData.length <= index && quizData.length < NumOfQuiz) {
+    generateAndAddQuiz(quizData.length);
+  }
+}
 
-// NumOfQuiz分だけ切り出して新しい配列を作る
-const quizData = allQuizData.slice(0, NumOfQuiz);
+// クイズ画面で言語が変更された時用：現在の問題を新言語で再生成
+function updateQuizLanguage() {
+  const MaxOptions = getMaxOptions();
+  const currentLang = getCurrentLanguage();
+  const newWordPool = (currentLang === 'English') ? EnglishWordPool : wordPool;
 
-let currentQuizIndex = 0;
+  // 現在表示中の問題を処理
+  if (currentQuizIndex < quizData.length) {
+    // 現在の問題をquizDataから一時削除
+    const removedQuiz = quizData.splice(currentQuizIndex, 1);
+    
+    // 新しい言語でwordPoolから対応するグループを取得して再生成
+    const options = newWordPool[(currentQuizIndex + randomState) % newWordPool.length];
+    const shuffled = shuffle(options);
+    const answer = shuffled[Math.floor(Math.random() * MaxOptions)];
+    const question = DirectChangeIroha(answer);
 
-let selectedAnswer = null;
+    const regeneratedQuiz = {
+      question: question,
+      options: shuffled,
+      answer: answer,
+    };
+    
+    quizData.splice(currentQuizIndex, 0, regeneratedQuiz);
+  }
 
+  // 現在表示中の問題を新しい言語で出題し直す
+  if (currentQuizIndex < quizData.length && typeof loadQuiz === 'function') {
+    loadQuiz();
+  }
+}
+
+// ===== UI表示 =====
 // クイズの表示
 function loadQuiz() {
+  const NumOfQuiz = getNumOfQuiz();
+  ensureQuizLoaded(currentQuizIndex);
+
+  if (currentQuizIndex >= quizData.length) return; // 問題が無い場合はスキップ
+
   const currentQuiz = quizData[currentQuizIndex];
+
+  if (currentQuiz.question === null) {
+    currentQuiz.question = DirectChangeIroha(currentQuiz.answer);
+  }
+
   document.getElementById("quiz-question").textContent = currentQuiz.question;
 
   const optionButtons = document.querySelectorAll(".option");
@@ -217,7 +257,7 @@ function loadQuiz() {
 
   // 進捗表示
   document.getElementById("quiz-steps").textContent = `Q${currentQuizIndex + 1}`;
-  const progress = (currentQuizIndex / quizData.length) * 100;
+  const progress = ((currentQuizIndex + 1) / NumOfQuiz) * 100;
   document.getElementById("quiz-progress").style.width = `${progress}%`;
 }
 
@@ -232,34 +272,34 @@ function selectOption(btn) {
   document.getElementById("quiz-next-btn").disabled = false;
 }
 
-//「クイズ開始」ボタン
+// ===== ボタンイベント =====
+// 「クイズ開始」ボタン
 function startQuiz() {
+  const max = getRandomStateMax();
+  randomState = Math.floor(Math.random() * max);
   resetQuiz();
-  goToStep(5)
+  goToStep(5);
 }
 
 // 「次へ」ボタン
 function nextQuiz() {
-  //console.log(isQuizCorrect);
+  const NumOfQuiz = getNumOfQuiz();
   const correct = quizData[currentQuizIndex].answer;
   if (selectedAnswer !== correct) {
     isQuizCorrect = 0;
     const sound = document.getElementById("incorrectSound");
     sound.currentTime = 0;
     sound.play();
-    // console.log("不正解"+ isQuizCorrect);
-    if(isQuizCorrect != null){
+    if (isQuizCorrect != null) {
       showJudgeMark(isQuizCorrect);
     }
-    //alert("不正解です！");
     return;
-  }else if(selectedAnswer === correct){
+  } else if (selectedAnswer === correct) {
     isQuizCorrect = 1;
     const sound = document.getElementById("correctSound");
     sound.currentTime = 0;
     sound.play();
-    if(isQuizCorrect != null){
-      // console.log("正解"+ isQuizCorrect);
+    if (isQuizCorrect != null) {
       showJudgeMark(isQuizCorrect);
     }
     currentQuizIndex++;
@@ -269,7 +309,6 @@ function nextQuiz() {
   if (currentQuizIndex < NumOfQuiz) {
     loadQuiz();
   } else {
-    //alert("全問正解！リザルトへ進みます");
     setTimeout(() => {
       showQuizResult();
     }, 1000); // 1000ms = 1秒
@@ -278,32 +317,26 @@ function nextQuiz() {
 
 // 「終了」ボタン
 function prevQuiz() {
-    //resetQuiz();
-    goToStep(4);
+  goToStep(0);
 }
 
+// クイズをリセット
 function resetQuiz() {
-  // クイズデータを再生成して出題数ぶん切り出す
-  const allQuizData = generateQuizData();
-  quizData.length = 0; // quizData配列の中身を空にして
-  quizData.push(...allQuizData.slice(0, NumOfQuiz)); // 新しい問題を代入
-
-  // 状態を初期化
+  quizData = [];
   currentQuizIndex = 0;
   selectedAnswer = null;
   isQuizCorrect = null;
+  generatedQuizCount = 0;
   showJudgeMark(null);
-
-  // UIを更新
+  shuffle(wordPool);
+  shuffle(EnglishWordPool);
+  
+  // 最初の問題を生成して表示
   loadQuiz();
-
-  // 結果表示などがあれば非表示に（必要に応じて）
-  //hideQuizResult();
 }
 
 // 初回読み込み
 window.addEventListener("DOMContentLoaded", () => {
   resetQuiz();
-  loadQuiz();
-
 });
+
