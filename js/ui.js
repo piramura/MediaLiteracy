@@ -583,7 +583,7 @@ function showQuizResult() {
     description = 'あなたが正解したモールス信号：';
     morseColHeader = 'モールス信号';
     wordColHeader = (lang === 'ローマ字' ? 'ローマ字' : '日本語');
-    buttonText = '完了画面へ';
+    buttonText = 'タイトルへ';
   }
   
   let twitterLabel, lineLabel;
@@ -622,7 +622,7 @@ function showQuizResult() {
       <a class="sns-btn twitter" href="https://twitter.com/intent/tweet?text=${twitterFullText}" target="_blank" rel="noopener">${twitterLabel}</a>
       <a class="sns-btn line" href="https://social-plugins.line.me/lineit/share?url=${shareUrl}&text=${shareText}" target="_blank" rel="noopener">${lineLabel}</a>
     </div>
-    <button class="main-button" onclick="goToStep(4);resetQuiz();">${buttonText}</button>
+    <button class="main-button" onclick="goToStep(0);resetQuiz();">${buttonText}</button>
   `;
   document.getElementById("quiz-result").innerHTML = html;
   goToStep(6);
